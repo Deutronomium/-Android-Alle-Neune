@@ -8,5 +8,9 @@
     <string name="username_hint">Username</string>
     <string name="login_text">Log In</string>
     <string name="sign_up_text">Sign Up</string>
+    <string name="email_hint">Email</string>
+    <string name="title_activity_user_home">UserHomeActivity</string>
+    <string name="join_club_text">Join Club</string>
+    <string name="create_club_text">Create Club</string>
 
 </resources>
