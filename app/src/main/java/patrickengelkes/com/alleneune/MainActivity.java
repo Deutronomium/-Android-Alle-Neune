@@ -1,6 +1,7 @@
 package patrickengelkes.com.alleneune;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -8,11 +9,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.gson.GsonBuilder;
 
 import org.apache.http.HttpResponse;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -49,9 +52,11 @@ public class MainActivity extends Activity {
                 SessionController sessionController = new SessionController(params);
                 try {
                     if (sessionController.logIn()) {
-                        Log.i(TAG, "Wuuuuhuuu you are logged in");
+                        Intent intent = new Intent(MainActivity.this, UserHomeActivity.class);
+                        startActivity(intent);
                     } else {
-                        Log.i(TAG, "Login failed");
+                        JSONObject jsonResponse = sessionController.getLoginAnswer();
+                        Toast.makeText(MainActivity.this, jsonResponse.getString("response"), Toast.LENGTH_LONG).show();
                     }
                 } catch (ExecutionException e) {
                     e.printStackTrace();
@@ -60,6 +65,15 @@ public class MainActivity extends Activity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+            }
+        });
+
+        mSignUpButton = (Button) findViewById(R.id.signUpButton);
+        mSignUpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent signUpIntent = new Intent(MainActivity.this, SignUpActivity.class);
+                startActivity(signUpIntent);
             }
         });
     }

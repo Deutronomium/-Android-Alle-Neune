@@ -12,5 +12,7 @@
     <string name="title_activity_user_home">UserHomeActivity</string>
     <string name="join_club_text">Join Club</string>
     <string name="create_club_text">Create Club</string>
+    <string name="title_activity_sign_up">SignUpActivity</string>
+    <string name="password_confirmation_hint">Confirm Password</string>
 
 </resources>

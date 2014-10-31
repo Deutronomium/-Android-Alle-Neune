@@ -10,52 +10,57 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.concurrent.ExecutionException;
 
 /**
- * Created by patrickengelkes on 27/10/14.
+ * Created by patrickengelkes on 29/10/14.
  */
-public class SessionController {
+public class UserController {
     public static final String host = "http://192.168.56.1:3000";
 
-    private SessionParams sessionParams;
+    private UserParams userParams;
 
-    private JSONObject loginAnswer;
+    private JSONObject createUserAnswer;
 
-    public SessionController(SessionParams sessionParams) {
-        this.sessionParams = sessionParams;
+    public UserController(UserParams userParams) {
+        this.userParams = userParams;
     }
 
-    public boolean logIn() throws ExecutionException, InterruptedException, JSONException {
-        HttpResponse response = new SessionTask().execute(this.sessionParams).get();
-        if (response != null) {
-            loginAnswer = new JsonBuilder().execute(response).get();
-            if (response.getStatusLine().getStatusCode() == 201) {
-                return true;
+    public boolean createUser() {
+        try {
+            HttpResponse response = new CreateUserTask().execute(this.userParams).get();
+            if (response != null) {
+                createUserAnswer = new JsonBuilder().execute(response).get();
+                if (response.getStatusLine().getStatusCode() == 201) {
+                    return true;
+                }
             }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
         }
+
         return false;
     }
 
-    public JSONObject getLoginAnswer() {
-        return this.loginAnswer;
+    public JSONObject getCreateUserAnswer() {
+        return this.createUserAnswer;
     }
 
-    private class SessionTask extends AsyncTask<SessionParams, Integer, HttpResponse> {
+    private class CreateUserTask extends AsyncTask<UserParams, Integer, HttpResponse> {
 
         @Override
-        protected HttpResponse doInBackground(SessionParams... sessionParams) {
-            SessionParams  sessionParam = sessionParams[0];
+        protected HttpResponse doInBackground(UserParams... userParamses) {
+            UserParams userParams = userParamses[0];
             try {
-                JSONObject session = new JSONObject();
-                String json = sessionParam.getJsonString();
+                JSONObject user = new JSONObject();
+                String json = userParams.getJsonString();
                 StringEntity stringEntity = new StringEntity(json);
 
-                HttpPost httpPost = new HttpPost(SessionController.host + "/sessions");
+                HttpPost httpPost = new HttpPost(UserController.host + "/users");
                 httpPost.setEntity(stringEntity);
                 httpPost.setHeader("Accept", "application/json");
                 httpPost.setHeader("Content-Type", "application/json");
@@ -73,5 +78,3 @@ public class SessionController {
         }
     }
 }
-
-

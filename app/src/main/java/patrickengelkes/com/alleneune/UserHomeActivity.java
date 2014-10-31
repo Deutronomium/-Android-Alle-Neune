@@ -4,9 +4,13 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 
 
 public class UserHomeActivity extends Activity {
+
+    protected Button mCreateClubButton;
+    protected Button mJoinClubButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
