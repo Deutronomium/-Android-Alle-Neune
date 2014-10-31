@@ -1,4 +1,4 @@
-package patrickengelkes.com.alleneune;
+package patrickengelkes.com.alleneune.controllers;
 
 import android.os.AsyncTask;
 
@@ -14,25 +14,28 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.concurrent.ExecutionException;
 
+import patrickengelkes.com.alleneune.JsonBuilder;
+import patrickengelkes.com.alleneune.Objects.AbstractEntity;
+
 /**
- * Created by patrickengelkes on 29/10/14.
+ * Created by patrickengelkes on 31/10/14.
  */
-public class UserController {
-    public static final String host = "http://192.168.56.1:3000";
+public class AbstractEntityController {
+    private static final String host = "http://192.168.56.1:3000";
 
-    private UserParams userParams;
 
-    private JSONObject createUserAnswer;
+    private AbstractEntity abstractEntity;
+    private JSONObject createAbstractAnswer;
 
-    public UserController(UserParams userParams) {
-        this.userParams = userParams;
+    public AbstractEntityController(AbstractEntity abstractEntity) {
+        this.abstractEntity = abstractEntity;
     }
 
-    public boolean createUser() {
+    public boolean createAbstractEntity() {
         try {
-            HttpResponse response = new CreateUserTask().execute(this.userParams).get();
+            HttpResponse response = new CreateAbstractEntityTask().execute(this.abstractEntity).get();
             if (response != null) {
-                createUserAnswer = new JsonBuilder().execute(response).get();
+                createAbstractAnswer = new JsonBuilder().execute(response).get();
                 if (response.getStatusLine().getStatusCode() == 201) {
                     return true;
                 }
@@ -46,21 +49,23 @@ public class UserController {
         return false;
     }
 
-    public JSONObject getCreateUserAnswer() {
-        return this.createUserAnswer;
+    public JSONObject getCreateAbstractAnswer() {
+        return this.createAbstractAnswer;
     }
 
-    private class CreateUserTask extends AsyncTask<UserParams, Integer, HttpResponse> {
+
+    private class CreateAbstractEntityTask extends AsyncTask<AbstractEntity, Integer, HttpResponse> {
 
         @Override
-        protected HttpResponse doInBackground(UserParams... userParamses) {
-            UserParams userParams = userParamses[0];
+        protected HttpResponse doInBackground(AbstractEntity... abstractEntities) {
+            AbstractEntity abstractEntity = abstractEntities[0];
             try {
-                JSONObject user = new JSONObject();
-                String json = userParams.getJsonString();
+                JSONObject abstractObject = new JSONObject();
+                String json = abstractEntity.getJsonString();
                 StringEntity stringEntity = new StringEntity(json);
 
-                HttpPost httpPost = new HttpPost(UserController.host + "/users");
+                HttpPost httpPost = new HttpPost(AbstractEntityController.host + "/" +
+                    abstractEntity.getObjectString() + "s");
                 httpPost.setEntity(stringEntity);
                 httpPost.setHeader("Accept", "application/json");
                 httpPost.setHeader("Content-Type", "application/json");
@@ -74,6 +79,7 @@ public class UserController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
             return null;
         }
     }

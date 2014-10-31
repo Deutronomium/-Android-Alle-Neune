@@ -1,4 +1,4 @@
-package patrickengelkes.com.alleneune;
+package patrickengelkes.com.alleneune.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,6 +12,9 @@ import android.widget.Toast;
 
 import org.json.JSONObject;
 
+import patrickengelkes.com.alleneune.Objects.User;
+import patrickengelkes.com.alleneune.R;
+import patrickengelkes.com.alleneune.controllers.AbstractEntityController;
 
 public class SignUpActivity extends Activity {
 
@@ -38,16 +41,16 @@ public class SignUpActivity extends Activity {
             public void onClick(View view) {
                 String userName = mUserName.getText().toString().trim();
                 String password = mPassword.getText().toString().trim();
-                String confirmationPassword = mConfirmationPassword.getText().toString().trim();
+                String passwordConfirmation = mConfirmationPassword.getText().toString().trim();
                 String email = mEmail.getText().toString().trim();
 
-                UserParams params = new UserParams(userName, password, confirmationPassword, email, "", "", "", "", 0);
-                UserController userController = new UserController(params);
-                if (userController.createUser()) {
+                User user = new User(userName, email, password, passwordConfirmation);
+                AbstractEntityController abstractEntityController = new AbstractEntityController(user);
+                if (abstractEntityController.createAbstractEntity()) {
                     Intent intent = new Intent(SignUpActivity.this, UserHomeActivity.class);
                     startActivity(intent);
                 } else {
-                    JSONObject jsonResponse = userController.getCreateUserAnswer();
+                    JSONObject jsonResponse = abstractEntityController.getCreateAbstractAnswer();
                     Toast.makeText(SignUpActivity.this, "User creation failed", Toast.LENGTH_LONG).show();
                 }
 

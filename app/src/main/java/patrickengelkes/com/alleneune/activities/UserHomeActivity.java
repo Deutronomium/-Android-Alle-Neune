@@ -1,10 +1,12 @@
-package patrickengelkes.com.alleneune;
+package patrickengelkes.com.alleneune.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+
+import patrickengelkes.com.alleneune.R;
 
 
 public class UserHomeActivity extends Activity {

@@ -1,9 +1,8 @@
-package patrickengelkes.com.alleneune;
+package patrickengelkes.com.alleneune.activities;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,16 +10,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.gson.GsonBuilder;
-
 import org.apache.http.HttpResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
+import patrickengelkes.com.alleneune.Objects.Session;
+import patrickengelkes.com.alleneune.R;
+import patrickengelkes.com.alleneune.controllers.AbstractEntityController;
 
 public class MainActivity extends Activity {
     public static final String TAG = MainActivity.class.getSimpleName();
@@ -48,23 +46,19 @@ public class MainActivity extends Activity {
                 String email = mEmail.getText().toString().trim();
                 String password = mPassword.getText().toString().trim();
 
-                SessionParams params = new SessionParams(email, password);
-                SessionController sessionController = new SessionController(params);
-                try {
-                    if (sessionController.logIn()) {
+                Session session = new Session(email, password);
+                AbstractEntityController controller = new AbstractEntityController(session);
+                    if (controller.createAbstractEntity()) {
                         Intent intent = new Intent(MainActivity.this, UserHomeActivity.class);
                         startActivity(intent);
                     } else {
-                        JSONObject jsonResponse = sessionController.getLoginAnswer();
-                        Toast.makeText(MainActivity.this, jsonResponse.getString("response"), Toast.LENGTH_LONG).show();
+                        JSONObject jsonResponse = controller.getCreateAbstractAnswer();
+                        try {
+                            Toast.makeText(MainActivity.this, jsonResponse.getString("response"), Toast.LENGTH_LONG).show();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
             }
         });
 
