@@ -39,7 +39,8 @@ public class AbstractEntityController {
                 if (response.getStatusLine().getStatusCode() == 201) {
                     return true;
                 } else {
-                    Log.e(TAG, response.toString());
+                    Log.e(TAG, "Login failed");
+                    Log.e(TAG, createAbstractAnswer.toString());
                 }
             }
         } catch (InterruptedException e) {

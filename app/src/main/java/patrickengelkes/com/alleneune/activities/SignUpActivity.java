@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import org.json.JSONObject;
 
@@ -51,7 +50,7 @@ public class SignUpActivity extends Activity {
                     startActivity(intent);
                 } else {
                     JSONObject jsonResponse = abstractEntityController.getCreateAbstractAnswer();
-                    Toast.makeText(SignUpActivity.this, "User creation failed", Toast.LENGTH_LONG).show();
+                    //TODO: Error handling
                 }
 
             }

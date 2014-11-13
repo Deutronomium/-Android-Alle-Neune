@@ -8,13 +8,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
-import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.concurrent.ExecutionException;
 
 import patrickengelkes.com.alleneune.Objects.Session;
 import patrickengelkes.com.alleneune.R;
@@ -53,11 +49,7 @@ public class MainActivity extends Activity {
                         startActivity(intent);
                     } else {
                         JSONObject jsonResponse = controller.getCreateAbstractAnswer();
-                        try {
-                            Toast.makeText(MainActivity.this, jsonResponse.getString("response"), Toast.LENGTH_LONG).show();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                        //TODO: Error handling
                     }
             }
         });
