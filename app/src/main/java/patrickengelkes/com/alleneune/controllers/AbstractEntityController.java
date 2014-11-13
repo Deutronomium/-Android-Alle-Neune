@@ -1,6 +1,7 @@
 package patrickengelkes.com.alleneune.controllers;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -21,9 +22,8 @@ import patrickengelkes.com.alleneune.Objects.AbstractEntity;
  * Created by patrickengelkes on 31/10/14.
  */
 public class AbstractEntityController {
+    public static final String TAG = AbstractEntityController.class.getSimpleName();
     private static final String host = "http://192.168.56.1:3000";
-
-
     private AbstractEntity abstractEntity;
     private JSONObject createAbstractAnswer;
 
@@ -38,6 +38,8 @@ public class AbstractEntityController {
                 createAbstractAnswer = new JsonBuilder().execute(response).get();
                 if (response.getStatusLine().getStatusCode() == 201) {
                     return true;
+                } else {
+                    Log.e(TAG, response.toString());
                 }
             }
         } catch (InterruptedException e) {
