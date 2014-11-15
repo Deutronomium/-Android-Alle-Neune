@@ -1,35 +1,42 @@
 package patrickengelkes.com.alleneune.Objects;
 
-import org.apache.http.entity.StringEntity;
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import patrickengelkes.com.alleneune.Objects.AbstractEntity;
-
 /**
  * Created by patrickengelkes on 31/10/14.
  */
-public class User implements AbstractEntity {
+public class User implements AbstractEntity, Parcelable {
 
     private String userName;
     private String email;
     private String password;
     private String passwordConfirmation;
+    private String phoneNumber;
 
     private HashMap<String, Object> objectParameters;
 
     private String objectString;
-
 
     public User(String userName, String email, String password, String passwordConfirmation) {
         this.userName = userName;
         this.email = email;
         this.password = password;
         this.passwordConfirmation = passwordConfirmation;
+        this.phoneNumber = "";
+    }
 
+    /*
+    Always call before working with the API
+     */
+    @Override
+    public void prepareEntity() {
         this.objectParameters = getObjectParameters();
 
         this.objectString = "user";
@@ -42,6 +49,9 @@ public class User implements AbstractEntity {
         objectParameters.put("email", this.email);
         objectParameters.put("password", this.password);
         objectParameters.put("password_confirmation", this.passwordConfirmation);
+        if (!this.phoneNumber.isEmpty()) {
+            objectParameters.put("phone_number", this.phoneNumber);
+        }
         return objectParameters;
     }
 
@@ -60,4 +70,45 @@ public class User implements AbstractEntity {
     public String getObjectString() {
         return this.objectString;
     }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+
+
+
+    //Parcelable
+    protected User(Parcel in) {
+        userName = in.readString();
+        email = in.readString();
+        password = in.readString();
+        passwordConfirmation = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(userName);
+        dest.writeString(email);
+        dest.writeString(password);
+        dest.writeString(passwordConfirmation);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 }

@@ -14,4 +14,6 @@ public interface AbstractEntity {
     public String getJsonString() throws JSONException;
 
     public String getObjectString();
+
+    public void prepareEntity();
 }

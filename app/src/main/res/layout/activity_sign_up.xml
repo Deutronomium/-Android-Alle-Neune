@@ -55,5 +55,5 @@
         android:layout_below="@+id/emailTF"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="100dp"
-        android:text="@string/sign_up_text" />
+        android:text="@string/sign_up_continue_text" />
 </RelativeLayout>

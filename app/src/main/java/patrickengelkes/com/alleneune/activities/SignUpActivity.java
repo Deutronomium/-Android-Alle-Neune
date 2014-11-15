@@ -1,6 +1,8 @@
 package patrickengelkes.com.alleneune.activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -9,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import patrickengelkes.com.alleneune.Objects.User;
@@ -16,6 +19,8 @@ import patrickengelkes.com.alleneune.R;
 import patrickengelkes.com.alleneune.controllers.AbstractEntityController;
 
 public class SignUpActivity extends Activity {
+
+    final Context context = this;
 
     protected Button mSignUpButton;
     protected EditText mUserName;
@@ -44,13 +49,23 @@ public class SignUpActivity extends Activity {
                 String email = mEmail.getText().toString().trim();
 
                 User user = new User(userName, email, password, passwordConfirmation);
-                AbstractEntityController abstractEntityController = new AbstractEntityController(user);
-                if (abstractEntityController.createAbstractEntity()) {
-                    Intent intent = new Intent(SignUpActivity.this, UserHomeActivity.class);
-                    startActivity(intent);
+                AbstractEntityController controller = new AbstractEntityController(user);
+                if (controller.checkForValidity()) {
+                    Intent phoneNumberIntent = new Intent(SignUpActivity.this, PhoneNumberActivity.class);
+                    phoneNumberIntent.putExtra("user", user);
+                    startActivity(phoneNumberIntent);
                 } else {
-                    JSONObject jsonResponse = abstractEntityController.getCreateAbstractAnswer();
-                    //TODO: Error handling
+                    JSONObject jsonResponse = controller.getCreateAbstractAnswer();
+                    try {
+                        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+                        dialogBuilder.setTitle("Validation failed")
+                            .setMessage((String)jsonResponse.get((String)jsonResponse.names().get(0)))
+                            .setPositiveButton(android.R.string.ok, null);
+                        AlertDialog dialog = dialogBuilder.create();
+                        dialog.show();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
 
             }

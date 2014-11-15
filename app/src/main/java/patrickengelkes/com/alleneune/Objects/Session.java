@@ -21,10 +21,6 @@ public class Session implements AbstractEntity {
     public Session(String email, String password) {
         this.email = email;
         this.password = password;
-
-        this.objectParameters = getObjectParameters();
-
-        this.objectString = "session";
     }
 
     @Override
@@ -52,5 +48,12 @@ public class Session implements AbstractEntity {
     @Override
     public String getObjectString() {
         return this.objectString;
+    }
+
+    @Override
+    public void prepareEntity() {
+        this.objectParameters = getObjectParameters();
+
+        this.objectString = "session";
     }
 }

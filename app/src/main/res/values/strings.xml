@@ -14,5 +14,13 @@
     <string name="create_club_text">Create Club</string>
     <string name="title_activity_sign_up">SignUpActivity</string>
     <string name="password_confirmation_hint">Confirm Password</string>
+    <string name="title_activity_phone_number">PhoneNumberActivity</string>
+    <string name="phone_number_explanation">We have to verify your phone number, so that you can later add your contacts to your clubs</string>
+    <string name="phone_number_hint">Phone number</string>
+    <string name="sign_up_continue_text">Continue</string>
+    <string name="title_activity_create_club">CreateClubActivity</string>
+    <string name="club_name_label">Choose a name for your club here. In the next step you can add your friends to join.</string>
+    <string name="add_friends_button">Add friends</string>
+    <string name="club_name_hint">Clubname</string>
 
 </resources>

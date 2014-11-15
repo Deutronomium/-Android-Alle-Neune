@@ -29,6 +29,7 @@ public class AbstractEntityController {
 
     public AbstractEntityController(AbstractEntity abstractEntity) {
         this.abstractEntity = abstractEntity;
+        this.abstractEntity.prepareEntity();
     }
 
     public boolean createAbstractEntity() {
@@ -40,6 +41,27 @@ public class AbstractEntityController {
                     return true;
                 } else {
                     Log.e(TAG, "Login failed");
+                    Log.e(TAG, createAbstractAnswer.toString());
+                }
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public boolean checkForValidity() {
+        try {
+            HttpResponse response = new AbstractValidityTask().execute(this.abstractEntity).get();
+            if (response != null) {
+                createAbstractAnswer = new JsonBuilder().execute(response).get();
+                if (response.getStatusLine().getStatusCode() == 200) {
+                    return true;
+                } else {
+                    Log.e(TAG, "Invalid entity");
                     Log.e(TAG, createAbstractAnswer.toString());
                 }
             }
@@ -69,6 +91,35 @@ public class AbstractEntityController {
 
                 HttpPost httpPost = new HttpPost(AbstractEntityController.host + "/" +
                     abstractEntity.getObjectString() + "s");
+                httpPost.setEntity(stringEntity);
+                httpPost.setHeader("Accept", "application/json");
+                httpPost.setHeader("Content-Type", "application/json");
+                return new DefaultHttpClient().execute(httpPost);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (ClientProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+    }
+
+    private class AbstractValidityTask extends AsyncTask<AbstractEntity, Integer, HttpResponse> {
+
+        @Override
+        protected HttpResponse doInBackground(AbstractEntity... abstractEntities) {
+            AbstractEntity abstractEntity = abstractEntities[0];
+            try {
+                String json = abstractEntity.getJsonString();
+                StringEntity stringEntity = new StringEntity(json);
+
+                HttpPost httpPost = new HttpPost(AbstractEntityController.host + "/" +
+                        abstractEntity.getObjectString() + "s/validity");
                 httpPost.setEntity(stringEntity);
                 httpPost.setHeader("Accept", "application/json");
                 httpPost.setHeader("Content-Type", "application/json");
