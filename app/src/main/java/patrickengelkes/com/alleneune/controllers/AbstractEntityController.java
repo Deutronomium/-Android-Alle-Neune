@@ -26,6 +26,7 @@ public class AbstractEntityController {
     private static final String host = "http://192.168.56.1:3000";
     private AbstractEntity abstractEntity;
     private JSONObject createAbstractAnswer;
+    private JSONObject validateAbstractAnswer;
 
     public AbstractEntityController(AbstractEntity abstractEntity) {
         this.abstractEntity = abstractEntity;
@@ -57,12 +58,12 @@ public class AbstractEntityController {
         try {
             HttpResponse response = new AbstractValidityTask().execute(this.abstractEntity).get();
             if (response != null) {
-                createAbstractAnswer = new JsonBuilder().execute(response).get();
+                validateAbstractAnswer = new JsonBuilder().execute(response).get();
                 if (response.getStatusLine().getStatusCode() == 200) {
                     return true;
                 } else {
                     Log.e(TAG, "Invalid entity");
-                    Log.e(TAG, createAbstractAnswer.toString());
+                    Log.e(TAG, validateAbstractAnswer.toString());
                 }
             }
         } catch (InterruptedException e) {
@@ -77,6 +78,8 @@ public class AbstractEntityController {
     public JSONObject getCreateAbstractAnswer() {
         return this.createAbstractAnswer;
     }
+
+    public JSONObject getValidateAbstractAnswer() { return this.validateAbstractAnswer; }
 
 
     private class CreateAbstractEntityTask extends AsyncTask<AbstractEntity, Integer, HttpResponse> {

@@ -22,5 +22,6 @@
     <string name="club_name_label">Choose a name for your club here. In the next step you can add your friends to join.</string>
     <string name="add_friends_button">Add friends</string>
     <string name="club_name_hint">Clubname</string>
+    <string name="validation_failed_title">Validation failed</string>
 
 </resources>

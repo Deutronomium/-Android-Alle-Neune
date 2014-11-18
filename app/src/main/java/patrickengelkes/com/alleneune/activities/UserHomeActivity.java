@@ -1,6 +1,7 @@
 package patrickengelkes.com.alleneune.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,7 +25,8 @@ public class UserHomeActivity extends Activity {
         mCreateClubButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent createClubIntent = new Intent(UserHomeActivity.this, CreateClubActivity.class);
+                startActivity(createClubIntent);
             }
         });
     }
