@@ -39,6 +39,14 @@
             android:name="patrickengelkes.com.alleneune.activities.CreateClubActivity"
             android:label="@string/title_activity_create_club" >
         </activity>
+        <activity
+            android:name="patrickengelkes.com.alleneune.activities.AddFriendsActivity"
+            android:label="@string/title_activity_add_friends"
+            android:parentActivityName="patrickengelkes.com.alleneune.activities.CreateClubActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="patrickengelkes.com.alleneune.activities.CreateClubActivity" />
+        </activity>
     </application>
 
 </manifest>

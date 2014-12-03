@@ -3,10 +3,13 @@ package patrickengelkes.com.alleneune.Objects;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,9 +19,13 @@ public class User implements AbstractEntity, Parcelable {
 
     private String userName;
     private String email;
+    private String firstName;
+    private String lastName;
+    private String city;
     private String password;
     private String passwordConfirmation;
     private String phoneNumber;
+
 
     private HashMap<String, Object> objectParameters;
 
@@ -111,4 +118,36 @@ public class User implements AbstractEntity, Parcelable {
             return new User[size];
         }
     };
+
+    public User(String userName, String firstName, String lastName, String email, String city) {
+        this.userName = userName;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.city = city;
+    }
+
+    @Override
+    public String toString() {
+        if (this.firstName != null && this.lastName != null) {
+            return this.firstName + " " + this.lastName;
+        } else if (this.firstName != null) {
+            return this.firstName;
+        } else {
+            return this.userName;
+        }
+    }
+
+    public String getUserName() {
+        return this.userName;
+    }
+
+    public String getFirstName() {
+        return this.firstName;
+    }
+
+    public String getLastName() {
+        return this.lastName;
+    }
+
 }

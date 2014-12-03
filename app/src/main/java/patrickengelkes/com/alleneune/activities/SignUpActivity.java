@@ -55,7 +55,7 @@ public class SignUpActivity extends Activity {
                     phoneNumberIntent.putExtra("user", user);
                     startActivity(phoneNumberIntent);
                 } else {
-                    JSONObject jsonResponse = controller.getCreateAbstractAnswer();
+                    JSONObject jsonResponse = controller.getValidateAbstractAnswer();
                     try {
                         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
                         dialogBuilder.setTitle(getString(R.string.validation_failed_title))

@@ -23,7 +23,7 @@ import patrickengelkes.com.alleneune.Objects.AbstractEntity;
  */
 public class AbstractEntityController {
     public static final String TAG = AbstractEntityController.class.getSimpleName();
-    private static final String host = "http://192.168.56.1:3000";
+    public static final String host = "http://192.168.56.1:3000";
     private AbstractEntity abstractEntity;
     private JSONObject createAbstractAnswer;
     private JSONObject validateAbstractAnswer;
@@ -88,16 +88,12 @@ public class AbstractEntityController {
         protected HttpResponse doInBackground(AbstractEntity... abstractEntities) {
             AbstractEntity abstractEntity = abstractEntities[0];
             try {
-                JSONObject abstractObject = new JSONObject();
                 String json = abstractEntity.getJsonString();
                 StringEntity stringEntity = new StringEntity(json);
 
-                HttpPost httpPost = new HttpPost(AbstractEntityController.host + "/" +
-                    abstractEntity.getObjectString() + "s");
-                httpPost.setEntity(stringEntity);
-                httpPost.setHeader("Accept", "application/json");
-                httpPost.setHeader("Content-Type", "application/json");
-                return new DefaultHttpClient().execute(httpPost);
+                MyHttpPost myHttpPost = new MyHttpPost(AbstractEntityController.host + "/" +
+                        abstractEntity.getObjectString() + "s", stringEntity);
+                return new DefaultHttpClient().execute(myHttpPost);
             } catch (JSONException e) {
                 e.printStackTrace();
             } catch (UnsupportedEncodingException e) {
@@ -121,12 +117,9 @@ public class AbstractEntityController {
                 String json = abstractEntity.getJsonString();
                 StringEntity stringEntity = new StringEntity(json);
 
-                HttpPost httpPost = new HttpPost(AbstractEntityController.host + "/" +
-                        abstractEntity.getObjectString() + "s/validity");
-                httpPost.setEntity(stringEntity);
-                httpPost.setHeader("Accept", "application/json");
-                httpPost.setHeader("Content-Type", "application/json");
-                return new DefaultHttpClient().execute(httpPost);
+                MyHttpPost myHttpPost = new MyHttpPost(AbstractEntityController.host + "/" +
+                        abstractEntity.getObjectString() + "s/validity", stringEntity);
+                return new DefaultHttpClient().execute(myHttpPost);
             } catch (JSONException e) {
                 e.printStackTrace();
             } catch (UnsupportedEncodingException e) {
