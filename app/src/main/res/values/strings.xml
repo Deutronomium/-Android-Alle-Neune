@@ -25,5 +25,6 @@
     <string name="validation_failed_title">Validation failed</string>
     <string name="title_activity_add_friends">AddFriendsActivity</string>
     <string name="add_selected_friends">Add selected friends</string>
+    <string name="title_activity_club_home">ClubHomeActivity</string>
 
 </resources>

@@ -39,10 +39,10 @@ public class CreateClubActivity extends Activity {
 
                 Club club = new Club(clubName);
                 AbstractEntityController controller = new AbstractEntityController(club);
-                Intent addFriendsIntent = new Intent(CreateClubActivity.this, AddFriendsActivity.class);
-                startActivity(addFriendsIntent);
+                //Intent addFriendsIntent = new Intent(CreateClubActivity.this, AddFriendsActivity.class);
+                //startActivity(addFriendsIntent);
                 //TODO: Uncomment Code - above is just for testing
-                /*if (controller.checkForValidity()) {
+                if (controller.createAbstractEntity()) {
                     Intent addFriendsIntent = new Intent(CreateClubActivity.this, AddFriendsActivity.class);
                     addFriendsIntent.putExtra("club", club);
                     startActivity(addFriendsIntent);
@@ -58,7 +58,7 @@ public class CreateClubActivity extends Activity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                } */
+                }
             }
         });
     }

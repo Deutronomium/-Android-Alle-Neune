@@ -1,14 +1,9 @@
 package patrickengelkes.com.alleneune.activities;
 
-import android.app.Activity;
 import android.app.ListActivity;
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -18,22 +13,24 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import patrickengelkes.com.alleneune.ArrayAdapters.FriendsArrayAdapter;
 import patrickengelkes.com.alleneune.ArrayAdapters.FriendsModel;
-import patrickengelkes.com.alleneune.Objects.Friends;
+import patrickengelkes.com.alleneune.Objects.Club;
 import patrickengelkes.com.alleneune.Objects.User;
 import patrickengelkes.com.alleneune.R;
+import patrickengelkes.com.alleneune.controllers.FriendsController;
 
 public class AddFriendsActivity extends ListActivity {
 
     public final String TAG = AddFriendsActivity.class.getSimpleName();
 
     protected Button addFriendsToClubButton;
+    protected Intent clubIntent;
 
     private List<FriendsModel> friendsModelList = new ArrayList<FriendsModel>();
+    private FriendsController friendsController = new FriendsController();
 
 
     @Override
@@ -43,15 +40,28 @@ public class AddFriendsActivity extends ListActivity {
 
         getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
+        clubIntent = getIntent();
+
         addFriendsToClubButton = (Button) findViewById(R.id.add_friends_to_club_button);
         addFriendsToClubButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                List<User> userList = new ArrayList<User>();
+                List<String> phoneNumberList = new ArrayList<String>();
                 for (FriendsModel model : friendsModelList) {
                     if (model.isSelected()) {
-                        userList.add(model.getUser());
+                        phoneNumberList.add(model.getUser().getPhoneNumber());
                     }
+                }
+
+                try {
+                    Club club = clubIntent.getParcelableExtra("club");
+                    if (friendsController.addFriendsToClub(club.getClubName(), phoneNumberList)) {
+                        Intent clubHomeIntent = new Intent(AddFriendsActivity.this, ClubHomeActivity.class);
+                        clubHomeIntent.putExtra("club", club);
+                        startActivity(clubHomeIntent);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
         });
@@ -60,23 +70,26 @@ public class AddFriendsActivity extends ListActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        String[] phoneNumbers = new String[3];
-        phoneNumbers[0] = "11111";
-        phoneNumbers[1] = "22222";
-        phoneNumbers[2] = "44444";
+        List<String> phoneNumbers = new ArrayList<String>();
+        phoneNumbers.add("11111");
+        phoneNumbers.add("22222");
+        phoneNumbers.add("44444");
 
-        Friends friends = new Friends(phoneNumbers);
-        if (friends.getRegisteredFriends()) {
-            JSONObject jsonResponse = friends.getGetFriendsAbstractAnswer();
-            try {
-                JSONArray friendsArray = (JSONArray) jsonResponse.get("friends");
-                for (User user : friends.getUserListFromJSONResponse(friendsArray)) {
-                    FriendsModel friendsModel = new FriendsModel(user);
-                    friendsModelList.add(friendsModel);
+        try {
+            if (friendsController.getRegisteredFriends(phoneNumbers)) {
+                JSONObject jsonResponse = friendsController.getGetFriendsAbstractAnswer();
+                try {
+                    JSONArray friendsArray = (JSONArray) jsonResponse.get("friends");
+                    for (User user : friendsController.getUserListFromJSONResponse(friendsArray)) {
+                        FriendsModel friendsModel = new FriendsModel(user);
+                        friendsModelList.add(friendsModel);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         ArrayAdapter<FriendsModel> friendsArrayAdapter = new FriendsArrayAdapter(AddFriendsActivity.this, friendsModelList);
         setListAdapter(friendsArrayAdapter);

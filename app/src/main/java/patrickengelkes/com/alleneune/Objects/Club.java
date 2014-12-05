@@ -85,4 +85,8 @@ public class Club implements Parcelable, AbstractEntity {
             return new Club[size];
         }
     };
+
+    public String getClubName() {
+        return this.clubName;
+    }
 }

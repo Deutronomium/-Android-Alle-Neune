@@ -39,6 +39,14 @@ public class User implements AbstractEntity, Parcelable {
         this.phoneNumber = "";
     }
 
+    public User(String userName, String firstName, String lastName, String phoneNumber, String city) {
+        this.userName = userName;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.city = city;
+    }
+
     /*
     Always call before working with the API
      */
@@ -119,14 +127,6 @@ public class User implements AbstractEntity, Parcelable {
         }
     };
 
-    public User(String userName, String firstName, String lastName, String email, String city) {
-        this.userName = userName;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.city = city;
-    }
-
     @Override
     public String toString() {
         if (this.firstName != null && this.lastName != null) {
@@ -149,5 +149,7 @@ public class User implements AbstractEntity, Parcelable {
     public String getLastName() {
         return this.lastName;
     }
+
+    public String getPhoneNumber() { return this.phoneNumber; }
 
 }

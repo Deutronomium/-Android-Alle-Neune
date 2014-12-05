@@ -47,6 +47,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="patrickengelkes.com.alleneune.activities.CreateClubActivity" />
         </activity>
+        <activity
+            android:name="patrickengelkes.com.alleneune.activities.ClubHomeActivity"
+            android:label="@string/title_activity_club_home" >
+        </activity>
     </application>
 
 </manifest>
