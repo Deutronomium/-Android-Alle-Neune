@@ -45,8 +45,17 @@ public class ClubHomeActivity extends Activity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            case R.id.action_logout:
+                Intent signUpIntent = new Intent(ClubHomeActivity.this, MainActivity.class);
+                signUpIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                signUpIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(signUpIntent);
+                break;
+            case R.id.action_edit_members:
+                Intent editMembersIntent = new Intent(ClubHomeActivity.this, EditFriendsActivity.class);
+                startActivity(editMembersIntent);
+                break;
         }
 
         return super.onOptionsItemSelected(item);

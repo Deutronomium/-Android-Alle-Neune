@@ -8,27 +8,47 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import org.json.JSONException;
+
+import patrickengelkes.com.alleneune.Objects.Club;
 import patrickengelkes.com.alleneune.R;
+import patrickengelkes.com.alleneune.controllers.UserController;
 
 
 public class UserHomeActivity extends Activity {
 
     protected Button mCreateClubButton;
     protected Button mJoinClubButton;
+    protected UserController userController = new UserController();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_home);
+        Club club = null;
+        try {
+            club = userController.getClubByUser("Deutro");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-        mCreateClubButton = (Button) findViewById(R.id.createClubButton);
-        mCreateClubButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent createClubIntent = new Intent(UserHomeActivity.this, CreateClubActivity.class);
-                startActivity(createClubIntent);
-            }
-        });
+        super.onCreate(savedInstanceState);
+        if (club != null) {
+            Intent clubHomeIntent = new Intent(UserHomeActivity.this, ClubHomeActivity.class);
+            clubHomeIntent.putExtra("club", club);
+            clubHomeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            clubHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(clubHomeIntent);
+        } else {
+            setContentView(R.layout.activity_user_home);
+
+            mCreateClubButton = (Button) findViewById(R.id.createClubButton);
+            mCreateClubButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent createClubIntent = new Intent(UserHomeActivity.this, CreateClubActivity.class);
+                    startActivity(createClubIntent);
+                }
+            });
+        }
     }
 
 

@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import patrickengelkes.com.alleneune.JsonBuilder;
+import patrickengelkes.com.alleneune.Objects.AbstractEntity;
 import patrickengelkes.com.alleneune.Objects.User;
 
 /**

@@ -26,5 +26,21 @@
     <string name="title_activity_add_friends">AddFriendsActivity</string>
     <string name="add_selected_friends">Add selected friends</string>
     <string name="title_activity_club_home">ClubHomeActivity</string>
+    <string name="menu_logout_label">Logout</string>
+    <string name="edit_friends_label">Edit Friends</string>
+    <string name="title_activity_edit_friends">EditFriendsActivity</string>
 
+    <string-array name="countries">
+        <item>Sweden</item>
+        <item>Norway</item>
+        <item>Finland</item>
+        <item>Denmark</item>
+        <item>Germany</item>
+        <item>Poland</item>
+        <item>Netherlands</item>
+        <item>Belgium</item>
+    </string-array>
+    <string-array name="menu">
+        <item>Delete</item>
+    </string-array>
 </resources>
