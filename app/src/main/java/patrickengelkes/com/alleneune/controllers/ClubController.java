@@ -5,7 +5,6 @@ import android.util.Log;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
@@ -19,7 +18,6 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import patrickengelkes.com.alleneune.JsonBuilder;
-import patrickengelkes.com.alleneune.Objects.User;
 
 /**
  * Created by patrickengelkes on 12/12/14.
@@ -50,7 +48,8 @@ public class ClubController {
     }
 
     public boolean deleteUserByName(String userName) {
-        JSONObject leaf = new JSONObject()
+        //JSONObject leaf = new JSONObject()
+        return false;
     }
 
     private List<String> getUsersFromJsonRespone(JSONObject jsonResponse) throws JSONException {

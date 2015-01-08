@@ -54,6 +54,7 @@ public class ClubHomeActivity extends Activity {
                 break;
             case R.id.action_edit_members:
                 Intent editMembersIntent = new Intent(ClubHomeActivity.this, EditFriendsActivity.class);
+                editMembersIntent.putExtra("club", club);
                 startActivity(editMembersIntent);
                 break;
         }

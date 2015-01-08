@@ -31,6 +31,7 @@ public class FriendsController {
     public static String objectString = "friends";
 
     private JSONObject getFriendsAbstractAnswer;
+    private JSONObject removeFriendFromClubAbstractAnswer;
 
     public boolean getRegisteredFriends(List<String> phoneNumberList) throws JSONException {
         JSONArray phoneNumberArray = getJSONArrayFromList(phoneNumberList);
@@ -70,10 +71,37 @@ public class FriendsController {
         try {
             HttpResponse response = new AddFriendsToClubTask().execute(root.toString()).get();
             if (response != null) {
+                this.removeFriendFromClubAbstractAnswer = new JsonBuilder().execute(response).get();
                 if (response.getStatusLine().getStatusCode() == 200) {
                     return true;
                 } else {
                     Log.e(TAG, "Could not add friends to club!");
+                    Log.e(TAG, removeFriendFromClubAbstractAnswer.toString());
+                }
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public boolean removeFriendFromClub(String clubName, String userName) throws JSONException {
+        JSONObject leaf = new JSONObject();
+        leaf.put("club_name", clubName);
+        leaf.put("user_name", userName);
+        JSONObject root = new JSONObject();
+        root.put("friends", leaf);
+
+        try {
+            HttpResponse response = new RemoveFriendFromClubTask().execute(root.toString()).get();
+            if (response != null) {
+                if (response.getStatusLine().getStatusCode() == 200) {
+                    return true;
+                } else {
+                    Log.e(TAG, "Could not remove friend from club!");
                 }
             }
         } catch (InterruptedException e) {
@@ -94,7 +122,7 @@ public class FriendsController {
                 StringEntity stringEntity = new StringEntity(json);
 
                 MyHttpPost myHttpPost = new MyHttpPost(AbstractEntityController.host + "/" +
-                        FriendsController.objectString + "/registeredFriends", stringEntity);
+                        FriendsController.objectString + "/getRegisteredFriends", stringEntity);
                 return new DefaultHttpClient().execute(myHttpPost);
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
@@ -118,6 +146,29 @@ public class FriendsController {
 
                 MyHttpPost myHttpPost = new MyHttpPost(AbstractEntityController.host + "/" +
                     "clubs/add_members", stringEntity);
+                return new DefaultHttpClient().execute(myHttpPost);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (ClientProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+    }
+
+    private class RemoveFriendFromClubTask extends AsyncTask<String, Integer, HttpResponse> {
+
+        @Override
+        protected HttpResponse doInBackground(String... strings) {
+            try {
+                String json = strings[0];
+                StringEntity stringEntity = new StringEntity(json);
+
+                MyHttpPost myHttpPost = new MyHttpPost(AbstractEntityController.host + "/" +
+                    "friends/removeFriendFromClub", stringEntity);
                 return new DefaultHttpClient().execute(myHttpPost);
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();

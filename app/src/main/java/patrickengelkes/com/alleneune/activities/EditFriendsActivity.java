@@ -18,19 +18,26 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import patrickengelkes.com.alleneune.Objects.Club;
 import patrickengelkes.com.alleneune.R;
 import patrickengelkes.com.alleneune.controllers.ClubController;
+import patrickengelkes.com.alleneune.controllers.FriendsController;
 
 public class EditFriendsActivity extends ListActivity {
 
     protected List<String> userNames;
     protected ListView listView;
     protected ArrayAdapter<String> arrayAdapter;
+    protected FriendsController friendsController;
+    protected Club club;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_friends);
+        this.friendsController = new FriendsController();
+        this.club = getIntent().getParcelableExtra("club");
+
         //get list view from the activity
         listView = getListView();
 
@@ -89,6 +96,11 @@ public class EditFriendsActivity extends ListActivity {
         switch (item.getItemId()) {
             case 0:
                 String itemToRemove = userNames.get(info.position);
+                try {
+                    friendsController.removeFriendFromClub(this.club.getClubName(), itemToRemove);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 arrayAdapter.remove(itemToRemove);
                 arrayAdapter.notifyDataSetChanged();
         }
