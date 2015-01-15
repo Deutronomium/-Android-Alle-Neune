@@ -1,6 +1,5 @@
 package patrickengelkes.com.alleneune.activities;
 
-import android.app.Activity;
 import android.app.ListActivity;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -9,19 +8,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import org.json.JSONException;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import patrickengelkes.com.alleneune.Objects.Club;
+import patrickengelkes.com.alleneune.entities.objects.Club;
 import patrickengelkes.com.alleneune.R;
-import patrickengelkes.com.alleneune.controllers.ClubController;
-import patrickengelkes.com.alleneune.controllers.FriendsController;
+import patrickengelkes.com.alleneune.entities.controllers.ClubController;
+import patrickengelkes.com.alleneune.entities.controllers.FriendsController;
 
 public class EditFriendsActivity extends ListActivity {
 
@@ -40,14 +36,10 @@ public class EditFriendsActivity extends ListActivity {
 
         //get list view from the activity
         listView = getListView();
+        Club club = new Club("TestClub");
 
-        ClubController clubController = new ClubController();
-        try {
-            userNames = clubController.getUsersByClub("TestClub");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
+        ClubController clubController = new ClubController(club);
+        userNames = clubController.getUsersByClub();
 
         //set the adapter
         arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, userNames);

@@ -1,4 +1,4 @@
-package patrickengelkes.com.alleneune.controllers;
+package patrickengelkes.com.alleneune.entities.controllers;
 
 import android.os.AsyncTask;
 
@@ -6,7 +6,6 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -14,8 +13,9 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.concurrent.ExecutionException;
 
-import patrickengelkes.com.alleneune.JsonBuilder;
-import patrickengelkes.com.alleneune.Objects.Club;
+import patrickengelkes.com.alleneune.api_calls.MyHttpPost;
+import patrickengelkes.com.alleneune.api_calls.JsonBuilder;
+import patrickengelkes.com.alleneune.entities.objects.Club;
 
 /**
  * Created by patrickengelkes on 05/12/14.

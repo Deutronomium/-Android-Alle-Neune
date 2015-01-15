@@ -1,4 +1,4 @@
-package patrickengelkes.com.alleneune.controllers;
+package patrickengelkes.com.alleneune.entities.controllers;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -13,8 +13,9 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.concurrent.ExecutionException;
 
-import patrickengelkes.com.alleneune.JsonBuilder;
-import patrickengelkes.com.alleneune.Objects.Event;
+import patrickengelkes.com.alleneune.api_calls.MyHttpPost;
+import patrickengelkes.com.alleneune.api_calls.JsonBuilder;
+import patrickengelkes.com.alleneune.entities.objects.Event;
 
 /**
  * Created by patrickengelkes on 14/01/15.

@@ -10,9 +10,9 @@ import android.widget.Button;
 
 import org.json.JSONException;
 
-import patrickengelkes.com.alleneune.Objects.Club;
+import patrickengelkes.com.alleneune.entities.objects.Club;
 import patrickengelkes.com.alleneune.R;
-import patrickengelkes.com.alleneune.controllers.UserController;
+import patrickengelkes.com.alleneune.entities.controllers.UserController;
 
 
 public class UserHomeActivity extends Activity {

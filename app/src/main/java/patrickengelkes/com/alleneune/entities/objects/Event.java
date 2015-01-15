@@ -1,4 +1,4 @@
-package patrickengelkes.com.alleneune.Objects;
+package patrickengelkes.com.alleneune.entities.objects;
 
 import org.json.JSONException;
 import org.json.JSONObject;

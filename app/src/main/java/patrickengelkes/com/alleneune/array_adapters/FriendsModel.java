@@ -1,6 +1,6 @@
-package patrickengelkes.com.alleneune.ArrayAdapters;
+package patrickengelkes.com.alleneune.array_adapters;
 
-import patrickengelkes.com.alleneune.Objects.User;
+import patrickengelkes.com.alleneune.entities.objects.User;
 
 /**
  * Created by patrickengelkes on 28/11/14.

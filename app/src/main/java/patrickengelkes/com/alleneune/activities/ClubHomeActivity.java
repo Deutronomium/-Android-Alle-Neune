@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import patrickengelkes.com.alleneune.Objects.Club;
+import patrickengelkes.com.alleneune.entities.objects.Club;
 import patrickengelkes.com.alleneune.R;
 
 public class ClubHomeActivity extends Activity {

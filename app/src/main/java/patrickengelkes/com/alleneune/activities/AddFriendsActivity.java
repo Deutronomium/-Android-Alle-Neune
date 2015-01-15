@@ -15,12 +15,12 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import patrickengelkes.com.alleneune.ArrayAdapters.FriendsArrayAdapter;
-import patrickengelkes.com.alleneune.ArrayAdapters.FriendsModel;
-import patrickengelkes.com.alleneune.Objects.Club;
-import patrickengelkes.com.alleneune.Objects.User;
+import patrickengelkes.com.alleneune.array_adapters.FriendsArrayAdapter;
+import patrickengelkes.com.alleneune.array_adapters.FriendsModel;
+import patrickengelkes.com.alleneune.entities.objects.Club;
+import patrickengelkes.com.alleneune.entities.objects.User;
 import patrickengelkes.com.alleneune.R;
-import patrickengelkes.com.alleneune.controllers.FriendsController;
+import patrickengelkes.com.alleneune.entities.controllers.FriendsController;
 
 public class AddFriendsActivity extends ListActivity {
 

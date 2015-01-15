@@ -1,4 +1,4 @@
-package patrickengelkes.com.alleneune.controllers;
+package patrickengelkes.com.alleneune.entities.controllers;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -17,9 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import patrickengelkes.com.alleneune.JsonBuilder;
-import patrickengelkes.com.alleneune.Objects.AbstractEntity;
-import patrickengelkes.com.alleneune.Objects.User;
+import patrickengelkes.com.alleneune.api_calls.MyHttpPost;
+import patrickengelkes.com.alleneune.api_calls.JsonBuilder;
+import patrickengelkes.com.alleneune.entities.objects.User;
 
 /**
  * Created by patrickengelkes on 04/12/14.
@@ -191,8 +191,13 @@ public class FriendsController {
                 String firstName = friend.getString("firstName");
                 String lastName = friend.getString("lastName");
                 String phoneNumber = friend.getString("phone_number");
-                String city = friend.getString("city");
-                User user = new User(userName, firstName, lastName, phoneNumber, city);
+
+                User user = new User();
+                user.setUserName(userName);
+                user.setFirstName(firstName);
+                user.setLastName(lastName);
+                user.setPhoneNumber(phoneNumber);
+
                 userList.add(user);
             } catch (JSONException e) {
                 e.printStackTrace();

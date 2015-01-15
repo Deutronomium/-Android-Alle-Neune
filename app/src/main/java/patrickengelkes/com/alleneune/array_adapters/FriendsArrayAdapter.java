@@ -1,4 +1,4 @@
-package patrickengelkes.com.alleneune.ArrayAdapters;
+package patrickengelkes.com.alleneune.array_adapters;
 
 import android.app.Activity;
 import android.util.Log;
@@ -7,11 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 import java.util.List;
 
-import patrickengelkes.com.alleneune.Objects.User;
+import patrickengelkes.com.alleneune.entities.objects.User;
 import patrickengelkes.com.alleneune.R;
 
 /**

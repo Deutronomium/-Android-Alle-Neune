@@ -14,9 +14,9 @@ import android.widget.EditText;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import patrickengelkes.com.alleneune.Objects.Club;
+import patrickengelkes.com.alleneune.entities.objects.Club;
 import patrickengelkes.com.alleneune.R;
-import patrickengelkes.com.alleneune.controllers.AbstractEntityController;
+import patrickengelkes.com.alleneune.entities.controllers.AbstractEntityController;
 
 public class CreateClubActivity extends Activity {
 
