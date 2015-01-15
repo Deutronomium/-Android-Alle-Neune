@@ -28,7 +28,7 @@ public class CreateClubActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_club2);
+        setContentView(R.layout.activity_create_club);
 
         mClubName= (EditText) findViewById(R.id.club_name_tf);
         addFriendsButton = (Button) findViewById(R.id.add_friends_button);

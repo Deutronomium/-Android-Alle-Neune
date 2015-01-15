@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import patrickengelkes.com.alleneune.Objects.Club;
@@ -13,6 +15,7 @@ import patrickengelkes.com.alleneune.R;
 public class ClubHomeActivity extends Activity {
 
     protected TextView clubName;
+    protected Button createEventButton;
 
     protected Intent clubIntent;
     protected Club club;
@@ -23,8 +26,17 @@ public class ClubHomeActivity extends Activity {
         setContentView(R.layout.activity_club_home);
 
         clubIntent = getIntent();
-        clubName = (TextView) findViewById(R.id.club_name_tv);
         club = clubIntent.getParcelableExtra("club");
+        createEventButton = (Button) findViewById(R.id.create_activity_button);
+        createEventButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent createActivityIntent = new Intent(ClubHomeActivity.this, CreateEventActivity.class);
+                createActivityIntent.putExtra("club", club);
+                startActivity(createActivityIntent);
+            }
+        });
+        clubName = (TextView) findViewById(R.id.club_name_tv);
 
         clubName.setText(club.getClubName());
     }
