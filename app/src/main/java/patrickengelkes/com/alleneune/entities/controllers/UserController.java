@@ -13,23 +13,26 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.concurrent.ExecutionException;
 
+import patrickengelkes.com.alleneune.api_calls.ApiCallTask;
 import patrickengelkes.com.alleneune.api_calls.MyHttpPost;
 import patrickengelkes.com.alleneune.api_calls.JsonBuilder;
 import patrickengelkes.com.alleneune.entities.objects.Club;
+import patrickengelkes.com.alleneune.entities.objects.User;
 
 /**
  * Created by patrickengelkes on 05/12/14.
  */
 public class UserController {
 
-    public Club getClubByUser(String userName) throws JSONException {
-        JSONObject leaf = new JSONObject();
-        leaf.put("userName", userName);
-        JSONObject root = new JSONObject();
-        root.put("user", leaf);
+    private User user;
 
+    public UserController(User user) {
+        this.user = user;
+    }
+
+    public Club getClubByUser() throws JSONException {
         try {
-            HttpResponse response = new GetClubByUserTask().execute(root.toString()).get();
+            HttpResponse response = new ApiCallTask().execute(user.getUserClub()).get();
             JSONObject jsonResponse = new JsonBuilder().execute(response).get();
             if (jsonResponse != null) {
                 if (response.getStatusLine().getStatusCode() == 200) {
@@ -42,31 +45,10 @@ public class UserController {
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
         }
 
         return null;
-    }
-
-    private class GetClubByUserTask extends AsyncTask<String, Integer, HttpResponse> {
-
-        @Override
-        protected HttpResponse doInBackground(String... strings) {
-            try {
-                String json = strings[0];
-                StringEntity stringEntity = new StringEntity(json);
-
-                MyHttpPost myHttpPost = new MyHttpPost(AbstractEntityController.host
-                        + "/users/user_club", stringEntity);
-                return new DefaultHttpClient().execute(myHttpPost);
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (ClientProtocolException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            return null;
-        }
     }
 }

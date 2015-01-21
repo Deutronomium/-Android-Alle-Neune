@@ -11,16 +11,12 @@ import patrickengelkes.com.alleneune.api_calls.HttpPostEntity;
 /**
  * Created by patrickengelkes on 31/10/14.
  */
-public class Session {
+public class Session implements AbstractEntity{
 
     private String genericUrl = "/sessions";
 
     private String email;
     private String password;
-
-    private HashMap<String, Object> objectParameters;
-
-    private String objectString;
 
     public Session(String email, String password) {
         this.email = email;
@@ -37,6 +33,7 @@ public class Session {
         return root.toString();
     }
 
+    @Override
     public HttpPostEntity create() throws JSONException, UnsupportedEncodingException {
         return new HttpPostEntity(genericUrl, genericJSON());
     }

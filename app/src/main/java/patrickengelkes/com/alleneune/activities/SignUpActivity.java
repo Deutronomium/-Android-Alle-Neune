@@ -14,9 +14,9 @@ import android.widget.EditText;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import patrickengelkes.com.alleneune.entities.controllers.AbstractValidityEntityController;
 import patrickengelkes.com.alleneune.entities.objects.User;
 import patrickengelkes.com.alleneune.R;
-import patrickengelkes.com.alleneune.entities.controllers.AbstractEntityController;
 
 public class SignUpActivity extends Activity {
 
@@ -49,13 +49,13 @@ public class SignUpActivity extends Activity {
                 String email = mEmail.getText().toString().trim();
 
                 User user = new User(userName, email, password, passwordConfirmation);
-                AbstractEntityController controller = new AbstractEntityController(user);
+                AbstractValidityEntityController controller = new AbstractValidityEntityController(user);
                 if (controller.checkForValidity()) {
                     Intent phoneNumberIntent = new Intent(SignUpActivity.this, PhoneNumberActivity.class);
                     phoneNumberIntent.putExtra("user", user);
                     startActivity(phoneNumberIntent);
                 } else {
-                    JSONObject jsonResponse = controller.getValidateAbstractAnswer();
+                    JSONObject jsonResponse = controller.getValidateAnswer();
                     try {
                         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
                         dialogBuilder.setTitle(getString(R.string.validation_failed_title))

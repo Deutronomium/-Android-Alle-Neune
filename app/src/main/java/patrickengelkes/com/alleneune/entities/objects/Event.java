@@ -3,13 +3,16 @@ package patrickengelkes.com.alleneune.entities.objects;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Date;
+import java.io.UnsupportedEncodingException;
+
+import patrickengelkes.com.alleneune.api_calls.HttpPostEntity;
 
 /**
  * Created by patrickengelkes on 09/01/15.
  */
-public class Event {
+public class Event implements AbstractEntity{
 
+    private String genericUrl = "/events";
     private String eventName;
     private String eventDate;
     private String clubID;
@@ -20,21 +23,20 @@ public class Event {
         this.clubID = String.valueOf(clubID);
     }
 
-    public JSONObject createEventJsonObject(){
+    public String genericJSON() throws JSONException {
         JSONObject leaf = new JSONObject();
-        try {
-            leaf.put("name", this.eventName);
-            leaf.put("club_id", this.clubID);
-            leaf.put("date", this.eventDate);
+        leaf.put("name", this.eventName);
+        leaf.put("club_id", this.clubID);
+        leaf.put("date", this.eventDate);
 
-            JSONObject root = new JSONObject();
-            root.put("event", leaf);
+        JSONObject root = new JSONObject();
+        root.put("event", leaf);
 
-            return root;
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        return root.toString();
+    }
 
-        return null;
+    @Override
+    public HttpPostEntity create() throws JSONException, UnsupportedEncodingException {
+        return new HttpPostEntity(genericUrl, genericJSON());
     }
 }

@@ -13,7 +13,7 @@ import patrickengelkes.com.alleneune.api_calls.HttpPostEntity;
 /**
  * Created by patrickengelkes on 31/10/14.
  */
-public class User implements AbstractEntity, Parcelable {
+public class User implements Parcelable, AbstractValidityEntity {
 
     private String genericUrl = "/users";
 
@@ -27,6 +27,10 @@ public class User implements AbstractEntity, Parcelable {
     private String phoneNumber;
 
     public User() {}
+
+    public User(String userName) {
+        this.userName = userName;
+    }
 
     public User(String userName, String email, String password, String passwordConfirmation) {
         this.userName = userName;
@@ -61,6 +65,17 @@ public class User implements AbstractEntity, Parcelable {
         String url = this.genericUrl + "/validity";
 
         return new HttpPostEntity(url, genericJSON());
+    }
+
+    public HttpPostEntity getUserClub() throws JSONException, UnsupportedEncodingException {
+        JSONObject leaf = new JSONObject();
+        leaf.put("userName", this.userName);
+        JSONObject root = new JSONObject();
+        root.put("user", leaf);
+
+        String url = genericUrl + "/user_club";
+
+        return new HttpPostEntity(url, root.toString());
     }
 
 

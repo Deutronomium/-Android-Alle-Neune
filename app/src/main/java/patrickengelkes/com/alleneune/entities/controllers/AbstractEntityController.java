@@ -18,11 +18,9 @@ import patrickengelkes.com.alleneune.entities.objects.AbstractEntity;
  */
 public class AbstractEntityController {
     public static final String TAG = AbstractEntityController.class.getSimpleName();
-    public static final String host = "http://192.168.56.1:3000";
 
     private AbstractEntity abstractEntity;
-    private JSONObject createAbstractAnswer;
-    private JSONObject validateAbstractAnswer;
+    private JSONObject createAnswer;
 
     public AbstractEntityController(AbstractEntity abstractEntity) {
         this.abstractEntity = abstractEntity;
@@ -32,12 +30,12 @@ public class AbstractEntityController {
         try {
             HttpResponse response = new ApiCallTask().execute(this.abstractEntity.create()).get();
             if (response != null) {
-                createAbstractAnswer = new JsonBuilder().execute(response).get();
+                createAnswer = new JsonBuilder().execute(response).get();
                 if (response.getStatusLine().getStatusCode() == 201) {
                     return true;
                 } else {
                     Log.e(TAG, "Creating entity failed");
-                    Log.e(TAG, createAbstractAnswer.toString());
+                    Log.e(TAG, createAnswer.toString());
                 }
             }
         } catch (InterruptedException e) {
@@ -53,34 +51,7 @@ public class AbstractEntityController {
         return false;
     }
 
-    public boolean checkForValidity() {
-        try {
-            HttpResponse response = new ApiCallTask().execute(this.abstractEntity.checkValidity()).get();
-            if (response != null) {
-                validateAbstractAnswer = new JsonBuilder().execute(response).get();
-                if (response.getStatusLine().getStatusCode() == 200) {
-                    return true;
-                } else {
-                    Log.e(TAG, "Invalid entity");
-                    Log.e(TAG, validateAbstractAnswer.toString());
-                }
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
-        return false;
+    public JSONObject getCreateAnswer() {
+        return this.createAnswer;
     }
-
-    public JSONObject getCreateAbstractAnswer() {
-        return this.createAbstractAnswer;
-    }
-
-    public JSONObject getValidateAbstractAnswer() { return this.validateAbstractAnswer; }
 }

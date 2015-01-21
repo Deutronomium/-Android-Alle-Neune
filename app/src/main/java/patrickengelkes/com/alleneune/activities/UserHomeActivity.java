@@ -13,19 +13,21 @@ import org.json.JSONException;
 import patrickengelkes.com.alleneune.entities.objects.Club;
 import patrickengelkes.com.alleneune.R;
 import patrickengelkes.com.alleneune.entities.controllers.UserController;
+import patrickengelkes.com.alleneune.entities.objects.User;
 
 
 public class UserHomeActivity extends Activity {
 
     protected Button mCreateClubButton;
     protected Button mJoinClubButton;
-    protected UserController userController = new UserController();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Club club = null;
         try {
-            club = userController.getClubByUser("Deutro");
+            User user = new User("Deutro");
+            UserController userController = new UserController(user);
+            club = userController.getClubByUser();
         } catch (JSONException e) {
             e.printStackTrace();
         }

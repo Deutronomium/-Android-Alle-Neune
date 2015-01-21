@@ -39,7 +39,7 @@ public class EditFriendsActivity extends ListActivity {
         Club club = new Club("TestClub");
 
         ClubController clubController = new ClubController(club);
-        userNames = clubController.getUsersByClub();
+        userNames = clubController.getUserClub();
 
         //set the adapter
         arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, userNames);

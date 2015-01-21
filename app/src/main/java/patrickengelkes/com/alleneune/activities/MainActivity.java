@@ -11,9 +11,9 @@ import android.widget.EditText;
 
 import org.json.JSONObject;
 
+import patrickengelkes.com.alleneune.entities.controllers.AbstractEntityController;
 import patrickengelkes.com.alleneune.entities.objects.Session;
 import patrickengelkes.com.alleneune.R;
-import patrickengelkes.com.alleneune.entities.controllers.SessionController;
 
 public class MainActivity extends Activity {
     public static final String TAG = MainActivity.class.getSimpleName();
@@ -40,12 +40,12 @@ public class MainActivity extends Activity {
                 String password = mPassword.getText().toString().trim();
 
                 Session session = new Session(email, password);
-                SessionController sessionController = new SessionController(session);
-                    if (sessionController.createSession()) {
+                AbstractEntityController controller = new AbstractEntityController(session);
+                    if (controller.createAbstractEntity()) {
                         Intent intent = new Intent(MainActivity.this, UserHomeActivity.class);
                         startActivity(intent);
                     } else {
-                        JSONObject jsonResponse = sessionController.getCreateAnswer();
+                        JSONObject jsonResponse = controller.getCreateAnswer();
                         //TODO: Error handling
                     }
             }

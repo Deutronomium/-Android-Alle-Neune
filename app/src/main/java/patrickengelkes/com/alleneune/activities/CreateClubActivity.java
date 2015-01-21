@@ -47,7 +47,7 @@ public class CreateClubActivity extends Activity {
                     addFriendsIntent.putExtra("club", club);
                     startActivity(addFriendsIntent);
                 } else {
-                    JSONObject jsonResponse = controller.getCreateAbstractAnswer();
+                    JSONObject jsonResponse = controller.getCreateAnswer();
                     try {
                         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
                         dialogBuilder.setTitle(getString(R.string.validation_failed_title))
