@@ -6,6 +6,7 @@ import android.app.DialogFragment;
 import android.app.FragmentTransaction;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,17 +21,22 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import patrickengelkes.com.alleneune.entities.controllers.AbstractEntityController;
+import patrickengelkes.com.alleneune.entities.objects.Club;
+import patrickengelkes.com.alleneune.entities.objects.Event;
 import patrickengelkes.com.alleneune.fragments.DatePickerDialogFragment;
 import patrickengelkes.com.alleneune.R;
 import patrickengelkes.com.alleneune.fragments.TimePickerDialogFragment;
 
 public class CreateEventActivity extends Activity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
+    public static final String TAG = CreateEventActivity.class.getSimpleName();
 
     protected EditText eventNameEditText;
     protected TextView datePickerTextView;
     protected TextView timePickerTextView;
     protected Button sendEventInvitesButton;
     protected Calendar globalCalendar;
+    protected Club club;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +44,8 @@ public class CreateEventActivity extends Activity implements DatePickerDialog.On
         setContentView(R.layout.activity_create_event);
 
         globalCalendar = new GregorianCalendar();
+
+        club = getIntent().getParcelableExtra("club");
 
         eventNameEditText = (EditText) findViewById(R.id.event_name_edit_text);
         datePickerTextView = (TextView) findViewById(R.id.date_picker_text_view);
@@ -66,8 +74,22 @@ public class CreateEventActivity extends Activity implements DatePickerDialog.On
         sendEventInvitesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-mm-dd HH:mm");
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+                String eventDate = simpleDateFormat.format(globalCalendar.getTime());
+                String eventName = eventNameEditText.getText().toString().trim();
+                int clubID = club.getClubID();
 
+                Event event = new Event(eventName, eventDate, clubID);
+                AbstractEntityController abstractEntityController = new AbstractEntityController(event);
+                if (abstractEntityController.createAbstractEntity()) {
+                    Log.e(TAG, "Event was created");
+                    Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.event_created_toast) +
+                            "send to all members", Toast.LENGTH_LONG);
+                    toast.show();
+                    finish();
+                } else {
+                    Log.e(TAG, "Nope that did not work");
+                }
             }
         });
 

@@ -37,8 +37,7 @@ public class UserController {
             if (jsonResponse != null) {
                 if (response.getStatusLine().getStatusCode() == 200) {
                     JSONObject jsonClub = (JSONObject) jsonResponse.get("club");
-                    Club club = new Club(jsonClub.getString("name"));
-                    return club;
+                    return new Club(jsonClub.getString("name"), Integer.valueOf(jsonClub.getString("id")));
                 }
             }
         } catch (InterruptedException e) {

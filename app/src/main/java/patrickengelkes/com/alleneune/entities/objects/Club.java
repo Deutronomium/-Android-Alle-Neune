@@ -19,9 +19,15 @@ public class Club implements Parcelable, AbstractValidityEntity {
 
     private String genericUrl = "/clubs";
     private String clubName;
+    private int clubID;
 
     public Club(String clubName) {
         this.clubName = clubName;
+    }
+
+    public Club(String clubName, int clubID) {
+        this.clubName = clubName;
+        this.clubID = clubID;
     }
 
     private String genericJSON() throws JSONException {
@@ -73,9 +79,14 @@ public class Club implements Parcelable, AbstractValidityEntity {
         return this.clubName;
     }
 
+    public int getClubID() {
+        return this.clubID;
+    }
+
     //Parcelable
     protected Club(Parcel in) {
         this.clubName = in.readString();
+        this.clubID = in.readInt();
     }
 
     @Override
@@ -86,6 +97,7 @@ public class Club implements Parcelable, AbstractValidityEntity {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(this.clubName);
+        parcel.writeInt(this.clubID);
     }
 
     @SuppressWarnings("unused")

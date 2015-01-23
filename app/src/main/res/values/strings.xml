@@ -41,5 +41,6 @@
     <string name="set_event_date_hint">Click to set a date for this event!</string>
     <string name="set_event_time_hint">Click to set a time for this event!</string>
     <string name="set_event_name_hint">Set a name for this event!</string>
+    <string name="event_created_toast">"Your event was created and invitations were "</string>
 
 </resources>
