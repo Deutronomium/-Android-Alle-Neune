@@ -32,7 +32,7 @@ public class ClubHomeActivity extends ListActivity {
         setContentView(R.layout.activity_club_home);
 
         clubIntent = getIntent();
-        club = clubIntent.getParcelableExtra("club");
+        club = Club.getInstance();
         createEventButton = (Button) findViewById(R.id.create_activity_button);
         createEventButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,7 +78,6 @@ public class ClubHomeActivity extends ListActivity {
                 break;
             case R.id.action_edit_members:
                 Intent editMembersIntent = new Intent(ClubHomeActivity.this, EditFriendsActivity.class);
-                editMembersIntent.putExtra("club", club);
                 startActivity(editMembersIntent);
                 break;
         }

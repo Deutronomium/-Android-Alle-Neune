@@ -3,6 +3,7 @@ package patrickengelkes.com.alleneune.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +18,7 @@ import patrickengelkes.com.alleneune.entities.objects.User;
 
 
 public class UserHomeActivity extends Activity {
+    public static final String TAG = UserHomeActivity.class.getSimpleName();
 
     protected Button mCreateClubButton;
     protected Button mJoinClubButton;
@@ -25,9 +27,11 @@ public class UserHomeActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         Club club = null;
         try {
-            User user = new User("Deutro");
+            User user = User.getInstance();
             UserController userController = new UserController(user);
             club = userController.getClubByUser();
+            Club.getInstance().setClubName(club.getClubName());
+            Club.getInstance().setClubID(club.getClubID());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -35,7 +39,7 @@ public class UserHomeActivity extends Activity {
         super.onCreate(savedInstanceState);
         if (club != null) {
             Intent clubHomeIntent = new Intent(UserHomeActivity.this, ClubHomeActivity.class);
-            clubHomeIntent.putExtra("club", club);
+            //clubHomeIntent.putExtra("club", club);
             clubHomeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             clubHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(clubHomeIntent);

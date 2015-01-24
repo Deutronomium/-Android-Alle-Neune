@@ -45,7 +45,7 @@ public class CreateEventActivity extends Activity implements DatePickerDialog.On
 
         globalCalendar = new GregorianCalendar();
 
-        club = getIntent().getParcelableExtra("club");
+        club = Club.getInstance();
 
         eventNameEditText = (EditText) findViewById(R.id.event_name_edit_text);
         datePickerTextView = (TextView) findViewById(R.id.date_picker_text_view);

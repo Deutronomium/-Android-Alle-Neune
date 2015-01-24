@@ -14,6 +14,7 @@ import patrickengelkes.com.alleneune.api_calls.HttpPostEntity;
  * Created by patrickengelkes on 31/10/14.
  */
 public class User implements Parcelable, AbstractValidityEntity {
+    private static User mInstance = null;
 
     private String genericUrl = "/users";
 
@@ -38,6 +39,14 @@ public class User implements Parcelable, AbstractValidityEntity {
         this.password = password;
         this.passwordConfirmation = passwordConfirmation;
         this.phoneNumber = "";
+    }
+
+    public static User getInstance() {
+        if (mInstance == null) {
+            mInstance = new User();
+        }
+
+        return mInstance;
     }
 
     private String genericJSON() throws JSONException {
@@ -78,38 +87,6 @@ public class User implements Parcelable, AbstractValidityEntity {
         return new HttpPostEntity(url, root.toString());
     }
 
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getUserName() {
-        return this.userName;
-    }
-
-    public String getFirstName() {
-        return this.firstName;
-    }
-
-    public String getLastName() {
-        return this.lastName;
-    }
-
-    public String getPhoneNumber() { return this.phoneNumber; }
-
-
     @Override
     public String toString() {
         if (this.firstName != null && this.lastName != null) {
@@ -121,7 +98,57 @@ public class User implements Parcelable, AbstractValidityEntity {
         }
     }
 
-    //Parcelable
+    //<editor-fold desc="Getter & Setter">
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getPhoneNumber() {
+        return this.phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Parcelable">
     protected User(Parcel in) {
         userName = in.readString();
         email = in.readString();
@@ -154,5 +181,6 @@ public class User implements Parcelable, AbstractValidityEntity {
             return new User[size];
         }
     };
+    //</editor-fold>
 
 }

@@ -16,10 +16,13 @@ import patrickengelkes.com.alleneune.api_calls.HttpPostEntity;
  * Created by patrickengelkes on 18/11/14.
  */
 public class Club implements Parcelable, AbstractValidityEntity {
+    private static Club mInstance = null;
 
     private String genericUrl = "/clubs";
     private String clubName;
     private int clubID;
+
+    public Club() {}
 
     public Club(String clubName) {
         this.clubName = clubName;
@@ -28,6 +31,14 @@ public class Club implements Parcelable, AbstractValidityEntity {
     public Club(String clubName, int clubID) {
         this.clubName = clubName;
         this.clubID = clubID;
+    }
+
+    public static Club getInstance(){
+        if(mInstance == null)
+        {
+            mInstance = new Club();
+        }
+        return mInstance;
     }
 
     private String genericJSON() throws JSONException {
@@ -75,6 +86,8 @@ public class Club implements Parcelable, AbstractValidityEntity {
         return new HttpPostEntity(genericUrl + "/get_members_by_club", genericJSON());
     }
 
+
+    //<editor-fold desc="Getter & Setter">
     public String getClubName() {
         return this.clubName;
     }
@@ -83,7 +96,16 @@ public class Club implements Parcelable, AbstractValidityEntity {
         return this.clubID;
     }
 
-    //Parcelable
+    public void setClubName(String clubName) {
+        this.clubName = clubName;
+    }
+
+    public void setClubID(int clubID) {
+        this.clubID = clubID;
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Parcelable">
     protected Club(Parcel in) {
         this.clubName = in.readString();
         this.clubID = in.readInt();
@@ -113,4 +135,5 @@ public class Club implements Parcelable, AbstractValidityEntity {
             return new Club[size];
         }
     };
+    //</editor-fold>
 }
