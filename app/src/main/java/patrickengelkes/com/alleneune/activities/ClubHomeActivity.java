@@ -1,6 +1,7 @@
 package patrickengelkes.com.alleneune.activities;
 
 import android.app.Activity;
+import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -9,10 +10,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.List;
+
+import patrickengelkes.com.alleneune.array_adapters.EventsArrayAdapter;
+import patrickengelkes.com.alleneune.entities.controllers.EventController;
 import patrickengelkes.com.alleneune.entities.objects.Club;
 import patrickengelkes.com.alleneune.R;
+import patrickengelkes.com.alleneune.entities.objects.Event;
 
-public class ClubHomeActivity extends Activity {
+public class ClubHomeActivity extends ListActivity {
 
     protected TextView clubName;
     protected Button createEventButton;
@@ -39,6 +45,12 @@ public class ClubHomeActivity extends Activity {
         clubName = (TextView) findViewById(R.id.club_name_tv);
 
         clubName.setText(club.getClubName());
+
+        Event event = new Event(club.getClubID());
+        EventController eventController = new EventController(event);
+        List<Event> clubEvents = eventController.getEventsByClub();
+        EventsArrayAdapter eventsArrayAdapter = new EventsArrayAdapter(this, clubEvents);
+        setListAdapter(eventsArrayAdapter);
     }
 
 
