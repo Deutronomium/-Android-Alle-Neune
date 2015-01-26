@@ -2,10 +2,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="patrickengelkes.com.alleneune.activities.ClubHomeActivity">
 
-    <item android:id="@+id/action_logout"
-        android:title="@string/menu_logout_label"></item>
+    <item android:id="@+id/logout_action"
+        android:title="@string/menu_logout_label"
+        android:showAsAction="never">
+    </item>
 
-    <item android:id="@+id/action_edit_members"
+    <item android:id="@+id/edit_members_action"
         android:title="@string/edit_friends_label"
-        ></item>
+        android:showAsAction="never">
+    </item>
 </menu>

@@ -3,7 +3,6 @@ package patrickengelkes.com.alleneune.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -61,7 +60,7 @@ public class UserHomeActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.user_home, menu);
+        getMenuInflater().inflate(R.menu.menu_user_home, menu);
         return true;
     }
 
@@ -71,9 +70,15 @@ public class UserHomeActivity extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            case R.id.logout_action:
+                Intent signUpIntent = new Intent(UserHomeActivity.this, MainActivity.class);
+                signUpIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                signUpIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(signUpIntent);
+                break;
         }
+
         return super.onOptionsItemSelected(item);
     }
 }

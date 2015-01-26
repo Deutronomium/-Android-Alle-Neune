@@ -1,6 +1,5 @@
 package patrickengelkes.com.alleneune.activities;
 
-import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -70,13 +69,13 @@ public class ClubHomeActivity extends ListActivity {
 
         //noinspection SimplifiableIfStatement
         switch (id) {
-            case R.id.action_logout:
+            case R.id.logout_action:
                 Intent signUpIntent = new Intent(ClubHomeActivity.this, MainActivity.class);
                 signUpIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 signUpIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(signUpIntent);
                 break;
-            case R.id.action_edit_members:
+            case R.id.edit_members_action:
                 Intent editMembersIntent = new Intent(ClubHomeActivity.this, EditFriendsActivity.class);
                 startActivity(editMembersIntent);
                 break;
