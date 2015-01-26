@@ -1,20 +1,15 @@
 package patrickengelkes.com.alleneune.entities.controllers;
 
-import android.os.AsyncTask;
+import android.util.Log;
 
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.concurrent.ExecutionException;
 
 import patrickengelkes.com.alleneune.api_calls.ApiCallTask;
-import patrickengelkes.com.alleneune.api_calls.MyHttpPost;
 import patrickengelkes.com.alleneune.api_calls.JsonBuilder;
 import patrickengelkes.com.alleneune.entities.objects.Club;
 import patrickengelkes.com.alleneune.entities.objects.User;
@@ -23,6 +18,7 @@ import patrickengelkes.com.alleneune.entities.objects.User;
  * Created by patrickengelkes on 05/12/14.
  */
 public class UserController {
+    public static final String TAG = UserController.class.getSimpleName();
 
     private User user;
 
@@ -36,8 +32,12 @@ public class UserController {
             JSONObject jsonResponse = new JsonBuilder().execute(response).get();
             if (jsonResponse != null) {
                 if (response.getStatusLine().getStatusCode() == 200) {
+                    Log.e(TAG, "User already joined a club.");
                     JSONObject jsonClub = (JSONObject) jsonResponse.get("club");
                     return new Club(jsonClub.getString("name"), Integer.valueOf(jsonClub.getString("id")));
+                } else if (response.getStatusLine().getStatusCode() == 450) {
+                    Log.e(TAG, "User did not join a club yet.");
+                    return null;
                 }
             }
         } catch (InterruptedException e) {

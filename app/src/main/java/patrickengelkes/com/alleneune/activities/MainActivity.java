@@ -46,11 +46,13 @@ public class MainActivity extends Activity {
                 sessionController.logIn();
                 User user = User.getInstance();
                 if (user.getUserName() != null) {
-                        Intent intent = new Intent(MainActivity.this, UserHomeActivity.class);
-                        startActivity(intent);
-                    } else {
-                        //TODO: Error handling
-                    }
+                    Intent userHomeIntent = new Intent(MainActivity.this, UserHomeActivity.class);
+                    userHomeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    userHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(userHomeIntent);
+                } else {
+                    //TODO: Error handling
+                }
             }
         });
 

@@ -21,7 +21,6 @@ public class UserHomeActivity extends Activity {
     public static final String TAG = UserHomeActivity.class.getSimpleName();
 
     protected Button mCreateClubButton;
-    protected Button mJoinClubButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +29,10 @@ public class UserHomeActivity extends Activity {
             User user = User.getInstance();
             UserController userController = new UserController(user);
             club = userController.getClubByUser();
-            Club.getInstance().setClubName(club.getClubName());
-            Club.getInstance().setClubID(club.getClubID());
+            if (club != null) {
+                Club.getInstance().setClubName(club.getClubName());
+                Club.getInstance().setClubID(club.getClubID());
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -39,7 +40,6 @@ public class UserHomeActivity extends Activity {
         super.onCreate(savedInstanceState);
         if (club != null) {
             Intent clubHomeIntent = new Intent(UserHomeActivity.this, ClubHomeActivity.class);
-            //clubHomeIntent.putExtra("club", club);
             clubHomeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             clubHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(clubHomeIntent);
