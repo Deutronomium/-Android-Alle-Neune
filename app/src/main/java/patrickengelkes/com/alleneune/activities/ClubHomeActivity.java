@@ -19,7 +19,6 @@ import patrickengelkes.com.alleneune.entities.objects.Event;
 
 public class ClubHomeActivity extends ListActivity {
 
-    protected TextView clubName;
     protected Button createEventButton;
 
     protected Intent clubIntent;
@@ -41,9 +40,8 @@ public class ClubHomeActivity extends ListActivity {
                 startActivity(createActivityIntent);
             }
         });
-        clubName = (TextView) findViewById(R.id.club_name_tv);
 
-        clubName.setText(club.getClubName());
+        setTitle(club.getClubName());
 
         Event event = new Event(club.getClubID());
         EventController eventController = new EventController(event);

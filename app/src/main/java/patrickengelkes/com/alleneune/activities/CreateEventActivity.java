@@ -43,6 +43,8 @@ public class CreateEventActivity extends Activity implements DatePickerDialog.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
 
+        setTitle(getString(R.string.create_event_activity_title));
+
         globalCalendar = new GregorianCalendar();
 
         club = Club.getInstance();

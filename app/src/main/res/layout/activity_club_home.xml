@@ -7,16 +7,6 @@
     tools:context="patrickengelkes.com.alleneune.activities.ClubHomeActivity"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/club_name_tv"
-        android:text=""
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-
     <ListView
         android:id="@android:id/list"
         android:layout_width="match_parent"

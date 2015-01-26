@@ -20,30 +20,33 @@ public class UserHomeActivity extends Activity {
     public static final String TAG = UserHomeActivity.class.getSimpleName();
 
     protected Button mCreateClubButton;
+    protected Club club = null;
+    protected User user = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Club club = null;
         try {
-            User user = User.getInstance();
-            UserController userController = new UserController(user);
-            club = userController.getClubByUser();
-            if (club != null) {
-                Club.getInstance().setClubName(club.getClubName());
-                Club.getInstance().setClubID(club.getClubID());
+            this.user = User.getInstance();
+            UserController userController = new UserController(this.user);
+            this.club = userController.getClubByUser();
+            if (this.club != null) {
+                Club.getInstance().setClubName(this.club.getClubName());
+                Club.getInstance().setClubID(this.club.getClubID());
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         super.onCreate(savedInstanceState);
-        if (club != null) {
+        if (this.club != null) {
             Intent clubHomeIntent = new Intent(UserHomeActivity.this, ClubHomeActivity.class);
             clubHomeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             clubHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(clubHomeIntent);
         } else {
             setContentView(R.layout.activity_user_home);
+
+            setTitle(this.user.getUserName());
 
             mCreateClubButton = (Button) findViewById(R.id.createClubButton);
             mCreateClubButton.setOnClickListener(new View.OnClickListener() {
