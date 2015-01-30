@@ -1,4 +1,4 @@
-package patrickengelkes.com.alleneune.array_adapters;
+package patrickengelkes.com.alleneune.array_adapters.adapters;
 
 import android.app.Activity;
 import android.util.Log;
@@ -10,6 +10,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import java.util.List;
 
+import patrickengelkes.com.alleneune.array_adapters.models.FriendsModel;
 import patrickengelkes.com.alleneune.entities.objects.User;
 import patrickengelkes.com.alleneune.R;
 

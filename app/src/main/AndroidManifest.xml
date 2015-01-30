@@ -68,6 +68,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="patrickengelkes.com.alleneune.activities.ClubHomeActivity" />
         </activity>
+        <activity
+            android:name=".activities.ShowEventActivity"
+            android:label="@string/title_activity_show_event"
+            android:parentActivityName=".activities.ClubHomeActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="patrickengelkes.com.alleneune.activities.ClubHomeActivity" />
+        </activity>
     </application>
 
 </manifest>

@@ -43,5 +43,7 @@
     <string name="set_event_name_hint">Set a name for this event!</string>
     <string name="event_created_toast">"Your event was created and invitations were "</string>
     <string name="create_event_activity_title">Create Event</string>
+    <string name="title_activity_show_event">ShowEventActivity</string>
+    <string name="participants_text_view">Participants</string>
 
 </resources>

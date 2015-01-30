@@ -15,6 +15,7 @@ import java.util.concurrent.ExecutionException;
 import patrickengelkes.com.alleneune.api_calls.ApiCallTask;
 import patrickengelkes.com.alleneune.api_calls.JsonBuilder;
 import patrickengelkes.com.alleneune.entities.objects.Event;
+import patrickengelkes.com.alleneune.entities.objects.User;
 
 /**
  * Created by patrickengelkes on 23/01/15.
@@ -29,6 +30,8 @@ public class EventController {
         this.event = event;
     }
 
+    public EventController() {}
+
     public List<Event> getEventsByClub() {
         List<Event> returnList = new ArrayList<Event>();
 
@@ -36,7 +39,7 @@ public class EventController {
             HttpResponse response = new ApiCallTask().execute(event.getAll()).get();
             if (response != null) {
                 getEventsByClubAnswer = new JsonBuilder().execute(response).get();
-                returnList = getEventsFromResponse(getEventsByClubAnswer);
+                returnList = Event.getEventsFromResponse(getEventsByClubAnswer, this.event.getClubID());
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -51,23 +54,27 @@ public class EventController {
         return returnList;
     }
 
-    private List<Event> getEventsFromResponse(JSONObject response) {
-        List<Event> eventList = new ArrayList<Event>();
-        try {
-            JSONArray eventsArray = (JSONArray) response.get("events");
-            for (int i = 0; i < eventsArray.length(); i++) {
-                JSONObject event = (JSONObject) eventsArray.get(i);
-                String eventName = event.getString("name");
-                String eventDate = event.getString("date");
-                Event newEvent = new Event(eventName, eventDate, this.event.getClubID());
-                eventList.add(newEvent);
-            }
+    public List<User> getEventParticipants(int eventID) {
+        List<User> returnList = new ArrayList<User>();
 
+        try {
+            HttpResponse response =
+                    new ApiCallTask().execute(Event.getParticipants(eventID)).get();
+            if (response != null) {
+                JSONObject participantsByEvent = new JsonBuilder().execute(response).get();
+                JSONArray users = (JSONArray) participantsByEvent.get("events");
+                returnList = User.getUserListFromJSONResponse(users);
+            }
         } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
             e.printStackTrace();
         }
 
-        return eventList;
+        return returnList;
     }
-
 }

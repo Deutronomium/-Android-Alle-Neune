@@ -3,10 +3,13 @@ package patrickengelkes.com.alleneune.entities.objects;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 
 import patrickengelkes.com.alleneune.api_calls.HttpPostEntity;
 
@@ -96,6 +99,32 @@ public class User implements Parcelable, AbstractValidityEntity {
         } else {
             return this.userName;
         }
+    }
+
+    public static List<User> getUserListFromJSONResponse(JSONArray friends) {
+        List<User> userList = new ArrayList<User>();
+        for (int i = 0; i < friends.length(); i++) {
+            try {
+                JSONObject friend = (JSONObject)friends.get(i);
+                String userName = friend.getString("userName");
+                String firstName = friend.getString("firstName");
+                String lastName = friend.getString("lastName");
+                String phoneNumber = friend.getString("phone_number");
+
+                User user = new User();
+                user.setUserName(userName);
+                user.setFirstName(firstName);
+                user.setLastName(lastName);
+                user.setPhoneNumber(phoneNumber);
+
+                userList.add(user);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        return userList;
     }
 
     //<editor-fold desc="Getter & Setter">

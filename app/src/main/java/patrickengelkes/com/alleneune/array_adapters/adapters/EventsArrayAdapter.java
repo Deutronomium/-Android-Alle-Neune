@@ -1,4 +1,4 @@
-package patrickengelkes.com.alleneune.array_adapters;
+package patrickengelkes.com.alleneune.array_adapters.adapters;
 
 import android.app.Activity;
 import android.view.LayoutInflater;

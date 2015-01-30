@@ -7,11 +7,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.ListView;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import patrickengelkes.com.alleneune.array_adapters.EventsArrayAdapter;
+import patrickengelkes.com.alleneune.array_adapters.adapters.EventsArrayAdapter;
 import patrickengelkes.com.alleneune.entities.controllers.EventController;
 import patrickengelkes.com.alleneune.entities.objects.Club;
 import patrickengelkes.com.alleneune.R;
@@ -23,6 +24,7 @@ public class ClubHomeActivity extends ListActivity {
 
     protected Intent clubIntent;
     protected Club club;
+    protected List<Event> clubEvents = new ArrayList<Event>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +47,7 @@ public class ClubHomeActivity extends ListActivity {
 
         Event event = new Event(club.getClubID());
         EventController eventController = new EventController(event);
-        List<Event> clubEvents = eventController.getEventsByClub();
+        clubEvents = eventController.getEventsByClub();
         EventsArrayAdapter eventsArrayAdapter = new EventsArrayAdapter(this, clubEvents);
         setListAdapter(eventsArrayAdapter);
     }
@@ -60,13 +62,7 @@ public class ClubHomeActivity extends ListActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        switch (id) {
+        switch (item.getItemId()) {
             case R.id.logout_action:
                 Intent signUpIntent = new Intent(ClubHomeActivity.this, MainActivity.class);
                 signUpIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -80,5 +76,14 @@ public class ClubHomeActivity extends ListActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+        Event selectedEvent = clubEvents.get(position);
+        Intent showEventIntent = new Intent(ClubHomeActivity.this, ShowEventActivity.class);
+        showEventIntent.putExtra(Event.PARCELABLE, selectedEvent);
+        startActivity(showEventIntent);
     }
 }

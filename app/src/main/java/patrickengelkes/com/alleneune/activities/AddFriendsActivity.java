@@ -15,8 +15,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import patrickengelkes.com.alleneune.array_adapters.FriendsArrayAdapter;
-import patrickengelkes.com.alleneune.array_adapters.FriendsModel;
+import patrickengelkes.com.alleneune.array_adapters.adapters.FriendsArrayAdapter;
+import patrickengelkes.com.alleneune.array_adapters.models.FriendsModel;
 import patrickengelkes.com.alleneune.entities.controllers.ClubController;
 import patrickengelkes.com.alleneune.entities.objects.Club;
 import patrickengelkes.com.alleneune.entities.objects.User;
@@ -78,7 +78,7 @@ public class AddFriendsActivity extends ListActivity {
                 JSONObject jsonResponse = friendsController.getGetFriendsAnswer();
                 try {
                     JSONArray friendsArray = (JSONArray) jsonResponse.get("friends");
-                    for (User user : friendsController.getUserListFromJSONResponse(friendsArray)) {
+                    for (User user : User.getUserListFromJSONResponse(friendsArray)) {
                         FriendsModel friendsModel = new FriendsModel(user);
                         friendsModelList.add(friendsModel);
                     }
