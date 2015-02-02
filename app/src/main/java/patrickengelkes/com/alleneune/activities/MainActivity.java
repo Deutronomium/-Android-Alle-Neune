@@ -1,6 +1,7 @@
 package patrickengelkes.com.alleneune.activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -9,13 +10,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import org.json.JSONObject;
-
-import patrickengelkes.com.alleneune.entities.controllers.AbstractEntityController;
+import patrickengelkes.com.alleneune.dialogs.ErrorDialog;
 import patrickengelkes.com.alleneune.entities.controllers.SessionController;
 import patrickengelkes.com.alleneune.entities.objects.Session;
 import patrickengelkes.com.alleneune.R;
-import patrickengelkes.com.alleneune.entities.objects.User;
+import patrickengelkes.com.alleneune.enums.ApiCall;
 
 public class MainActivity extends Activity {
     public static final String TAG = MainActivity.class.getSimpleName();
@@ -31,8 +30,8 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mEmail = (EditText) findViewById(R.id.userNameTF);
-        mPassword = (EditText) findViewById(R.id.passwordTF);
+        mEmail = (EditText) findViewById(R.id.sign_up_name_edit_text);
+        mPassword = (EditText) findViewById(R.id.sign_up_password_edit_text);
 
         mLogInButton = (Button) findViewById(R.id.logInButton);
         mLogInButton.setOnClickListener(new View.OnClickListener() {
@@ -43,15 +42,22 @@ public class MainActivity extends Activity {
 
                 Session session = new Session(email, password);
                 SessionController sessionController = new SessionController(session);
-                sessionController.logIn();
-                User user = User.getInstance();
-                if (user.getUserName() != null) {
+                ApiCall response = sessionController.logIn();
+                if (response == ApiCall.SUCCESS) {
                     Intent userHomeIntent = new Intent(MainActivity.this, UserHomeActivity.class);
                     userHomeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     userHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(userHomeIntent);
-                } else {
-                    //TODO: Error handling
+                } else if (response == ApiCall.ACCESS_DENIED) {
+                    AlertDialog alert = new ErrorDialog(MainActivity.this,
+                            getString(R.string.wrong_user_credentials_warning))
+                            .create();
+                    alert.show();
+                } else if (response == ApiCall.BAD_REQUEST) {
+                    AlertDialog alert = new ErrorDialog(MainActivity.this,
+                            getString(R.string.bad_request_warning))
+                            .create();
+                    alert.show();
                 }
             }
         });

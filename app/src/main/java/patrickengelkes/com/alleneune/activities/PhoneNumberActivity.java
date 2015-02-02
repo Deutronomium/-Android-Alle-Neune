@@ -11,9 +11,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import patrickengelkes.com.alleneune.dialogs.ErrorDialog;
+import patrickengelkes.com.alleneune.entities.controllers.UserController;
 import patrickengelkes.com.alleneune.entities.objects.User;
 import patrickengelkes.com.alleneune.R;
 import patrickengelkes.com.alleneune.entities.controllers.AbstractEntityController;
+import patrickengelkes.com.alleneune.enums.ApiCall;
 
 public class PhoneNumberActivity extends Activity {
 
@@ -31,22 +34,27 @@ public class PhoneNumberActivity extends Activity {
         userIntent = getIntent();
 
         phoneNumberTF = (EditText) findViewById(R.id.phone_number_TF);
-        signUpButton = (Button) findViewById(R.id.sign_up_button);
+        signUpButton = (Button) findViewById(R.id.continue_button);
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 User user = userIntent.getParcelableExtra("user");
                 user.setPhoneNumber(phoneNumberTF.getText().toString().trim());
-                AbstractEntityController controller = new AbstractEntityController(user);
-                if (controller.createAbstractEntity()) {
+
+                UserController userController = new UserController(user);
+                ApiCall response = userController.createUser();
+                if (response == ApiCall.CREATED) {
                     Intent homeIntent = new Intent(PhoneNumberActivity.this, UserHomeActivity.class);
                     startActivity(homeIntent);
-                } else {
-                    AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
-                    dialogBuilder.setTitle("Phone number not unique")
-                            .setMessage("Please select another one")
-                            .setPositiveButton(android.R.string.ok, null);
-                    AlertDialog dialog = dialogBuilder.create();
+                } else if (response == ApiCall.UNPROCESSABLE_ENTITY) {
+                    AlertDialog dialog = new ErrorDialog(PhoneNumberActivity.this,
+                            getString(R.string.phone_number_exists_warning))
+                            .create();
+                    dialog.show();
+                } else if (response == ApiCall.BAD_REQUEST) {
+                    AlertDialog dialog = new ErrorDialog(PhoneNumberActivity.this,
+                            getString(R.string.bad_request_warning))
+                            .create();
                     dialog.show();
                 }
             }

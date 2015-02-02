@@ -127,6 +127,28 @@ public class User implements Parcelable, AbstractValidityEntity {
         return userList;
     }
 
+    public static User setUserSingleton(JSONObject response) throws JSONException {
+        JSONObject userJson = (JSONObject) response.get("user");
+
+        String userName = (String) userJson.get("userName");
+        String firstName = (!userJson.isNull("firstName")) ? (String) userJson.get("firstName") : null;
+        String lastName = (!userJson.isNull("lastName")) ? (String) userJson.get("lastName") : null;
+        String phoneNumber = (String) userJson.get("phone_number");
+
+
+        User user = User.getInstance();
+        user.setUserName(userName);
+        if (firstName != null) {
+            user.setFirstName(firstName);
+        }
+        if (lastName != null) {
+            user.setLastName(lastName);
+        }
+        user.setPhoneNumber(phoneNumber);
+
+        return user;
+    }
+
     //<editor-fold desc="Getter & Setter">
     public String getUserName() {
         return userName;

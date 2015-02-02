@@ -1,7 +1,6 @@
 package patrickengelkes.com.alleneune.activities;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,12 +10,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import patrickengelkes.com.alleneune.entities.controllers.AbstractValidityEntityController;
+import patrickengelkes.com.alleneune.entities.controllers.UserController;
 import patrickengelkes.com.alleneune.entities.objects.User;
 import patrickengelkes.com.alleneune.R;
+import patrickengelkes.com.alleneune.enums.UserValidation;
 
 public class SignUpActivity extends Activity {
 
@@ -34,12 +31,12 @@ public class SignUpActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        mUserName = (EditText) findViewById(R.id.userNameTF);
-        mPassword = (EditText) findViewById(R.id.passwordTF);
-        mConfirmationPassword = (EditText) findViewById(R.id.password_confirmationTF);
-        mEmail = (EditText) findViewById(R.id.emailTF);
+        mUserName = (EditText) findViewById(R.id.sign_up_name_edit_text);
+        mPassword = (EditText) findViewById(R.id.sign_up_password_edit_text);
+        mConfirmationPassword = (EditText) findViewById(R.id.password_confirmation_edit_text);
+        mEmail = (EditText) findViewById(R.id.email_edit_text);
 
-        mSignUpButton = (Button) findViewById(R.id.sign_up_button);
+        mSignUpButton = (Button) findViewById(R.id.continue_button);
         mSignUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -49,23 +46,13 @@ public class SignUpActivity extends Activity {
                 String email = mEmail.getText().toString().trim();
 
                 User user = new User(userName, email, password, passwordConfirmation);
-                AbstractValidityEntityController controller = new AbstractValidityEntityController(user);
-                if (controller.checkForValidity()) {
+                UserController userController = new UserController(user);
+                if (userController.checkValidity() == UserValidation.SUCCESS) {
                     Intent phoneNumberIntent = new Intent(SignUpActivity.this, PhoneNumberActivity.class);
                     phoneNumberIntent.putExtra("user", user);
                     startActivity(phoneNumberIntent);
                 } else {
-                    JSONObject jsonResponse = controller.getValidateAnswer();
-                    try {
-                        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
-                        dialogBuilder.setTitle(getString(R.string.validation_failed_title))
-                            .setMessage((String)jsonResponse.get((String)jsonResponse.names().get(0)))
-                            .setPositiveButton(android.R.string.ok, null);
-                        AlertDialog dialog = dialogBuilder.create();
-                        dialog.show();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    //TODO: ErrorHandling
                 }
 
             }

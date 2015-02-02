@@ -11,6 +11,7 @@ import patrickengelkes.com.alleneune.api_calls.ApiCallTask;
 import patrickengelkes.com.alleneune.api_calls.JsonBuilder;
 import patrickengelkes.com.alleneune.entities.objects.Session;
 import patrickengelkes.com.alleneune.entities.objects.User;
+import patrickengelkes.com.alleneune.enums.ApiCall;
 
 /**
  * Created by patrickengelkes on 24/01/15.
@@ -24,14 +25,19 @@ public class SessionController {
         this.session = session;
     }
 
-    public void logIn() {
+    public ApiCall logIn() {
         try {
             HttpResponse response = new ApiCallTask().execute(this.session.logIn()).get();
             if (response != null) {
                 JSONObject jsonResponse = new JsonBuilder().execute(response).get();
-                setUserSingleton(jsonResponse);
+                if (response.getStatusLine().getStatusCode() == 200) {
+                    User.setUserSingleton(jsonResponse);
+                    return ApiCall.SUCCESS;
+                } else {
+                    return ApiCall.ACCESS_DENIED;
+                }
             } else {
-                //TODO: Error handling
+                return ApiCall.BAD_REQUEST;
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -42,18 +48,8 @@ public class SessionController {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-    }
 
-    private User setUserSingleton(JSONObject response) throws JSONException {
-        JSONObject userJson = (JSONObject)response.get("user");
-
-        User user = User.getInstance();
-        user.setUserName((String) userJson.get("userName"));
-        user.setFirstName((String) userJson.get("firstName"));
-        user.setLastName((String) userJson.get("lastName"));
-        user.setPhoneNumber((String) userJson.get("phoneNumber"));
-
-        return user;
+        return ApiCall.BAD_REQUEST;
     }
 
 }

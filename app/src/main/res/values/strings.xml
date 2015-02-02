@@ -45,5 +45,8 @@
     <string name="create_event_activity_title">Create Event</string>
     <string name="title_activity_show_event">ShowEventActivity</string>
     <string name="participants_text_view">Participants</string>
+    <string name="wrong_user_credentials_warning">Wrong Username or Password!</string>
+    <string name="bad_request_warning">Something went wrong here. We are Sorry!</string>
+    <string name="phone_number_exists_warning">This phone number already exists!</string>
 
 </resources>
