@@ -15,7 +15,6 @@ import patrickengelkes.com.alleneune.dialogs.ErrorDialog;
 import patrickengelkes.com.alleneune.entities.controllers.UserController;
 import patrickengelkes.com.alleneune.entities.objects.User;
 import patrickengelkes.com.alleneune.R;
-import patrickengelkes.com.alleneune.entities.controllers.AbstractEntityController;
 import patrickengelkes.com.alleneune.enums.ApiCall;
 
 public class PhoneNumberActivity extends Activity {
@@ -33,8 +32,8 @@ public class PhoneNumberActivity extends Activity {
 
         userIntent = getIntent();
 
-        phoneNumberTF = (EditText) findViewById(R.id.phone_number_TF);
-        signUpButton = (Button) findViewById(R.id.continue_button);
+        phoneNumberTF = (EditText) findViewById(R.id.phone_number_edit_text);
+        signUpButton = (Button) findViewById(R.id.sign_up_button);
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -1,105 +1,10 @@
 package patrickengelkes.com.alleneune;
 
-import android.test.ActivityInstrumentationTestCase2;
-import android.widget.Button;
-import android.widget.EditText;
-
-import com.robotium.solo.Solo;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import patrickengelkes.com.alleneune.activities.MainActivity;
-import patrickengelkes.com.alleneune.activities.PhoneNumberActivity;
-import patrickengelkes.com.alleneune.activities.SignUpActivity;
-import patrickengelkes.com.alleneune.enums.UserValidation;
-
-/**
- * Created by patrickengelkes on 30/01/15.
- */
-public class TestSignUp extends ActivityInstrumentationTestCase2<MainActivity> {
-    private Solo solo;
-
-    public TestSignUp() {
-        super(MainActivity.class);
-    }
-
-    protected void setUp() throws Exception {
-        super.setUp();
-        solo = new Solo(getInstrumentation(), getActivity());
-    }
-
-    @Override
-    protected void tearDown() throws Exception {
-        solo.finishOpenedActivities();
-        super.tearDown();
-    }
-
-    public void testValidSignUp() {
-        NameGenerator nameGenerator = new NameGenerator();
-        String name = nameGenerator.getName();
-        String email = nameGenerator.getName();
-
-        signUp(name, email);
-
-        assertTrue(solo.waitForActivity(PhoneNumberActivity.class));
-    }
-
-    public void testSignUpWithUsedUserNameAndEmail() {
-        signUp("Test1", "test1");
-
-        errors(UserValidation.USER_AND_EMAIL.getDisplayText());
-    }
-
-    public void testSignUpWithUsedUserName() {
-        String email = new NameGenerator().getName();
-
-        signUp("Test1", email);
-
-        errors(UserValidation.USER.getDisplayText());
-    }
-
-    public void testSignUpWithUsedEmail() {
-        String userName = new NameGenerator().getName();
-
-        signUp(userName, "test1");
-
-        errors(UserValidation.EMAIL.getDisplayText());
-    }
-
-
-    private void errors(String errorMessage) {
-        assertTrue(solo.waitForDialogToOpen());
-        assertTrue(solo.searchText(errorMessage));
-
-        solo.clickOnView(solo.getView(android.R.id.button1));
-    }
-
-
-    private void signUp(String name, String email) {
-        //go to sign up page
-        Button signUpButton = (Button) solo.getView(R.id.signUpButton);
-        solo.clickOnView(signUpButton);
-        assertTrue(solo.waitForActivity(SignUpActivity.class));
-
-
-        //enter signUp info
-        EditText userNameEditText = (EditText) solo.getView(R.id.sign_up_name_edit_text);
-        EditText passwordEditText = (EditText) solo.getView(R.id.sign_up_password_edit_text);
-        EditText passwordConfirmationEditText = (EditText) solo.getView(R.id.password_confirmation_edit_text);
-        EditText emailEditText = (EditText) solo.getView(R.id.email_edit_text);
-        Button continueButton = (Button) solo.getView(R.id.continue_button);
-
-        solo.enterText(userNameEditText, name);
-        solo.enterText(passwordEditText, "test");
-        solo.enterText(passwordConfirmationEditText, "test");
-        solo.enterText(emailEditText, email);
-
-        solo.clickOnView(continueButton);
-    }
-
-    class NameGenerator {
+public class NameGenerator {
 
         private List<String> vocals = new ArrayList<String>();
         private List<String> startConsonants = new ArrayList<String>();
@@ -196,4 +101,3 @@ public class TestSignUp extends ActivityInstrumentationTestCase2<MainActivity> {
             return v.get(randomInt(0, v.size() - 1));
         }
     }
-}

@@ -38,7 +38,7 @@ public class SignUpActivity extends Activity {
         mConfirmationPassword = (EditText) findViewById(R.id.password_confirmation_edit_text);
         mEmail = (EditText) findViewById(R.id.email_edit_text);
 
-        mSignUpButton = (Button) findViewById(R.id.continue_button);
+        mSignUpButton = (Button) findViewById(R.id.sign_up_button);
         mSignUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -56,15 +56,15 @@ public class SignUpActivity extends Activity {
                     startActivity(phoneNumberIntent);
                 } else if (response == UserValidation.USER_AND_EMAIL) {
                     AlertDialog alert = new ErrorDialog(SignUpActivity.this,
-                            UserValidation.USER_AND_EMAIL.getDisplayText()).create();
+                            getString(R.string.user_and_email_used_warning)).create();
                     alert.show();
                 } else if (response == UserValidation.USER) {
                     AlertDialog alert = new ErrorDialog(SignUpActivity.this,
-                            UserValidation.USER.getDisplayText()).create();
+                            getString(R.string.user_used_warning)).create();
                     alert.show();
                 } else if (response == UserValidation.EMAIL) {
                     AlertDialog alert = new ErrorDialog(SignUpActivity.this,
-                            UserValidation.EMAIL.getDisplayText()).create();
+                            getString(R.string.email_used_warning)).create();
                     alert.show();
                 }
             }

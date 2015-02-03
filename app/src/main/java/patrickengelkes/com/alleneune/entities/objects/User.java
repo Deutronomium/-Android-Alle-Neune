@@ -134,6 +134,7 @@ public class User implements Parcelable, AbstractValidityEntity {
         String firstName = (!userJson.isNull("firstName")) ? (String) userJson.get("firstName") : null;
         String lastName = (!userJson.isNull("lastName")) ? (String) userJson.get("lastName") : null;
         String phoneNumber = (String) userJson.get("phone_number");
+        String email = (String) userJson.get("email");
 
 
         User user = User.getInstance();
@@ -145,6 +146,7 @@ public class User implements Parcelable, AbstractValidityEntity {
             user.setLastName(lastName);
         }
         user.setPhoneNumber(phoneNumber);
+        user.setEmail(email);
 
         return user;
     }
