@@ -1,6 +1,7 @@
 package patrickengelkes.com.alleneune.activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import patrickengelkes.com.alleneune.dialogs.ErrorDialog;
 import patrickengelkes.com.alleneune.entities.controllers.UserController;
 import patrickengelkes.com.alleneune.entities.objects.User;
 import patrickengelkes.com.alleneune.R;
@@ -47,14 +49,24 @@ public class SignUpActivity extends Activity {
 
                 User user = new User(userName, email, password, passwordConfirmation);
                 UserController userController = new UserController(user);
-                if (userController.checkValidity() == UserValidation.SUCCESS) {
+                UserValidation response = userController.checkValidity();
+                if (response == UserValidation.SUCCESS) {
                     Intent phoneNumberIntent = new Intent(SignUpActivity.this, PhoneNumberActivity.class);
                     phoneNumberIntent.putExtra("user", user);
                     startActivity(phoneNumberIntent);
-                } else {
-                    //TODO: ErrorHandling
+                } else if (response == UserValidation.USER_AND_EMAIL) {
+                    AlertDialog alert = new ErrorDialog(SignUpActivity.this,
+                            UserValidation.USER_AND_EMAIL.getDisplayText()).create();
+                    alert.show();
+                } else if (response == UserValidation.USER) {
+                    AlertDialog alert = new ErrorDialog(SignUpActivity.this,
+                            UserValidation.USER.getDisplayText()).create();
+                    alert.show();
+                } else if (response == UserValidation.EMAIL) {
+                    AlertDialog alert = new ErrorDialog(SignUpActivity.this,
+                            UserValidation.EMAIL.getDisplayText()).create();
+                    alert.show();
                 }
-
             }
         });
     }
