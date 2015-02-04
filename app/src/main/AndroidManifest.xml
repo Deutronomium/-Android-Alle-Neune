@@ -69,7 +69,7 @@
                 android:value="patrickengelkes.com.alleneune.activities.ClubHomeActivity" />
         </activity>
         <activity
-            android:name=".activities.ShowEventActivity"
+            android:name=".activities.EventActivity"
             android:label="@string/title_activity_show_event"
             android:parentActivityName=".activities.ClubHomeActivity" >
             <meta-data

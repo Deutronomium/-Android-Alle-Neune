@@ -82,7 +82,7 @@ public class ClubHomeActivity extends ListActivity {
     protected void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
         Event selectedEvent = clubEvents.get(position);
-        Intent showEventIntent = new Intent(ClubHomeActivity.this, ShowEventActivity.class);
+        Intent showEventIntent = new Intent(ClubHomeActivity.this, EventActivity.class);
         showEventIntent.putExtra(Event.PARCELABLE, selectedEvent);
         startActivity(showEventIntent);
     }

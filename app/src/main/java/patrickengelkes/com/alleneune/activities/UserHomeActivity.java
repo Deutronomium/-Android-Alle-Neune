@@ -48,7 +48,7 @@ public class UserHomeActivity extends Activity {
 
             setTitle(this.user.getUserName());
 
-            mCreateClubButton = (Button) findViewById(R.id.createClubButton);
+            mCreateClubButton = (Button) findViewById(R.id.create_club_button);
             mCreateClubButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

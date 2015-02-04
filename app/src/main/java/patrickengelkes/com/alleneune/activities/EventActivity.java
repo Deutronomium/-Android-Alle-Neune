@@ -6,8 +6,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import patrickengelkes.com.alleneune.R;
@@ -15,20 +19,28 @@ import patrickengelkes.com.alleneune.entities.controllers.EventController;
 import patrickengelkes.com.alleneune.entities.objects.Event;
 import patrickengelkes.com.alleneune.entities.objects.User;
 
-public class ShowEventActivity extends ListActivity {
+public class EventActivity extends ListActivity {
 
-
-    protected Intent showEventIntent;
+    protected TextView eventNameTextView;
+    protected TextView eventDateTextView;
+    protected Intent eventIntent;
     protected Event event;
     private List<User> userList = new ArrayList<User>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_event);
+        setContentView(R.layout.activity_event);
 
-        this.showEventIntent = getIntent();
-        this.event = showEventIntent.getParcelableExtra(Event.PARCELABLE);
+        eventNameTextView = (TextView) findViewById(R.id.event_name_text_view);
+        eventDateTextView = (TextView) findViewById(R.id.event_date_text_view);
+
+        this.eventIntent = getIntent();
+        this.event = eventIntent.getParcelableExtra(Event.PARCELABLE);
+        eventNameTextView.setText(event.getEventName());
+
+        eventDateTextView.setText(event.getEventDate());
+
         EventController eventController = new EventController();
         userList = eventController.getEventParticipants(event.getEventID());
         ArrayAdapter<User> userArrayAdapter = new ArrayAdapter<User>(this,

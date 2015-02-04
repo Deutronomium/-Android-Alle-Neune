@@ -10,7 +10,7 @@
 
 
     <Button
-        android:id="@+id/createClubButton"
+        android:id="@+id/create_club_button"
         android:text="@string/create_club_text"
         android:layout_width="wrap_content"
         android:layout_height="200dp"
@@ -22,11 +22,11 @@
         android:layout_alignParentEnd="true" />
 
     <Button
-        android:id="@+id/joinClubButton"
+        android:id="@+id/join_club_button"
         android:text="@string/join_club_text"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:layout_below="@+id/createClubButton"
+        android:layout_below="@+id/create_club_button"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp" />
 </RelativeLayout>
