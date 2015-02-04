@@ -11,15 +11,13 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import patrickengelkes.com.alleneune.CurrentUser;
 import patrickengelkes.com.alleneune.api_calls.HttpPostEntity;
 
 /**
  * Created by patrickengelkes on 31/10/14.
  */
-public class User implements Parcelable, AbstractValidityEntity {
-    private static User mInstance = null;
-
-    private String genericUrl = "/users";
+public class User implements Parcelable {
 
     private String userName;
     private String email;
@@ -44,50 +42,10 @@ public class User implements Parcelable, AbstractValidityEntity {
         this.phoneNumber = "";
     }
 
-    public static User getInstance() {
-        if (mInstance == null) {
-            mInstance = new User();
-        }
-
-        return mInstance;
-    }
-
-    private String genericJSON() throws JSONException {
-        JSONObject leaf = new JSONObject();
-        leaf.put("userName", this.userName);
-        leaf.put("email", this.email);
-        leaf.put("password", this.password);
-        leaf.put("password_confirmation", this.passwordConfirmation);
-        if (!this.phoneNumber.isEmpty()) {
-            leaf.put("phone_number", this.phoneNumber);
-        }
-        JSONObject root = new JSONObject();
-        root.put("user", leaf);
-
-        return root.toString();
-    }
-
-    @Override
-    public HttpPostEntity create() throws JSONException, UnsupportedEncodingException {
-        return new HttpPostEntity(this.genericUrl, genericJSON());
-    }
-
-    @Override
-    public HttpPostEntity checkValidity() throws JSONException, UnsupportedEncodingException {
-        String url = this.genericUrl + "/validity";
-
-        return new HttpPostEntity(url, genericJSON());
-    }
-
-    public HttpPostEntity getUserClub() throws JSONException, UnsupportedEncodingException {
-        JSONObject leaf = new JSONObject();
-        leaf.put("userName", this.userName);
-        JSONObject root = new JSONObject();
-        root.put("user", leaf);
-
-        String url = genericUrl + "/user_club";
-
-        return new HttpPostEntity(url, root.toString());
+    public User(CurrentUser currentUser) {
+        this.userName = currentUser.getUserName();
+        this.email = currentUser.getEmail();
+        this.phoneNumber = currentUser.getPhoneNumber();
     }
 
     @Override
@@ -125,30 +83,6 @@ public class User implements Parcelable, AbstractValidityEntity {
         }
 
         return userList;
-    }
-
-    public static User setUserSingleton(JSONObject response) throws JSONException {
-        JSONObject userJson = (JSONObject) response.get("user");
-
-        String userName = (String) userJson.get("userName");
-        String firstName = (!userJson.isNull("firstName")) ? (String) userJson.get("firstName") : null;
-        String lastName = (!userJson.isNull("lastName")) ? (String) userJson.get("lastName") : null;
-        String phoneNumber = (String) userJson.get("phone_number");
-        String email = (String) userJson.get("email");
-
-
-        User user = User.getInstance();
-        user.setUserName(userName);
-        if (firstName != null) {
-            user.setFirstName(firstName);
-        }
-        if (lastName != null) {
-            user.setLastName(lastName);
-        }
-        user.setPhoneNumber(phoneNumber);
-        user.setEmail(email);
-
-        return user;
     }
 
     //<editor-fold desc="Getter & Setter">
@@ -199,6 +133,23 @@ public class User implements Parcelable, AbstractValidityEntity {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPasswordConfirmation() {
+        return passwordConfirmation;
+    }
+
+    public void setPasswordConfirmation(String passwordConfirmation) {
+        this.passwordConfirmation = passwordConfirmation;
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="Parcelable">

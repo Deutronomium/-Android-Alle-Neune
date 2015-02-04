@@ -1,6 +1,5 @@
 package patrickengelkes.com.alleneune.activities;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,14 +9,23 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.inject.Inject;
+
+import patrickengelkes.com.alleneune.CurrentUser;
 import patrickengelkes.com.alleneune.dialogs.ErrorDialog;
 import patrickengelkes.com.alleneune.entities.controllers.SessionController;
 import patrickengelkes.com.alleneune.entities.objects.Session;
 import patrickengelkes.com.alleneune.R;
 import patrickengelkes.com.alleneune.enums.ApiCall;
+import roboguice.activity.RoboActivity;
 
-public class MainActivity extends Activity {
+public class MainActivity extends RoboActivity {
     public static final String TAG = MainActivity.class.getSimpleName();
+
+    @Inject
+    CurrentUser currentUser;
+    @Inject
+    SessionController sessionController;
 
     protected EditText mEmail;
     protected EditText mPassword;
@@ -41,8 +49,7 @@ public class MainActivity extends Activity {
                 String password = mPassword.getText().toString().trim();
 
                 Session session = new Session(email, password);
-                SessionController sessionController = new SessionController(session);
-                ApiCall response = sessionController.logIn();
+                ApiCall response = sessionController.logIn(session);
                 if (response == ApiCall.SUCCESS) {
                     Intent userHomeIntent = new Intent(MainActivity.this, UserHomeActivity.class);
                     userHomeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

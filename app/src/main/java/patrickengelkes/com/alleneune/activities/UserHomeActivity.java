@@ -1,6 +1,5 @@
 package patrickengelkes.com.alleneune.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -8,27 +7,34 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.inject.Inject;
+
 import org.json.JSONException;
 
+import patrickengelkes.com.alleneune.CurrentUser;
 import patrickengelkes.com.alleneune.entities.objects.Club;
 import patrickengelkes.com.alleneune.R;
 import patrickengelkes.com.alleneune.entities.controllers.UserController;
-import patrickengelkes.com.alleneune.entities.objects.User;
+import roboguice.activity.RoboActivity;
 
 
-public class UserHomeActivity extends Activity {
+public class UserHomeActivity extends RoboActivity {
     public static final String TAG = UserHomeActivity.class.getSimpleName();
+
+    @Inject
+    CurrentUser currentUser;
+    @Inject
+    UserController userController;
 
     protected Button mCreateClubButton;
     protected Club club = null;
-    protected User user = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
         try {
-            this.user = User.getInstance();
-            UserController userController = new UserController(this.user);
-            this.club = userController.getClubByUser();
+            this.club = userController.getClubByUserName(currentUser.getUserName());
             if (this.club != null) {
                 Club.getInstance().setClubName(this.club.getClubName());
                 Club.getInstance().setClubID(this.club.getClubID());
@@ -37,7 +43,6 @@ public class UserHomeActivity extends Activity {
             e.printStackTrace();
         }
 
-        super.onCreate(savedInstanceState);
         if (this.club != null) {
             Intent clubHomeIntent = new Intent(UserHomeActivity.this, ClubHomeActivity.class);
             clubHomeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -46,7 +51,7 @@ public class UserHomeActivity extends Activity {
         } else {
             setContentView(R.layout.activity_user_home);
 
-            setTitle(this.user.getUserName());
+            setTitle(currentUser.getUserName());
 
             mCreateClubButton = (Button) findViewById(R.id.create_club_button);
             mCreateClubButton.setOnClickListener(new View.OnClickListener() {

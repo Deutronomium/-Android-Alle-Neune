@@ -1,8 +1,6 @@
 package patrickengelkes.com.alleneune.activities;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,15 +9,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.inject.Inject;
+
 import patrickengelkes.com.alleneune.dialogs.ErrorDialog;
 import patrickengelkes.com.alleneune.entities.controllers.UserController;
 import patrickengelkes.com.alleneune.entities.objects.User;
 import patrickengelkes.com.alleneune.R;
 import patrickengelkes.com.alleneune.enums.ApiCall;
+import roboguice.activity.RoboActivity;
 
-public class PhoneNumberActivity extends Activity {
+public class PhoneNumberActivity extends RoboActivity {
 
-    final Context context = this;
+    @Inject
+    UserController userController;
 
     protected EditText phoneNumberTF;
     protected Button signUpButton;
@@ -40,8 +42,8 @@ public class PhoneNumberActivity extends Activity {
                 User user = userIntent.getParcelableExtra("user");
                 user.setPhoneNumber(phoneNumberTF.getText().toString().trim());
 
-                UserController userController = new UserController(user);
-                ApiCall response = userController.createUser();
+                ApiCall response = userController.createUser(user.getUserName(), user.getEmail(),
+                        user.getPassword(), user.getPasswordConfirmation(), user.getPhoneNumber());
                 if (response == ApiCall.CREATED) {
                     Intent homeIntent = new Intent(PhoneNumberActivity.this, UserHomeActivity.class);
                     startActivity(homeIntent);
