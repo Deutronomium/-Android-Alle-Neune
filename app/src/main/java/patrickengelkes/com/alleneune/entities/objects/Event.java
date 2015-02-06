@@ -16,10 +16,9 @@ import patrickengelkes.com.alleneune.api_calls.HttpPostEntity;
 /**
  * Created by patrickengelkes on 09/01/15.
  */
-public class Event implements AbstractEntity, Parcelable{
+public class Event implements Parcelable{
     public static final String PARCELABLE = "event";
 
-    private static String genericUrl = "/events";
     private int eventID;
     private String eventName;
     private String eventDate;
@@ -42,45 +41,7 @@ public class Event implements AbstractEntity, Parcelable{
         this.clubID = clubID;
     }
 
-    public String genericJSON() throws JSONException {
-        JSONObject leaf = new JSONObject();
-        leaf.put("name", this.eventName);
-        leaf.put("club_id", this.clubID);
-        leaf.put("date", this.eventDate);
-
-        JSONObject root = new JSONObject();
-        root.put("event", leaf);
-
-        return root.toString();
-    }
-
-    @Override
-    public HttpPostEntity create() throws JSONException, UnsupportedEncodingException {
-        return new HttpPostEntity(genericUrl, genericJSON());
-    }
-
-    public HttpPostEntity getAll() throws JSONException, UnsupportedEncodingException {
-        JSONObject leaf = new JSONObject();
-        leaf.put("club_id", this.clubID);
-        JSONObject root = new JSONObject();
-        root.put("event", leaf);
-
-        String url = genericUrl + "/get_events_by_club";
-
-        return new HttpPostEntity(url, root.toString());
-    }
-
-    public static HttpPostEntity getParticipants(int eventID) throws JSONException, UnsupportedEncodingException {
-        JSONObject leaf = new JSONObject();
-        leaf.put("event_id", eventID);
-        JSONObject root = new JSONObject();
-        root.put("event", leaf);
-
-        String url = genericUrl + "/get_participants";
-
-        return new HttpPostEntity(url, root.toString());
-    }
-
+    //<editor-fold desc="Getter & Setter">
     public String getEventName() {
         return this.eventName;
     }
@@ -96,30 +57,12 @@ public class Event implements AbstractEntity, Parcelable{
     public int getEventID() {
         return this.eventID;
     }
+    //</editor-fold>
 
-    public static List<Event> getEventsFromResponse(JSONObject response, int clubID) {
-        List<Event> eventList = new ArrayList<Event>();
-        try {
-            JSONArray eventsArray = (JSONArray) response.get("events");
-            for (int i = 0; i < eventsArray.length(); i++) {
-                JSONObject event = (JSONObject) eventsArray.get(i);
-                String eventID = event.getString("id");
-                String eventName = event.getString("name");
-                String eventDate = event.getString("date");
-                Event newEvent = new Event(Integer.valueOf(eventID), eventName, eventDate, clubID);
-                eventList.add(newEvent);
-            }
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return eventList;
-    }
 
     //<editor-fold desc="Parcelable">
     protected Event(Parcel in) {
-        genericUrl = in.readString();
         eventID = in.readInt();
         eventName = in.readString();
         eventDate = in.readString();
@@ -133,7 +76,6 @@ public class Event implements AbstractEntity, Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(genericUrl);
         dest.writeInt(eventID);
         dest.writeString(eventName);
         dest.writeString(eventDate);

@@ -1,6 +1,5 @@
 package patrickengelkes.com.alleneune.activities;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -11,14 +10,20 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.inject.Inject;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import patrickengelkes.com.alleneune.entities.controllers.ClubController;
 import patrickengelkes.com.alleneune.entities.objects.Club;
 import patrickengelkes.com.alleneune.R;
-import patrickengelkes.com.alleneune.entities.controllers.AbstractEntityController;
+import roboguice.activity.RoboActivity;
 
-public class CreateClubActivity extends Activity {
+public class CreateClubActivity extends RoboActivity {
+
+    @Inject
+    ClubController clubController;
 
     final Context context = this;
 
@@ -38,16 +43,15 @@ public class CreateClubActivity extends Activity {
                 String clubName = mClubName.getText().toString().trim();
 
                 Club club = new Club(clubName);
-                AbstractEntityController controller = new AbstractEntityController(club);
                 //Intent addFriendsIntent = new Intent(CreateClubActivity.this, AddFriendsActivity.class);
                 //startActivity(addFriendsIntent);
                 //TODO: Uncomment Code - above is just for testing
-                if (controller.createAbstractEntity()) {
+                if (clubController.createClub(clubName)) {
                     Intent addFriendsIntent = new Intent(CreateClubActivity.this, AddFriendsActivity.class);
                     addFriendsIntent.putExtra("club", club);
                     startActivity(addFriendsIntent);
                 } else {
-                    JSONObject jsonResponse = controller.getCreateAnswer();
+                    JSONObject jsonResponse = clubController.getCreateAnswer();
                     try {
                         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
                         dialogBuilder.setTitle(getString(R.string.validation_failed_title))

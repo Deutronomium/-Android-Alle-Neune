@@ -10,6 +10,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.google.inject.Inject;
+
 import org.json.JSONException;
 
 import java.util.List;
@@ -18,8 +20,11 @@ import patrickengelkes.com.alleneune.entities.objects.Club;
 import patrickengelkes.com.alleneune.R;
 import patrickengelkes.com.alleneune.entities.controllers.ClubController;
 import patrickengelkes.com.alleneune.entities.controllers.FriendsController;
+import roboguice.activity.RoboListActivity;
 
-public class EditFriendsActivity extends ListActivity {
+public class EditFriendsActivity extends RoboListActivity {
+    @Inject
+    ClubController clubController;
 
     protected List<String> userNames;
     protected ListView listView;
@@ -36,10 +41,8 @@ public class EditFriendsActivity extends ListActivity {
 
         //get list view from the activity
         listView = getListView();
-        Club club = new Club("TestClub");
 
-        ClubController clubController = new ClubController(club);
-        userNames = clubController.getUserClub();
+        userNames = clubController.getUserByClub("TestClub");
 
         //set the adapter
         arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, userNames);

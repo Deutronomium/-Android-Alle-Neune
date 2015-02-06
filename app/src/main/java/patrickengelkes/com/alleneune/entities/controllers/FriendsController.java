@@ -12,30 +12,30 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import javax.inject.Inject;
+
 import patrickengelkes.com.alleneune.api_calls.ApiCallTask;
+import patrickengelkes.com.alleneune.api_calls.HttpPostEntity;
 import patrickengelkes.com.alleneune.api_calls.JsonBuilder;
-import patrickengelkes.com.alleneune.entities.objects.Friend;
-import patrickengelkes.com.alleneune.entities.objects.User;
 
 /**
  * Created by patrickengelkes on 04/12/14.
  */
 public class FriendsController {
-
     public static final String TAG = FriendsController.class.getSimpleName();
+    private String genericUrl = "/friends";
+
 
     private JSONObject getFriendsAnswer;
     private JSONObject removeFriendFromClubAnswer;
-    private Friend friend;
 
-    public FriendsController() {
-        this.friend = new Friend();
-    }
+    @Inject
+    public FriendsController() {}
 
     public boolean getRegisteredFriends(List<String> phoneNumberList) throws JSONException {
         try {
             HttpResponse response = new ApiCallTask().
-                    execute(friend.getRegisteredFriends(phoneNumberList)).get();
+                    execute(getRegisteredFriendsPostEntity(phoneNumberList)).get();
             if (response != null) {
                 this.getFriendsAnswer = new JsonBuilder().execute(response).get();
                 if (response.getStatusLine().getStatusCode() == 200) {
@@ -56,10 +56,22 @@ public class FriendsController {
         return false;
     }
 
+    public HttpPostEntity getRegisteredFriendsPostEntity(List<String> phoneNumbers) throws JSONException, UnsupportedEncodingException {
+        JSONArray phoneNumberArray = getJSONArrayFromList(phoneNumbers);
+        JSONObject leaf = new JSONObject();
+        leaf.put("phone_numbers", phoneNumberArray);
+        JSONObject root = new JSONObject();
+        root.put("friends", leaf);
+
+        String url = genericUrl + "/getRegisteredFriends";
+
+        return new HttpPostEntity(url, root.toString());
+    }
+
     public boolean removeFriendFromClub(String clubName, String userName) throws JSONException {
         try {
             HttpResponse response = new ApiCallTask().
-                    execute(friend.removeFriendFromClub(clubName, userName)).get();
+                    execute(removeFriendFromClubPostEntity(clubName, userName)).get();
             if (response != null) {
                 this.removeFriendFromClubAnswer = new JsonBuilder().execute(response).get();
                 if (response.getStatusLine().getStatusCode() == 200) {
@@ -80,6 +92,26 @@ public class FriendsController {
         return false;
     }
 
+    public HttpPostEntity removeFriendFromClubPostEntity(String clubName, String userName) throws JSONException, UnsupportedEncodingException {
+        JSONObject leaf = new JSONObject();
+        leaf.put("club_name", clubName);
+        leaf.put("user_name", userName);
+        JSONObject root = new JSONObject();
+        root.put("friends", leaf);
+
+        String url = genericUrl + "/removeFriendFromClub";
+
+        return new HttpPostEntity(url, root.toString());
+    }
+
+    private JSONArray getJSONArrayFromList(List<String> list) {
+        JSONArray returnArray = new JSONArray();
+        for (String string : list) {
+            returnArray.put(string);
+        }
+
+        return returnArray;
+    }
 
 
     public JSONObject getGetFriendsAnswer() {
@@ -89,5 +121,7 @@ public class FriendsController {
     public JSONObject getRemoveFriendFromClubAnswer() {
         return this.removeFriendFromClubAnswer;
     }
+
+
 
 }

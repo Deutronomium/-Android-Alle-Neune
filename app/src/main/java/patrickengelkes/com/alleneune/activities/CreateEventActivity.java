@@ -17,19 +17,24 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.inject.Inject;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import patrickengelkes.com.alleneune.entities.controllers.AbstractEntityController;
+import patrickengelkes.com.alleneune.entities.controllers.EventController;
 import patrickengelkes.com.alleneune.entities.objects.Club;
 import patrickengelkes.com.alleneune.entities.objects.Event;
 import patrickengelkes.com.alleneune.fragments.DatePickerDialogFragment;
 import patrickengelkes.com.alleneune.R;
 import patrickengelkes.com.alleneune.fragments.TimePickerDialogFragment;
+import roboguice.activity.RoboActivity;
 
-public class CreateEventActivity extends Activity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
+public class CreateEventActivity extends RoboActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
     public static final String TAG = CreateEventActivity.class.getSimpleName();
+    @Inject
+    EventController eventController;
 
     protected EditText eventNameEditText;
     protected TextView datePickerTextView;
@@ -81,9 +86,7 @@ public class CreateEventActivity extends Activity implements DatePickerDialog.On
                 String eventName = eventNameEditText.getText().toString().trim();
                 int clubID = club.getClubID();
 
-                Event event = new Event(eventName, eventDate, clubID);
-                AbstractEntityController abstractEntityController = new AbstractEntityController(event);
-                if (abstractEntityController.createAbstractEntity()) {
+                if (eventController.createEvent(eventName, clubID, eventDate)) {
                     Log.e(TAG, "Event was created");
                     Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.event_created_toast) +
                             "send to all members", Toast.LENGTH_LONG);

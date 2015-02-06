@@ -13,7 +13,6 @@ import patrickengelkes.com.alleneune.CurrentUser;
 import patrickengelkes.com.alleneune.api_calls.ApiCallTask;
 import patrickengelkes.com.alleneune.api_calls.JsonBuilder;
 import patrickengelkes.com.alleneune.entities.objects.Session;
-import patrickengelkes.com.alleneune.entities.objects.User;
 import patrickengelkes.com.alleneune.enums.ApiCall;
 
 /**
@@ -35,8 +34,8 @@ public class SessionController {
             if (response != null) {
                 JSONObject jsonResponse = new JsonBuilder().execute(response).get();
                 if (response.getStatusLine().getStatusCode() == 200) {
-                    //User.setUserSingleton(jsonResponse);
-                    setUserSingleton(jsonResponse);
+                    //User.setCurrentUser(jsonResponse);
+                    setCurrentUser(jsonResponse);
                     return ApiCall.SUCCESS;
                 } else {
                     return ApiCall.ACCESS_DENIED;
@@ -57,7 +56,7 @@ public class SessionController {
         return ApiCall.BAD_REQUEST;
     }
 
-    public void setUserSingleton(JSONObject response) throws JSONException {
+    public void setCurrentUser(JSONObject response) throws JSONException {
         JSONObject userJson = (JSONObject) response.get("user");
 
         String userName = (String) userJson.get("userName");

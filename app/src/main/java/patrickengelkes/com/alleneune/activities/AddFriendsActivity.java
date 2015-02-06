@@ -8,6 +8,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.google.inject.Inject;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,14 +20,19 @@ import java.util.List;
 import patrickengelkes.com.alleneune.array_adapters.adapters.FriendsArrayAdapter;
 import patrickengelkes.com.alleneune.array_adapters.models.FriendsModel;
 import patrickengelkes.com.alleneune.entities.controllers.ClubController;
+import patrickengelkes.com.alleneune.entities.controllers.UserController;
 import patrickengelkes.com.alleneune.entities.objects.Club;
 import patrickengelkes.com.alleneune.entities.objects.User;
 import patrickengelkes.com.alleneune.R;
 import patrickengelkes.com.alleneune.entities.controllers.FriendsController;
+import roboguice.activity.RoboListActivity;
 
-public class AddFriendsActivity extends ListActivity {
-
+public class AddFriendsActivity extends RoboListActivity {
     public final String TAG = AddFriendsActivity.class.getSimpleName();
+    @Inject
+    ClubController clubController;
+    @Inject
+    UserController userController;
 
     protected Button addFriendsToClubButton;
     protected Intent clubIntent;
@@ -55,8 +62,7 @@ public class AddFriendsActivity extends ListActivity {
                 }
 
                 Club club = clubIntent.getParcelableExtra("club");
-                ClubController clubController = new ClubController(club);
-                if (clubController.addFriendsToClub(phoneNumberList)) {
+                if (clubController.addFriendsToClub(phoneNumberList, club.getClubName())) {
                     Intent clubHomeIntent = new Intent(AddFriendsActivity.this, ClubHomeActivity.class);
                     clubHomeIntent.putExtra("club", club);
                     startActivity(clubHomeIntent);
@@ -78,7 +84,7 @@ public class AddFriendsActivity extends ListActivity {
                 JSONObject jsonResponse = friendsController.getGetFriendsAnswer();
                 try {
                     JSONArray friendsArray = (JSONArray) jsonResponse.get("friends");
-                    for (User user : User.getUserListFromJSONResponse(friendsArray)) {
+                    for (User user : userController.getUserListFromJSONResponse(friendsArray)) {
                         FriendsModel friendsModel = new FriendsModel(user);
                         friendsModelList.add(friendsModel);
                     }

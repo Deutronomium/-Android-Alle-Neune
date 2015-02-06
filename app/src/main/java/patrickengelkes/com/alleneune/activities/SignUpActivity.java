@@ -50,8 +50,8 @@ public class SignUpActivity extends RoboActivity {
                 String email = mEmail.getText().toString().trim();
 
                 User user = new User(userName, email, password, passwordConfirmation);
-                UserValidation response = userController.checkValidity(userName, password,
-                        passwordConfirmation, email, "");
+                UserValidation response = userController.checkValidity(userName, email,
+                        password, passwordConfirmation, "");
                 if (response == UserValidation.SUCCESS) {
                     Intent phoneNumberIntent = new Intent(SignUpActivity.this, PhoneNumberActivity.class);
                     phoneNumberIntent.putExtra("user", user);

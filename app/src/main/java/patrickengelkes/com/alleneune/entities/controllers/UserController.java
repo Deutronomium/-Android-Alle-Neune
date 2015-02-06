@@ -5,13 +5,15 @@ import android.util.Log;
 import com.google.inject.Inject;
 
 import org.apache.http.HttpResponse;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import patrickengelkes.com.alleneune.CurrentUser;
 import patrickengelkes.com.alleneune.api_calls.ApiCallTask;
 import patrickengelkes.com.alleneune.api_calls.HttpPostEntity;
 import patrickengelkes.com.alleneune.api_calls.JsonBuilder;
@@ -32,8 +34,8 @@ public class UserController {
     public UserController() {
     }
 
-    private String genericJSON(String userName, String email, String password,
-                               String passwordConfirmation, String phoneNumber) throws JSONException {
+    private String userJSON(String userName, String email, String password,
+                            String passwordConfirmation, String phoneNumber) throws JSONException {
         JSONObject leaf = new JSONObject();
         leaf.put("userName", userName);
         leaf.put("email", email);
@@ -54,7 +56,6 @@ public class UserController {
             HttpResponse response = new ApiCallTask().execute(create(userName, email, password,
                     passwordConfirmation, phoneNumber)).get();
             if (response != null) {
-                JSONObject jsonResponse = new JsonBuilder().execute(response).get();
                 if (response.getStatusLine().getStatusCode() == 201) {
                     return ApiCall.CREATED;
                 } else {
@@ -81,7 +82,7 @@ public class UserController {
     public HttpPostEntity create(String userName, String email, String password,
                                  String passwordConfirmation, String phoneNumber)
             throws JSONException, UnsupportedEncodingException {
-        return new HttpPostEntity(this.genericUrl, genericJSON(userName, email, password,
+        return new HttpPostEntity(this.genericUrl, userJSON(userName, email, password,
                 passwordConfirmation, phoneNumber));
     }
 
@@ -119,7 +120,7 @@ public class UserController {
             throws JSONException, UnsupportedEncodingException {
         String url = this.genericUrl + "/validity";
 
-        return new HttpPostEntity(url, genericJSON(userName, email, password, passwordConfirmation, phoneNumber));
+        return new HttpPostEntity(url, userJSON(userName, email, password, passwordConfirmation, phoneNumber));
     }
 
     public Club getClubByUserName(String userName) throws JSONException {
@@ -156,5 +157,31 @@ public class UserController {
         String url = genericUrl + "/user_club";
 
         return new HttpPostEntity(url, root.toString());
+    }
+
+    public List<User> getUserListFromJSONResponse(JSONArray friends) {
+        List<User> userList = new ArrayList<User>();
+        for (int i = 0; i < friends.length(); i++) {
+            try {
+                JSONObject friend = (JSONObject)friends.get(i);
+                String userName = friend.getString("userName");
+                String firstName = friend.getString("firstName");
+                String lastName = friend.getString("lastName");
+                String phoneNumber = friend.getString("phone_number");
+
+                User user = new User();
+                user.setUserName(userName);
+                user.setFirstName(firstName);
+                user.setLastName(lastName);
+                user.setPhoneNumber(phoneNumber);
+
+                userList.add(user);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        return userList;
     }
 }

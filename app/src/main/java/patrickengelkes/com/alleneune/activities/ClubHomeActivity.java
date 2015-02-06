@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.google.inject.Inject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,8 +19,11 @@ import patrickengelkes.com.alleneune.entities.controllers.EventController;
 import patrickengelkes.com.alleneune.entities.objects.Club;
 import patrickengelkes.com.alleneune.R;
 import patrickengelkes.com.alleneune.entities.objects.Event;
+import roboguice.activity.RoboListActivity;
 
-public class ClubHomeActivity extends ListActivity {
+public class ClubHomeActivity extends RoboListActivity {
+    @Inject
+    EventController eventController;
 
     protected Button createEventButton;
 
@@ -45,9 +50,7 @@ public class ClubHomeActivity extends ListActivity {
 
         setTitle(club.getClubName());
 
-        Event event = new Event(club.getClubID());
-        EventController eventController = new EventController(event);
-        clubEvents = eventController.getEventsByClub();
+        clubEvents = eventController.getEventsByClub(club.getClubID());
         EventsArrayAdapter eventsArrayAdapter = new EventsArrayAdapter(this, clubEvents);
         setListAdapter(eventsArrayAdapter);
     }

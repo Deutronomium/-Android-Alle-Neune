@@ -8,6 +8,8 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.google.inject.Inject;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -18,8 +20,11 @@ import patrickengelkes.com.alleneune.R;
 import patrickengelkes.com.alleneune.entities.controllers.EventController;
 import patrickengelkes.com.alleneune.entities.objects.Event;
 import patrickengelkes.com.alleneune.entities.objects.User;
+import roboguice.activity.RoboListActivity;
 
-public class EventActivity extends ListActivity {
+public class EventActivity extends RoboListActivity {
+    @Inject
+    EventController eventController;
 
     protected TextView eventNameTextView;
     protected TextView eventDateTextView;
@@ -41,7 +46,6 @@ public class EventActivity extends ListActivity {
 
         eventDateTextView.setText(event.getEventDate());
 
-        EventController eventController = new EventController();
         userList = eventController.getEventParticipants(event.getEventID());
         ArrayAdapter<User> userArrayAdapter = new ArrayAdapter<User>(this,
                 android.R.layout.simple_list_item_1, userList);

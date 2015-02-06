@@ -15,7 +15,7 @@ import patrickengelkes.com.alleneune.api_calls.HttpPostEntity;
 /**
  * Created by patrickengelkes on 18/11/14.
  */
-public class Club implements Parcelable, AbstractValidityEntity {
+public class Club implements Parcelable {
     private static Club mInstance = null;
 
     private String genericUrl = "/clubs";
@@ -40,52 +40,6 @@ public class Club implements Parcelable, AbstractValidityEntity {
         }
         return mInstance;
     }
-
-    private String genericJSON() throws JSONException {
-        JSONObject leaf = new JSONObject();
-        leaf.put("name", clubName);
-        JSONObject root = new JSONObject();
-        root.put("club", leaf);
-
-        return root.toString();
-    }
-
-    @Override
-    public HttpPostEntity create() throws JSONException, UnsupportedEncodingException {
-        return new HttpPostEntity(genericUrl, genericJSON());
-    }
-
-    @Override
-    public HttpPostEntity checkValidity() throws JSONException, UnsupportedEncodingException {
-        return new HttpPostEntity(genericUrl + "/validity", genericJSON());
-    }
-
-    public HttpPostEntity addFriends(List<String> phoneNumberList) throws JSONException, UnsupportedEncodingException {
-        JSONArray phoneNumberArray = getJSONArrayFromList(phoneNumberList);
-        JSONObject leaf = new JSONObject();
-        leaf.put("name", this.clubName);
-        leaf.put("members", phoneNumberArray);
-        JSONObject root = new JSONObject();
-        root.put("club", leaf);
-
-        String url = genericUrl + "/add_members";
-
-        return new HttpPostEntity(url, root.toString());
-    }
-
-    private JSONArray getJSONArrayFromList(List<String> list) {
-        JSONArray returnArray = new JSONArray();
-        for (String string : list) {
-            returnArray.put(string);
-        }
-
-        return returnArray;
-    }
-
-    public HttpPostEntity getUsersByClub() throws JSONException, UnsupportedEncodingException {
-        return new HttpPostEntity(genericUrl + "/get_members_by_club", genericJSON());
-    }
-
 
     //<editor-fold desc="Getter & Setter">
     public String getClubName() {

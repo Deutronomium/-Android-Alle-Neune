@@ -78,7 +78,6 @@ public class TestSignUpActivity extends ActivityInstrumentationTestCase2<MainAct
         solo.clickOnView(signUpButton);
         assertTrue(solo.waitForActivity(SignUpActivity.class));
 
-
         //enter signUp info
         EditText userNameEditText = (EditText) solo.getView(R.id.sign_up_name_edit_text);
         EditText passwordEditText = (EditText) solo.getView(R.id.sign_up_password_edit_text);
