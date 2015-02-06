@@ -41,7 +41,7 @@ public class MainActivity extends RoboActivity {
         mEmail = (EditText) findViewById(R.id.sign_up_name_edit_text);
         mPassword = (EditText) findViewById(R.id.sign_up_password_edit_text);
 
-        mLogInButton = (Button) findViewById(R.id.logInButton);
+        mLogInButton = (Button) findViewById(R.id.log_in_button);
         mLogInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
