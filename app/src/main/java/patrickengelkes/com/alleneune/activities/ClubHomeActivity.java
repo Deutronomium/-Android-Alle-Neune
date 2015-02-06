@@ -14,6 +14,7 @@ import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
+import patrickengelkes.com.alleneune.CurrentClub;
 import patrickengelkes.com.alleneune.array_adapters.adapters.EventsArrayAdapter;
 import patrickengelkes.com.alleneune.entities.controllers.EventController;
 import patrickengelkes.com.alleneune.entities.objects.Club;
@@ -24,11 +25,12 @@ import roboguice.activity.RoboListActivity;
 public class ClubHomeActivity extends RoboListActivity {
     @Inject
     EventController eventController;
+    @Inject
+    CurrentClub currentClub;
 
     protected Button createEventButton;
 
     protected Intent clubIntent;
-    protected Club club;
     protected List<Event> clubEvents = new ArrayList<Event>();
 
     @Override
@@ -37,20 +39,18 @@ public class ClubHomeActivity extends RoboListActivity {
         setContentView(R.layout.activity_club_home);
 
         clubIntent = getIntent();
-        club = Club.getInstance();
         createEventButton = (Button) findViewById(R.id.create_activity_button);
         createEventButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent createActivityIntent = new Intent(ClubHomeActivity.this, CreateEventActivity.class);
-                createActivityIntent.putExtra("club", club);
                 startActivity(createActivityIntent);
             }
         });
 
-        setTitle(club.getClubName());
+        setTitle(currentClub.getClubName());
 
-        clubEvents = eventController.getEventsByClub(club.getClubID());
+        clubEvents = eventController.getEventsByClub(currentClub.getClubID());
         EventsArrayAdapter eventsArrayAdapter = new EventsArrayAdapter(this, clubEvents);
         setListAdapter(eventsArrayAdapter);
     }

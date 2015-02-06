@@ -14,12 +14,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import patrickengelkes.com.alleneune.CurrentClub;
 import patrickengelkes.com.alleneune.api_calls.ApiCallTask;
 import patrickengelkes.com.alleneune.api_calls.HttpPostEntity;
 import patrickengelkes.com.alleneune.api_calls.JsonBuilder;
 import patrickengelkes.com.alleneune.entities.objects.Club;
 import patrickengelkes.com.alleneune.entities.objects.User;
 import patrickengelkes.com.alleneune.enums.ApiCall;
+import patrickengelkes.com.alleneune.enums.UserClub;
 import patrickengelkes.com.alleneune.enums.UserValidation;
 
 /**
@@ -29,6 +31,9 @@ public class UserController {
     public static final String TAG = UserController.class.getSimpleName();
 
     private String genericUrl = "/users";
+
+    @Inject
+    CurrentClub currentClub;
 
     @Inject
     public UserController() {
@@ -123,7 +128,7 @@ public class UserController {
         return new HttpPostEntity(url, userJSON(userName, email, password, passwordConfirmation, phoneNumber));
     }
 
-    public Club getClubByUserName(String userName) throws JSONException {
+    public UserClub getClubByUserName(String userName) throws JSONException {
         try {
             HttpResponse response = new ApiCallTask().execute(getUserClubByNamePostEntity(userName)).get();
             JSONObject jsonResponse = new JsonBuilder().execute(response).get();
@@ -131,10 +136,12 @@ public class UserController {
                 if (response.getStatusLine().getStatusCode() == 200) {
                     Log.e(TAG, "User already joined a club.");
                     JSONObject jsonClub = (JSONObject) jsonResponse.get("club");
-                    return new Club(jsonClub.getString("name"), Integer.valueOf(jsonClub.getString("id")));
+                    currentClub.setClubName(jsonClub.getString("name"));
+                    currentClub.setClubID(Integer.valueOf(jsonClub.getString("id")));
+                    return UserClub.USER_HAS_CLUB;
                 } else if (response.getStatusLine().getStatusCode() == 450) {
                     Log.e(TAG, "User did not join a club yet.");
-                    return null;
+                    return UserClub.USER_HAS_NO_CLUB;
                 }
             }
         } catch (InterruptedException e) {
@@ -145,7 +152,7 @@ public class UserController {
             e.printStackTrace();
         }
 
-        return null;
+        return UserClub.USER_HAS_NO_CLUB;
     }
 
     public HttpPostEntity getUserClubByNamePostEntity(String userName) throws JSONException, UnsupportedEncodingException {

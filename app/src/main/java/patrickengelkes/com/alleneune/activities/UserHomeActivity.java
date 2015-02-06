@@ -11,10 +11,12 @@ import com.google.inject.Inject;
 
 import org.json.JSONException;
 
+import patrickengelkes.com.alleneune.CurrentClub;
 import patrickengelkes.com.alleneune.CurrentUser;
 import patrickengelkes.com.alleneune.entities.objects.Club;
 import patrickengelkes.com.alleneune.R;
 import patrickengelkes.com.alleneune.entities.controllers.UserController;
+import patrickengelkes.com.alleneune.enums.UserClub;
 import roboguice.activity.RoboActivity;
 
 
@@ -25,26 +27,26 @@ public class UserHomeActivity extends RoboActivity {
     CurrentUser currentUser;
     @Inject
     UserController userController;
+    @Inject
+    CurrentClub currentClub;
 
     protected Button mCreateClubButton;
-    protected Club club = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        UserClub response = UserClub.USER_HAS_NO_CLUB;
 
         try {
             String userName = currentUser.getUserName();
-            this.club = userController.getClubByUserName(userName);
-            if (this.club != null) {
-                Club.getInstance().setClubName(this.club.getClubName());
-                Club.getInstance().setClubID(this.club.getClubID());
+            if (userController.getClubByUserName(userName) == UserClub.USER_HAS_CLUB) {
+                response = UserClub.USER_HAS_CLUB;
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        if (this.club != null) {
+        if (response == UserClub.USER_HAS_CLUB) {
             Intent clubHomeIntent = new Intent(UserHomeActivity.this, ClubHomeActivity.class);
             clubHomeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             clubHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);

@@ -23,6 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import patrickengelkes.com.alleneune.CurrentClub;
 import patrickengelkes.com.alleneune.entities.controllers.EventController;
 import patrickengelkes.com.alleneune.entities.objects.Club;
 import patrickengelkes.com.alleneune.entities.objects.Event;
@@ -35,13 +36,14 @@ public class CreateEventActivity extends RoboActivity implements DatePickerDialo
     public static final String TAG = CreateEventActivity.class.getSimpleName();
     @Inject
     EventController eventController;
+    @Inject
+    CurrentClub currentClub;
 
     protected EditText eventNameEditText;
     protected TextView datePickerTextView;
     protected TextView timePickerTextView;
     protected Button sendEventInvitesButton;
     protected Calendar globalCalendar;
-    protected Club club;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +54,6 @@ public class CreateEventActivity extends RoboActivity implements DatePickerDialo
 
         globalCalendar = new GregorianCalendar();
 
-        club = Club.getInstance();
 
         eventNameEditText = (EditText) findViewById(R.id.event_name_edit_text);
         datePickerTextView = (TextView) findViewById(R.id.date_picker_text_view);
@@ -84,7 +85,7 @@ public class CreateEventActivity extends RoboActivity implements DatePickerDialo
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
                 String eventDate = simpleDateFormat.format(globalCalendar.getTime());
                 String eventName = eventNameEditText.getText().toString().trim();
-                int clubID = club.getClubID();
+                int clubID = currentClub.getClubID();
 
                 if (eventController.createEvent(eventName, clubID, eventDate)) {
                     Log.e(TAG, "Event was created");
