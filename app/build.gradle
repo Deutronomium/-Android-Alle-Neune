@@ -18,14 +18,24 @@ android {
         }
     }
 }
+
+apply plugin: 'android-unit-test'
+
+afterEvaluate {
+    tasks.findByName("assembleDebug").dependsOn("testDebugClasses")
+}
+
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    //compile 'com.google.code.gson:gson:2.2.4'
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.2.1'
+
+    // testing
+    testCompile 'org.robolectric:robolectric:2.4'
+    testCompile 'junit:junit:4.+'
+
     project.dependencies {
         compile 'org.roboguice:roboguice:3.+'
         provided 'org.roboguice:roboblender:3.+'

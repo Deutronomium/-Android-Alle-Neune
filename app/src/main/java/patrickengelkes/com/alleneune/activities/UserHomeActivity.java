@@ -34,7 +34,8 @@ public class UserHomeActivity extends RoboActivity {
         super.onCreate(savedInstanceState);
 
         try {
-            this.club = userController.getClubByUserName(currentUser.getUserName());
+            String userName = currentUser.getUserName();
+            this.club = userController.getClubByUserName(userName);
             if (this.club != null) {
                 Club.getInstance().setClubName(this.club.getClubName());
                 Club.getInstance().setClubID(this.club.getClubID());
