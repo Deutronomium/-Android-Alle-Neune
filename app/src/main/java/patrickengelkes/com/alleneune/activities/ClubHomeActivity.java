@@ -1,6 +1,5 @@
 package patrickengelkes.com.alleneune.activities;
 
-import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -15,31 +14,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 import patrickengelkes.com.alleneune.CurrentClub;
+import patrickengelkes.com.alleneune.R;
 import patrickengelkes.com.alleneune.array_adapters.adapters.EventsArrayAdapter;
 import patrickengelkes.com.alleneune.entities.controllers.EventController;
-import patrickengelkes.com.alleneune.entities.objects.Club;
-import patrickengelkes.com.alleneune.R;
 import patrickengelkes.com.alleneune.entities.objects.Event;
 import roboguice.activity.RoboListActivity;
 
 public class ClubHomeActivity extends RoboListActivity {
+    protected Button createEventButton;
+    protected List<Event> clubEvents = new ArrayList<Event>();
     @Inject
     EventController eventController;
     @Inject
     CurrentClub currentClub;
-
-    protected Button createEventButton;
-
-    protected Intent clubIntent;
-    protected List<Event> clubEvents = new ArrayList<Event>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_club_home);
 
-        clubIntent = getIntent();
-        createEventButton = (Button) findViewById(R.id.create_activity_button);
+        createEventButton = (Button) findViewById(R.id.create_event_button);
         createEventButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,7 +66,7 @@ public class ClubHomeActivity extends RoboListActivity {
                 signUpIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(signUpIntent);
                 break;
-            case R.id.edit_members_action:
+            case R.id.edit_friends_action:
                 Intent editMembersIntent = new Intent(ClubHomeActivity.this, EditFriendsActivity.class);
                 startActivity(editMembersIntent);
                 break;
@@ -85,7 +79,7 @@ public class ClubHomeActivity extends RoboListActivity {
     protected void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
         Event selectedEvent = clubEvents.get(position);
-        Intent showEventIntent = new Intent(ClubHomeActivity.this, EventActivity.class);
+        Intent showEventIntent = new Intent(ClubHomeActivity.this, ShowEventActivity.class);
         showEventIntent.putExtra(Event.PARCELABLE, selectedEvent);
         startActivity(showEventIntent);
     }

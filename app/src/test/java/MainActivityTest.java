@@ -1,4 +1,3 @@
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.widget.Button;
 import android.widget.EditText;
@@ -9,7 +8,6 @@ import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
-import org.robolectric.shadows.ShadowAlertDialog;
 
 import patrickengelkes.com.alleneune.R;
 import patrickengelkes.com.alleneune.activities.MainActivity;
@@ -51,10 +49,7 @@ public class MainActivityTest {
     public void logInWithInvalidUserNameAndEmail() throws Exception {
         enterData("asd", "test");
 
-        AlertDialog alert= ShadowAlertDialog.getLatestAlertDialog();
-        ShadowAlertDialog shadowAlertDialog = shadowOf(alert);
-        assertEquals(shadowAlertDialog.getTitle().toString(),
-                mainActivity.getString(R.string.wrong_user_credentials_warning));
+        TestHelper.checkAlertDialog(mainActivity.getString(R.string.wrong_user_credentials_warning));
     }
 
 

@@ -15,10 +15,10 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import patrickengelkes.com.alleneune.CurrentClub;
+import patrickengelkes.com.alleneune.CurrentUser;
 import patrickengelkes.com.alleneune.api_calls.ApiCallTask;
 import patrickengelkes.com.alleneune.api_calls.HttpPostEntity;
 import patrickengelkes.com.alleneune.api_calls.JsonBuilder;
-import patrickengelkes.com.alleneune.entities.objects.Club;
 import patrickengelkes.com.alleneune.entities.objects.User;
 import patrickengelkes.com.alleneune.enums.ApiCall;
 import patrickengelkes.com.alleneune.enums.UserClub;
@@ -29,11 +29,11 @@ import patrickengelkes.com.alleneune.enums.UserValidation;
  */
 public class UserController {
     public static final String TAG = UserController.class.getSimpleName();
-
-    private String genericUrl = "/users";
-
     @Inject
     CurrentClub currentClub;
+    @Inject
+    CurrentUser currentUser;
+    private String genericUrl = "/users";
 
     @Inject
     public UserController() {
@@ -60,6 +60,8 @@ public class UserController {
         try {
             HttpResponse response = new ApiCallTask().execute(create(userName, email, password,
                     passwordConfirmation, phoneNumber)).get();
+            currentUser.setUserName(userName);
+            currentUser.setEmail(email);
             if (response != null) {
                 if (response.getStatusLine().getStatusCode() == 201) {
                     return ApiCall.CREATED;

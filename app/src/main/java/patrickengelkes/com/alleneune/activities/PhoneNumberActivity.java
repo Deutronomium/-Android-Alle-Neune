@@ -11,21 +11,20 @@ import android.widget.EditText;
 
 import com.google.inject.Inject;
 
+import patrickengelkes.com.alleneune.R;
 import patrickengelkes.com.alleneune.dialogs.ErrorDialog;
 import patrickengelkes.com.alleneune.entities.controllers.UserController;
 import patrickengelkes.com.alleneune.entities.objects.User;
-import patrickengelkes.com.alleneune.R;
 import patrickengelkes.com.alleneune.enums.ApiCall;
 import roboguice.activity.RoboActivity;
 
 public class PhoneNumberActivity extends RoboActivity {
 
-    @Inject
-    UserController userController;
-
-    protected EditText phoneNumberTF;
+    protected EditText phoneNumberEditText;
     protected Button signUpButton;
     protected Intent userIntent;
+    @Inject
+    UserController userController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,13 +33,13 @@ public class PhoneNumberActivity extends RoboActivity {
 
         userIntent = getIntent();
 
-        phoneNumberTF = (EditText) findViewById(R.id.phone_number_edit_text);
+        phoneNumberEditText = (EditText) findViewById(R.id.phone_number_edit_text);
         signUpButton = (Button) findViewById(R.id.sign_up_button);
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 User user = userIntent.getParcelableExtra("user");
-                user.setPhoneNumber(phoneNumberTF.getText().toString().trim());
+                user.setPhoneNumber(phoneNumberEditText.getText().toString().trim());
 
                 ApiCall response = userController.createUser(user.getUserName(), user.getEmail(),
                         user.getPassword(), user.getPasswordConfirmation(), user.getPhoneNumber());

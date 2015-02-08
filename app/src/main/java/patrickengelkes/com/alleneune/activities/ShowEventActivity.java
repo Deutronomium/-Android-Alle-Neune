@@ -1,6 +1,5 @@
 package patrickengelkes.com.alleneune.activities;
 
-import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,10 +9,7 @@ import android.widget.TextView;
 
 import com.google.inject.Inject;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import patrickengelkes.com.alleneune.R;
@@ -22,14 +18,13 @@ import patrickengelkes.com.alleneune.entities.objects.Event;
 import patrickengelkes.com.alleneune.entities.objects.User;
 import roboguice.activity.RoboListActivity;
 
-public class EventActivity extends RoboListActivity {
-    @Inject
-    EventController eventController;
-
+public class ShowEventActivity extends RoboListActivity {
     protected TextView eventNameTextView;
     protected TextView eventDateTextView;
     protected Intent eventIntent;
     protected Event event;
+    @Inject
+    EventController eventController;
     private List<User> userList = new ArrayList<User>();
 
     @Override

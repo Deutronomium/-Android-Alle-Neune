@@ -10,46 +10,46 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import patrickengelkes.com.alleneune.robo_guice.module.CurrentUserModule;
+import patrickengelkes.com.alleneune.robo_guice.module.RoboGuiceModule;
 import roboguice.RoboGuice;
 import roboguice.config.DefaultRoboModule;
 import roboguice.inject.RoboInjector;
 
 public class TestGuiceModule extends AbstractModule {
- 
-  private HashMap<Class<?>, Object> bindings;
- 
-  public TestGuiceModule() {
-    bindings = new HashMap<Class<?>, Object>();
-  }
- 
-  @Override
-  @SuppressWarnings("unchecked")
-    protected void configure() {
-    //bind(Activity.class).toProvider(ActivityProvider.class).in(ContextSingleton.class);
-    Set<Map.Entry<Class<?>, Object>> entries = bindings.entrySet();
-    for (Map.Entry<Class<?>, Object> entry : entries) {
-      bind((Class<Object>) entry.getKey()).toInstance(entry.getValue());
+
+    private HashMap<Class<?>, Object> bindings;
+
+    public TestGuiceModule() {
+        bindings = new HashMap<Class<?>, Object>();
     }
-  }
- 
-  public void addBinding(Class<?> type, Object object) {
-    bindings.put(type, object);
-  }
- 
-  public static void setUp(Object testObject, TestGuiceModule module) {
-    Module roboGuiceModule = RoboGuice.newDefaultRoboModule(Robolectric.application);
-    Module productionModule = Modules.override(roboGuiceModule).with(new CurrentUserModule());
-    Module testModule = Modules.override(productionModule).with(module);
-    RoboGuice.getOrCreateBaseApplicationInjector(Robolectric.application, RoboGuice.DEFAULT_STAGE, testModule);
-    RoboInjector injector = RoboGuice.getInjector(Robolectric.application);
-    injector.injectMembers(testObject);
-  }
- 
-  public static void tearDown() {
-    Application app = Robolectric.application;
-    DefaultRoboModule defaultModule = RoboGuice.newDefaultRoboModule(app);
-    RoboGuice.getOrCreateBaseApplicationInjector(app, RoboGuice.DEFAULT_STAGE, defaultModule);
-  }
- 
+
+    public static void setUp(Object testObject, TestGuiceModule module) {
+        Module roboGuiceModule = RoboGuice.newDefaultRoboModule(Robolectric.application);
+        Module productionModule = Modules.override(roboGuiceModule).with(new RoboGuiceModule());
+        Module testModule = Modules.override(productionModule).with(module);
+        RoboGuice.getOrCreateBaseApplicationInjector(Robolectric.application, RoboGuice.DEFAULT_STAGE, testModule);
+        RoboInjector injector = RoboGuice.getInjector(Robolectric.application);
+        injector.injectMembers(testObject);
+    }
+
+    public static void tearDown() {
+        Application app = Robolectric.application;
+        DefaultRoboModule defaultModule = RoboGuice.newDefaultRoboModule(app);
+        RoboGuice.getOrCreateBaseApplicationInjector(app, RoboGuice.DEFAULT_STAGE, defaultModule);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    protected void configure() {
+        //bind(Activity.class).toProvider(ActivityProvider.class).in(ContextSingleton.class);
+        Set<Map.Entry<Class<?>, Object>> entries = bindings.entrySet();
+        for (Map.Entry<Class<?>, Object> entry : entries) {
+            bind((Class<Object>) entry.getKey()).toInstance(entry.getValue());
+        }
+    }
+
+    public void addBinding(Class<?> type, Object object) {
+        bindings.put(type, object);
+    }
+
 }

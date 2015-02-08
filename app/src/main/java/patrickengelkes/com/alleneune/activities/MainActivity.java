@@ -12,26 +12,23 @@ import android.widget.EditText;
 import com.google.inject.Inject;
 
 import patrickengelkes.com.alleneune.CurrentUser;
+import patrickengelkes.com.alleneune.R;
 import patrickengelkes.com.alleneune.dialogs.ErrorDialog;
 import patrickengelkes.com.alleneune.entities.controllers.SessionController;
 import patrickengelkes.com.alleneune.entities.objects.Session;
-import patrickengelkes.com.alleneune.R;
 import patrickengelkes.com.alleneune.enums.ApiCall;
 import roboguice.activity.RoboActivity;
 
 public class MainActivity extends RoboActivity {
     public static final String TAG = MainActivity.class.getSimpleName();
-
+    protected EditText mEmail;
+    protected EditText mPassword;
+    protected Button mLogInButton;
+    protected Button mSignUpButton;
     @Inject
     CurrentUser currentUser;
     @Inject
     SessionController sessionController;
-
-    protected EditText mEmail;
-    protected EditText mPassword;
-
-    protected Button mLogInButton;
-    protected Button mSignUpButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +66,7 @@ public class MainActivity extends RoboActivity {
             }
         });
 
-        mSignUpButton = (Button) findViewById(R.id.signUpButton);
+        mSignUpButton = (Button) findViewById(R.id.sign_up_button);
         mSignUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

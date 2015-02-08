@@ -11,43 +11,41 @@ import android.widget.EditText;
 
 import com.google.inject.Inject;
 
+import patrickengelkes.com.alleneune.R;
 import patrickengelkes.com.alleneune.dialogs.ErrorDialog;
 import patrickengelkes.com.alleneune.entities.controllers.UserController;
 import patrickengelkes.com.alleneune.entities.objects.User;
-import patrickengelkes.com.alleneune.R;
 import patrickengelkes.com.alleneune.enums.UserValidation;
 import roboguice.activity.RoboActivity;
 
 public class SignUpActivity extends RoboActivity {
 
+    protected Button continueButton;
+    protected EditText userNameEditText;
+    protected EditText passwordEditText;
+    protected EditText confirmationPasswordEditText;
+    protected EditText emailEditText;
     @Inject
     UserController userController;
-
-    protected Button mSignUpButton;
-    protected EditText mUserName;
-    protected EditText mPassword;
-    protected EditText mConfirmationPassword;
-    protected EditText mEmail;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        mUserName = (EditText) findViewById(R.id.sign_up_name_edit_text);
-        mPassword = (EditText) findViewById(R.id.sign_up_password_edit_text);
-        mConfirmationPassword = (EditText) findViewById(R.id.password_confirmation_edit_text);
-        mEmail = (EditText) findViewById(R.id.email_edit_text);
+        userNameEditText = (EditText) findViewById(R.id.sign_up_name_edit_text);
+        passwordEditText = (EditText) findViewById(R.id.sign_up_password_edit_text);
+        confirmationPasswordEditText = (EditText) findViewById(R.id.password_confirmation_edit_text);
+        emailEditText = (EditText) findViewById(R.id.sign_up_email_edit_text);
 
-        mSignUpButton = (Button) findViewById(R.id.sign_up_button);
-        mSignUpButton.setOnClickListener(new View.OnClickListener() {
+        continueButton = (Button) findViewById(R.id.sign_up_button);
+        continueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String userName = mUserName.getText().toString().trim();
-                String password = mPassword.getText().toString().trim();
-                String passwordConfirmation = mConfirmationPassword.getText().toString().trim();
-                String email = mEmail.getText().toString().trim();
+                String userName = userNameEditText.getText().toString().trim();
+                String password = passwordEditText.getText().toString().trim();
+                String passwordConfirmation = confirmationPasswordEditText.getText().toString().trim();
+                String email = emailEditText.getText().toString().trim();
 
                 User user = new User(userName, email, password, passwordConfirmation);
                 UserValidation response = userController.checkValidity(userName, email,
