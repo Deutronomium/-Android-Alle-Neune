@@ -132,17 +132,17 @@ public class ClubController {
         return new HttpPostEntity(genericUrl + "/get_members_by_club", clubJSON(clubName));
     }
 
-    public boolean addFriendsToClub(List<String> phoneNumberList, String clubName) {
+    public ApiCall addFriendsToClub(List<String> phoneNumberList, int clubID) {
         try {
             HttpResponse response = new ApiCallTask().
-                    execute(addFriendsToClubPostEntity(phoneNumberList, clubName)).get();
+                    execute(addFriendsToClubPostEntity(phoneNumberList, clubID)).get();
             if (response != null) {
-                this.addFriendsAnswer = new JsonBuilder().execute(response).get();
                 if (response.getStatusLine().getStatusCode() == 200) {
-                    return true;
+                    return ApiCall.SUCCESS;
+                } else if (response.getStatusLine().getStatusCode() == 422) {
+                    return ApiCall.UNPROCESSABLE_ENTITY;
                 } else {
-                    Log.e(TAG, "Could not add friends to club");
-                    Log.e(TAG, this.addFriendsAnswer.toString());
+                    return ApiCall.BAD_REQUEST;
                 }
             }
         } catch (InterruptedException e) {
@@ -155,13 +155,13 @@ public class ClubController {
             e.printStackTrace();
         }
 
-        return false;
+        return ApiCall.BAD_REQUEST;
     }
 
-    private HttpPostEntity addFriendsToClubPostEntity(List<String> phoneNumberList, String clubName) throws JSONException, UnsupportedEncodingException {
+    private HttpPostEntity addFriendsToClubPostEntity(List<String> phoneNumberList, int clubID) throws JSONException, UnsupportedEncodingException {
         JSONArray phoneNumberArray = getJSONArrayFromList(phoneNumberList);
         JSONObject leaf = new JSONObject();
-        leaf.put("name", clubName);
+        leaf.put("id", clubID);
         leaf.put("members", phoneNumberArray);
         JSONObject root = new JSONObject();
         root.put("club", leaf);

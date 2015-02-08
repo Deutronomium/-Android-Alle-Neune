@@ -52,4 +52,5 @@
     <string name="user_name_exist_warning">This Username is already in use. Please choose another one!</string>
     <string name="email_exist_warning">This Email is already used. Please choose another one!</string>
     <string name="club_name_exist_warning">This Clubname is already in use. Please choose another one!</string>
+    <string name="club_does_not_exist_warning">This Club does not exist</string>
 </resources>
