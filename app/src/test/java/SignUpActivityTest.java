@@ -65,7 +65,7 @@ public class SignUpActivityTest {
     public void signUpWithUsedUserNameAndEmail() {
         signUpProcess("Deutro", "test");
 
-        TestHelper.checkAlertDialog(signUpActivity.getString(R.string.user_and_email_used_warning));
+        TestHelper.checkAlertDialog(signUpActivity.getString(R.string.user_and_email_exist_warning));
     }
 
     @Test
@@ -73,7 +73,7 @@ public class SignUpActivityTest {
         String email = TestHelper.getRandomName();
 
         signUpProcess("Deutro", email);
-        TestHelper.checkAlertDialog(signUpActivity.getString(R.string.user_used_warning));
+        TestHelper.checkAlertDialog(signUpActivity.getString(R.string.user_name_exist_warning));
 
     }
 
@@ -82,7 +82,7 @@ public class SignUpActivityTest {
         String userName = TestHelper.getRandomName();
 
         signUpProcess(userName, "test");
-        TestHelper.checkAlertDialog(signUpActivity.getString(R.string.email_used_warning));
+        TestHelper.checkAlertDialog(signUpActivity.getString(R.string.email_exist_warning));
     }
 
     private void signUpProcess(String userName, String email) {

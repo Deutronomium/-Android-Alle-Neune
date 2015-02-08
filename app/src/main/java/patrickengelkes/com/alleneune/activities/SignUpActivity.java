@@ -56,15 +56,15 @@ public class SignUpActivity extends RoboActivity {
                     startActivity(phoneNumberIntent);
                 } else if (response == UserValidation.USER_AND_EMAIL) {
                     AlertDialog alert = new ErrorDialog(SignUpActivity.this,
-                            getString(R.string.user_and_email_used_warning)).create();
+                            getString(R.string.user_and_email_exist_warning)).create();
                     alert.show();
                 } else if (response == UserValidation.USER) {
                     AlertDialog alert = new ErrorDialog(SignUpActivity.this,
-                            getString(R.string.user_used_warning)).create();
+                            getString(R.string.user_name_exist_warning)).create();
                     alert.show();
                 } else if (response == UserValidation.EMAIL) {
                     AlertDialog alert = new ErrorDialog(SignUpActivity.this,
-                            getString(R.string.email_used_warning)).create();
+                            getString(R.string.email_exist_warning)).create();
                     alert.show();
                 }
             }

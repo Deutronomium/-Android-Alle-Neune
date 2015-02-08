@@ -14,17 +14,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import patrickengelkes.com.alleneune.CurrentClub;
 import patrickengelkes.com.alleneune.api_calls.ApiCallTask;
 import patrickengelkes.com.alleneune.api_calls.HttpPostEntity;
 import patrickengelkes.com.alleneune.api_calls.JsonBuilder;
+import patrickengelkes.com.alleneune.enums.ApiCall;
 
 /**
  * Created by patrickengelkes on 12/12/14.
  */
 public class ClubController {
     public static final String TAG = ClubController.class.getSimpleName();
+    @Inject
+    CurrentClub currentClub;
     private String genericUrl = "/clubs";
-
     private JSONObject addFriendsAnswer;
     private JSONObject validateAnswer;
     private JSONObject createAnswer;
@@ -43,16 +46,22 @@ public class ClubController {
         return root.toString();
     }
 
-    public boolean createClub(String clubName) {
+    public ApiCall createClub(String clubName) {
         try {
             HttpResponse response = new ApiCallTask().execute(createClubPostEntity(clubName)).get();
             if (response != null) {
                 createAnswer = new JsonBuilder().execute(response).get();
-                if (response.getStatusLine().getStatusCode() == 201) {
-                    return true;
-                } else {
+                if (response.getStatusLine().getStatusCode() == 201 && createAnswer != null) {
+                    JSONObject clubJson = (JSONObject) createAnswer.get("club");
+                    currentClub.setClubID((Integer) clubJson.get("id"));
+                    currentClub.setClubName((String) clubJson.get("name"));
+                    return ApiCall.CREATED;
+                } else if (response.getStatusLine().getStatusCode() == 422 && createAnswer != null) {
                     Log.e(TAG, "Creating entity failed");
                     Log.e(TAG, createAnswer.toString());
+                    return ApiCall.UNPROCESSABLE_ENTITY;
+                } else {
+                    return ApiCall.BAD_REQUEST;
                 }
             }
         } catch (InterruptedException e) {
@@ -64,7 +73,7 @@ public class ClubController {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        return false;
+        return ApiCall.BAD_REQUEST;
     }
 
     private HttpPostEntity createClubPostEntity(String clubName) throws JSONException, UnsupportedEncodingException {

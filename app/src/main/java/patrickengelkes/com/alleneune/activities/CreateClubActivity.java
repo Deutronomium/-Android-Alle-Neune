@@ -12,56 +12,40 @@ import android.widget.EditText;
 
 import com.google.inject.Inject;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import patrickengelkes.com.alleneune.entities.controllers.ClubController;
-import patrickengelkes.com.alleneune.entities.objects.Club;
 import patrickengelkes.com.alleneune.R;
+import patrickengelkes.com.alleneune.dialogs.ErrorDialog;
+import patrickengelkes.com.alleneune.entities.controllers.ClubController;
+import patrickengelkes.com.alleneune.enums.ApiCall;
 import roboguice.activity.RoboActivity;
 
 public class CreateClubActivity extends RoboActivity {
 
+    final Context context = this;
+    protected Button addFriendsButton;
+    protected EditText clubNameEditText;
     @Inject
     ClubController clubController;
-
-    final Context context = this;
-
-    protected Button addFriendsButton;
-    protected EditText mClubName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_club);
 
-        mClubName= (EditText) findViewById(R.id.club_name_tf);
+        clubNameEditText = (EditText) findViewById(R.id.club_name_edit_text);
         addFriendsButton = (Button) findViewById(R.id.add_friends_button);
         addFriendsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String clubName = mClubName.getText().toString().trim();
+                String clubName = clubNameEditText.getText().toString().trim();
 
-                Club club = new Club(clubName);
-                //Intent addFriendsIntent = new Intent(CreateClubActivity.this, AddFriendsActivity.class);
-                //startActivity(addFriendsIntent);
-                //TODO: Uncomment Code - above is just for testing
-                if (clubController.createClub(clubName)) {
+                ApiCall response = clubController.createClub(clubName);
+                if (response == ApiCall.CREATED) {
                     Intent addFriendsIntent = new Intent(CreateClubActivity.this, AddFriendsActivity.class);
-                    addFriendsIntent.putExtra("club", club);
                     startActivity(addFriendsIntent);
-                } else {
-                    JSONObject jsonResponse = clubController.getCreateAnswer();
-                    try {
-                        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
-                        dialogBuilder.setTitle(getString(R.string.validation_failed_title))
-                                .setMessage((String)jsonResponse.get((String) jsonResponse.names().get(0)))
-                                .setPositiveButton(android.R.string.ok, null);
-                        AlertDialog dialog = dialogBuilder.create();
-                        dialog.show();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                } else if (response == ApiCall.UNPROCESSABLE_ENTITY) {
+                    AlertDialog alert = new ErrorDialog(CreateClubActivity.this,
+                            getString(R.string.club_name_exist_warning)).create();
+                    alert.show();
                 }
             }
         });
