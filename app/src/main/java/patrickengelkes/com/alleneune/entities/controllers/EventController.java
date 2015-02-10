@@ -20,6 +20,7 @@ import patrickengelkes.com.alleneune.api_calls.HttpPostEntity;
 import patrickengelkes.com.alleneune.api_calls.JsonBuilder;
 import patrickengelkes.com.alleneune.entities.objects.Event;
 import patrickengelkes.com.alleneune.entities.objects.User;
+import patrickengelkes.com.alleneune.enums.ApiCall;
 import roboguice.RoboGuice;
 import roboguice.inject.RoboInjector;
 
@@ -27,12 +28,10 @@ import roboguice.inject.RoboInjector;
  * Created by patrickengelkes on 23/01/15.
  */
 public class EventController {
-    @Inject
-    UserController userController;
-
     public static final String TAG = EventController.class.getSimpleName();
     private static String genericUrl = "/events";
-
+    @Inject
+    UserController userController;
     private JSONObject getEventsByClubAnswer;
     private JSONObject createAnswer;
 
@@ -41,6 +40,17 @@ public class EventController {
         final RoboInjector injector = RoboGuice.getInjector(context);
 
         injector.injectMembersWithoutViews(this);
+    }
+
+    public static HttpPostEntity getParticipantsPostEntity(int eventID) throws JSONException, UnsupportedEncodingException {
+        JSONObject leaf = new JSONObject();
+        leaf.put("event_id", eventID);
+        JSONObject root = new JSONObject();
+        root.put("event", leaf);
+
+        String url = genericUrl + "/get_participants";
+
+        return new HttpPostEntity(url, root.toString());
     }
 
     public String eventJSON(String eventName, int clubID, String eventDate) throws JSONException {
@@ -53,17 +63,18 @@ public class EventController {
         return root.toString();
     }
 
-    public boolean createEvent(String eventName, int clubID, String eventDate) {
+    public ApiCall createEvent(String eventName, int clubID, String eventDate) {
         try {
             HttpResponse response = new ApiCallTask().
                     execute(createEventPostEntity(eventName, clubID, eventDate)).get();
             if (response != null) {
                 createAnswer = new JsonBuilder().execute(response).get();
                 if (response.getStatusLine().getStatusCode() == 201) {
-                    return true;
+                    return ApiCall.CREATED;
                 } else {
                     Log.e(TAG, "Creating entity failed");
                     Log.e(TAG, createAnswer.toString());
+                    return ApiCall.BAD_REQUEST;
                 }
             }
         } catch (InterruptedException e) {
@@ -75,15 +86,14 @@ public class EventController {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        return false;
+
+        return ApiCall.BAD_REQUEST;
     }
 
     private HttpPostEntity createEventPostEntity(String eventName, int clubID, String eventDate)
             throws JSONException, UnsupportedEncodingException {
         return new HttpPostEntity(genericUrl, eventJSON(eventName, clubID, eventDate));
     }
-
-
 
     public List<Event> getEventsByClub(int clubID) {
         List<Event> returnList = new ArrayList<Event>();
@@ -140,17 +150,6 @@ public class EventController {
         }
 
         return returnList;
-    }
-
-    public static HttpPostEntity getParticipantsPostEntity(int eventID) throws JSONException, UnsupportedEncodingException {
-        JSONObject leaf = new JSONObject();
-        leaf.put("event_id", eventID);
-        JSONObject root = new JSONObject();
-        root.put("event", leaf);
-
-        String url = genericUrl + "/get_participants";
-
-        return new HttpPostEntity(url, root.toString());
     }
 
     private List<Event> getEventsFromResponse(JSONObject response, int clubID) {

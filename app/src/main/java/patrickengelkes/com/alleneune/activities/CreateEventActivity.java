@@ -25,6 +25,7 @@ import java.util.GregorianCalendar;
 import patrickengelkes.com.alleneune.CurrentClub;
 import patrickengelkes.com.alleneune.R;
 import patrickengelkes.com.alleneune.entities.controllers.EventController;
+import patrickengelkes.com.alleneune.enums.ApiCall;
 import patrickengelkes.com.alleneune.fragments.DatePickerDialogFragment;
 import patrickengelkes.com.alleneune.fragments.TimePickerDialogFragment;
 import roboguice.activity.RoboActivity;
@@ -83,14 +84,15 @@ public class CreateEventActivity extends RoboActivity implements DatePickerDialo
                 String eventName = eventNameEditText.getText().toString().trim();
                 int clubID = currentClub.getClubID();
 
-                if (eventController.createEvent(eventName, clubID, eventDate)) {
+                ApiCall response = eventController.createEvent(eventName, clubID, eventDate);
+                if (response == ApiCall.CREATED) {
                     Log.e(TAG, "Event was created");
                     Toast toast = Toast.makeText(getApplicationContext(),
                             getString(R.string.event_created_toast), Toast.LENGTH_LONG);
                     toast.show();
                     finish();
                 } else {
-                    Log.e(TAG, "Nope that did not work");
+                    Log.e(TAG, getString(R.string.general_error));
                 }
             }
         });
