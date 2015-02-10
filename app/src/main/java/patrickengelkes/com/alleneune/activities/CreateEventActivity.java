@@ -1,6 +1,5 @@
 package patrickengelkes.com.alleneune.activities;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.DialogFragment;
 import android.app.FragmentTransaction;
@@ -24,26 +23,23 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import patrickengelkes.com.alleneune.CurrentClub;
-import patrickengelkes.com.alleneune.entities.controllers.EventController;
-import patrickengelkes.com.alleneune.entities.objects.Club;
-import patrickengelkes.com.alleneune.entities.objects.Event;
-import patrickengelkes.com.alleneune.fragments.DatePickerDialogFragment;
 import patrickengelkes.com.alleneune.R;
+import patrickengelkes.com.alleneune.entities.controllers.EventController;
+import patrickengelkes.com.alleneune.fragments.DatePickerDialogFragment;
 import patrickengelkes.com.alleneune.fragments.TimePickerDialogFragment;
 import roboguice.activity.RoboActivity;
 
 public class CreateEventActivity extends RoboActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
     public static final String TAG = CreateEventActivity.class.getSimpleName();
-    @Inject
-    EventController eventController;
-    @Inject
-    CurrentClub currentClub;
-
     protected EditText eventNameEditText;
     protected TextView datePickerTextView;
     protected TextView timePickerTextView;
     protected Button sendEventInvitesButton;
     protected Calendar globalCalendar;
+    @Inject
+    EventController eventController;
+    @Inject
+    CurrentClub currentClub;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,8 +85,8 @@ public class CreateEventActivity extends RoboActivity implements DatePickerDialo
 
                 if (eventController.createEvent(eventName, clubID, eventDate)) {
                     Log.e(TAG, "Event was created");
-                    Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.event_created_toast) +
-                            "send to all members", Toast.LENGTH_LONG);
+                    Toast toast = Toast.makeText(getApplicationContext(),
+                            getString(R.string.event_created_toast), Toast.LENGTH_LONG);
                     toast.show();
                     finish();
                 } else {
