@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AlleNeune</string>
+    <string name="action_settings">Einstellungen</string>
+    <string name="add_friends_button">Freunde Hinzufügen</string>
+    <string name="add_selected_friends">Ausgewählte Freunde Hinzufügen</string>
+    <string name="bad_request_warning">Es tut uns leid! Hier ist was falsch gelaufen.</string>
+    <string name="club_does_not_exist_warning">Dieser Club existiert nicht.</string>
+    <string name="club_name_exist_warning">Dierse Clubname wird bereits verwendet. Suchen Sie einen anderen aus!</string>
+    <string name="club_name_hint">Clubname</string>
+    <string name="club_name_label">Suchen Sie einen Namen für ihren Club aus. Im nächsten Schritt können Sie ihre Freunde einladen.</string>
+    <string name="create_club_text">Club Anlegen</string>
+    <string name="create_event_activity_title">Event Anlegen</string>
+    <string name="create_event_button">Event Anlegen</string>
+    <string name="edit_friends_label">Freunde Bearbeiten</string>
+    <string name="email_exist_warning">Diese Email wird bereits verwendet. Bitte wählen Sie eine andere!</string>
+    <string name="email_hint">Email</string>
+    <string name="event_created_toast">Ihr Event wurde angelegt und Einladungen an alle Mitglieder verschickt.</string>
+    <string name="general_error">Etwas lief bei uns falsch. Versuchen Sie es bitte erneut.</string>
+    <string name="join_club_text">Club Beitreten</string>
+    <string name="login_text">Einloggen</string>
+    <string name="menu_logout_label">Ausloggen</string>
+    <string name="participants_text_view">Teilnehmer</string>
+    <string name="password_confirmation_hint">Passwort Bestätigen</string>
+    <string name="password_hint">Passwort</string>
+    <string name="phone_number_exists_warning">Diese Telefonnummer existiert bereits!</string>
+    <string name="phone_number_explanation">Wir müssen Ihre Telefonnummer verifizieren, damit Sie später ihre Kontakte zu Ihren Clubs hinzufügen können.</string>
+    <string name="phone_number_hint">Telefonnummer</string>
+    <string name="send_event_invites_to_members">Einladungen an alle Mitglieder verschicken!</string>
+    <string name="set_event_date_hint">Klicken Sie hier um ein Datum zu setzen!</string>
+    <string name="set_event_name_hint">Setzen Sie einen Namen für dieses Event!</string>
+    <string name="set_event_time_hint">Klicken Sie hier um eine Uhrzeit zu setzen!</string>
+    <string name="sign_up_continue_text">Weiter</string>
+    <string name="sign_up_text">Registrieren</string>
+    <string name="user_and_email_exist_warning">Der Benutzername und die Email  wird bereits verwendet. Bitte wählen Sie etwas anderes.</string>
+    <string name="user_name_exist_warning">Dieser Benutzername existiert bereits. Bitte wählen Sie einen neuen!</string>
+    <string name="username_hint">Benutzername</string>
+    <string name="validation_failed_title">Validierung fehlgeschlagen</string>
+    <string name="wrong_user_credentials_warning">Falscher Benutzername oder Passwort!</string>
+</resources>

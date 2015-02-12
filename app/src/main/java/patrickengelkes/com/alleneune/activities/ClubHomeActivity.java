@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ListView;
 
 import com.google.inject.Inject;
@@ -21,7 +20,6 @@ import patrickengelkes.com.alleneune.entities.objects.Event;
 import roboguice.activity.RoboListActivity;
 
 public class ClubHomeActivity extends RoboListActivity {
-    protected Button createEventButton;
     protected List<Event> clubEvents = new ArrayList<Event>();
     @Inject
     EventController eventController;
@@ -32,15 +30,6 @@ public class ClubHomeActivity extends RoboListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_club_home);
-
-        createEventButton = (Button) findViewById(R.id.create_event_button);
-        createEventButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent createActivityIntent = new Intent(ClubHomeActivity.this, CreateEventActivity.class);
-                startActivity(createActivityIntent);
-            }
-        });
 
         setTitle(currentClub.getClubName());
 
@@ -60,6 +49,12 @@ public class ClubHomeActivity extends RoboListActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.events_action:
+                break;
+            case R.id.drinks_action:
+                break;
+            case R.id.fines_action:
+                break;
             case R.id.logout_action:
                 Intent signUpIntent = new Intent(ClubHomeActivity.this, MainActivity.class);
                 signUpIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

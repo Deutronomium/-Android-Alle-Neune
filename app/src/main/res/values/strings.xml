@@ -54,4 +54,7 @@
     <string name="club_name_exist_warning">This Clubname is already in use. Please choose another one!</string>
     <string name="club_does_not_exist_warning">This Club does not exist</string>
     <string name="general_error">An error occurred on our end. Please try again</string>
+    <string name="events">Events</string>
+    <string name="drinks">Drinks</string>
+    <string name="fines">Fines</string>
 </resources>

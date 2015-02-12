@@ -1,6 +1,5 @@
 import android.content.Intent;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.ListView;
 
 import org.junit.Before;
@@ -16,7 +15,6 @@ import org.robolectric.tester.android.view.TestMenuItem;
 import patrickengelkes.com.alleneune.CurrentClub;
 import patrickengelkes.com.alleneune.R;
 import patrickengelkes.com.alleneune.activities.ClubHomeActivity;
-import patrickengelkes.com.alleneune.activities.CreateEventActivity;
 import patrickengelkes.com.alleneune.activities.EditFriendsActivity;
 import patrickengelkes.com.alleneune.activities.MainActivity;
 import patrickengelkes.com.alleneune.activities.ShowEventActivity;
@@ -57,20 +55,8 @@ public class ClubHomeTest {
     @Test
     public void checkComponentsNotNull() {
         ListView eventListView = clubHomeActivity.getListView();
-        Button createEventButton = (Button) clubHomeActivity.findViewById(R.id.create_event_button);
 
         assertNotNull(eventListView);
-        assertNotNull(createEventButton);
-    }
-
-    @Test
-    public void createEvent() {
-        Button createEventButton = (Button) clubHomeActivity.findViewById(R.id.create_event_button);
-
-        createEventButton.performClick();
-
-        Intent intent = Robolectric.shadowOf(clubHomeActivity).peekNextStartedActivity();
-        assertEquals(CreateEventActivity.class.getCanonicalName(), intent.getComponent().getClassName());
     }
 
     @Test
