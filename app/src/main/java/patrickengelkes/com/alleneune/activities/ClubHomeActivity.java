@@ -5,22 +5,29 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ExpandableListView;
 
 import com.google.inject.Inject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import patrickengelkes.com.alleneune.CurrentClub;
 import patrickengelkes.com.alleneune.R;
-import patrickengelkes.com.alleneune.array_adapters.adapters.EventsArrayAdapter;
+import patrickengelkes.com.alleneune.array_adapters.adapters.ExpandableEventAdapter;
 import patrickengelkes.com.alleneune.entities.controllers.EventController;
 import patrickengelkes.com.alleneune.entities.objects.Event;
-import roboguice.activity.RoboListActivity;
+import patrickengelkes.com.alleneune.entities.objects.User;
+import roboguice.activity.RoboActivity;
 
-public class ClubHomeActivity extends RoboListActivity {
-    protected List<Event> clubEvents = new ArrayList<Event>();
+public class ClubHomeActivity extends RoboActivity {
+    protected Button createEventButton;
+
+    protected List<Event> eventList = new ArrayList<Event>();
+    protected HashMap<Event, List<User>> userList = new HashMap<Event, List<User>>();
     @Inject
     EventController eventController;
     @Inject
@@ -33,9 +40,35 @@ public class ClubHomeActivity extends RoboListActivity {
 
         setTitle(currentClub.getClubName());
 
-        clubEvents = eventController.getEventsByClub(currentClub.getClubID());
-        EventsArrayAdapter eventsArrayAdapter = new EventsArrayAdapter(this, clubEvents);
-        setListAdapter(eventsArrayAdapter);
+        eventList = eventController.getEventsByClub(currentClub.getClubID());
+        for (Event event : eventList) {
+            List<User> users = eventController.getEventParticipants(event.getEventID());
+            userList.put(event, users);
+        }
+
+        ExpandableListView expandableListView = (ExpandableListView) findViewById(R.id.expandable_event_view);
+        ExpandableEventAdapter expandableEventAdapter = new ExpandableEventAdapter(this, eventList, userList);
+        expandableListView.setAdapter(expandableEventAdapter);
+        expandableListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View convertView, int position, long id) {
+                Event event = eventList.get(position);
+                Intent showEventIntent = new Intent(ClubHomeActivity.this, ShowEventActivity.class);
+                showEventIntent.putExtra(Event.PARCELABLE, event);
+                startActivity(showEventIntent);
+
+                return true;
+            }
+        });
+
+        createEventButton = (Button) findViewById(R.id.create_event_button);
+        createEventButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent createEventIntent = new Intent(ClubHomeActivity.this, CreateEventActivity.class);
+                startActivity(createEventIntent);
+            }
+        });
     }
 
 
@@ -68,14 +101,5 @@ public class ClubHomeActivity extends RoboListActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
-        Event selectedEvent = clubEvents.get(position);
-        Intent showEventIntent = new Intent(ClubHomeActivity.this, ShowEventActivity.class);
-        showEventIntent.putExtra(Event.PARCELABLE, selectedEvent);
-        startActivity(showEventIntent);
     }
 }
