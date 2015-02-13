@@ -57,4 +57,11 @@
     <string name="events">Events</string>
     <string name="drinks">Drinks</string>
     <string name="fines">Fines</string>
+    <string name="title_activity_drink">DrinkActivity</string>
+    <string name="create_drink_button">Create Drink</string>
+    <string name="title_activity_create_drink">CreateDrinkActivity</string>
+    <string name="event_price_hint">Set a price for this drink!</string>
+    <string name="event_name_hint">Set a name for this drink</string>
+    <string name="euro_sign">€</string>
+    <string name="create_button">Create</string>
 </resources>
