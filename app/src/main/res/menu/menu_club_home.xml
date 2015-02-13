@@ -4,19 +4,21 @@
 
     <item
         android:id="@+id/events_action"
-        android:showAsAction="never"
+        android:icon="@drawable/event_icon"
+        android:showAsAction="always"
         android:title="@string/events" />
 
     <item
         android:id="@+id/drinks_action"
-        android:showAsAction="never"
+        android:icon="@drawable/drink_icon"
+        android:showAsAction="always"
         android:title="@string/drinks" />
 
     <item
         android:id="@+id/fines_action"
-        android:showAsAction="never"
+        android:icon="@drawable/fine_icon"
+        android:showAsAction="always"
         android:title="@string/fines" />
-
 
     <item
         android:id="@+id/edit_friends_action"
