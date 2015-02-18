@@ -80,14 +80,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="patrickengelkes.com.alleneune.activities.ClubHomeActivity" />
         </activity>
-        <activity
-            android:name=".activities.CreateDrinkActivity"
-            android:label="@string/title_activity_create_drink"
-            android:parentActivityName=".activities.DrinkActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="patrickengelkes.com.alleneune.activities.DrinkActivity" />
-        </activity>
     </application>
 
 </manifest>

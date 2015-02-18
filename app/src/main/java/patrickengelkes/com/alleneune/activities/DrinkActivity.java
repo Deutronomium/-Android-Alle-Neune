@@ -1,20 +1,29 @@
 package patrickengelkes.com.alleneune.activities;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ExpandableListView;
 
 import com.google.inject.Inject;
 
+import java.util.List;
+
 import patrickengelkes.com.alleneune.CurrentClub;
 import patrickengelkes.com.alleneune.R;
+import patrickengelkes.com.alleneune.array_adapters.adapters.DrinksArrayAdapter;
+import patrickengelkes.com.alleneune.dialogs.CreateDrinkDialog;
 import patrickengelkes.com.alleneune.entities.controllers.DrinkController;
+import patrickengelkes.com.alleneune.entities.objects.Drink;
 import roboguice.activity.RoboActivity;
+import roboguice.activity.RoboListActivity;
 
-public class DrinkActivity extends RoboActivity {
+public class DrinkActivity extends RoboListActivity {
     protected Button createDrinkButton;
 
     @Inject
@@ -27,16 +36,19 @@ public class DrinkActivity extends RoboActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drink);
 
-        drinkController.getDrinksByClub(currentClub.getClubID());
         createDrinkButton = (Button) findViewById(R.id.create_drink_button);
         createDrinkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent createDrinkIntent = new Intent(DrinkActivity.this, CreateDrinkActivity.class);
-                startActivity(createDrinkIntent);
+                CreateDrinkDialog createDrinkDialog = new CreateDrinkDialog(DrinkActivity.this);
+
+                createDrinkDialog.show();
             }
         });
 
+        List<Drink> drinksList = drinkController.getDrinksByClub(currentClub.getClubID());
+        DrinksArrayAdapter drinksArrayAdapter = new DrinksArrayAdapter(DrinkActivity.this, drinksList);
+        setListAdapter(drinksArrayAdapter);
     }
 
 

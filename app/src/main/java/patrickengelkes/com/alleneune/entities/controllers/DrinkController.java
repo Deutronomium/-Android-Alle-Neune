@@ -33,19 +33,20 @@ public class DrinkController {
     public DrinkController() {
     }
 
-    private String drinkJSON(String name, double price) throws JSONException {
+    private String drinkJSON(String name, double price, int clubID) throws JSONException {
         JSONObject leaf = new JSONObject();
         leaf.put(Drink.NAME, name);
         leaf.put(Drink.PRICE, price);
+        leaf.put("club_id", clubID);
         JSONObject root = new JSONObject();
         root.put(Drink.ROOT, leaf);
 
         return root.toString();
     }
 
-    public ApiCall create(String name, double price) {
+    public ApiCall create(String name, double price, int clubID) {
         try {
-            HttpResponse response = new ApiCallTask().execute(createDrinkPostEntity(name, price)).get();
+            HttpResponse response = new ApiCallTask().execute(createDrinkPostEntity(name, price, clubID)).get();
             JSONObject createAnswer = new JsonBuilder().execute(response).get();
             if (response.getStatusLine().getStatusCode() == 201 && createAnswer != null) {
                 return ApiCall.CREATED;
@@ -69,8 +70,8 @@ public class DrinkController {
         return ApiCall.BAD_REQUEST;
     }
 
-    private HttpPostEntity createDrinkPostEntity(String name, double price) throws JSONException, UnsupportedEncodingException {
-        return new HttpPostEntity(genericUrl, drinkJSON(name, price));
+    private HttpPostEntity createDrinkPostEntity(String name, double price, int clubID) throws JSONException, UnsupportedEncodingException {
+        return new HttpPostEntity(genericUrl, drinkJSON(name, price, clubID));
     }
 
     public List<Drink> getDrinksByClub(int clubID) {

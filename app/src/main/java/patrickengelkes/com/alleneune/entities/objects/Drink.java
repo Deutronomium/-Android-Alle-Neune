@@ -37,14 +37,6 @@ public class Drink implements Parcelable {
         this.price = price;
     }
 
-    //<editor-fold desc="Parcelable">
-    protected Drink(Parcel in) {
-        this.id = in.readInt();
-        this.name = in.readString();
-        this.price = in.readDouble();
-    }
-
-    //<editor-fold desc="Getter & Setter">
     public int getId() {
         return this.id;
     }
@@ -52,14 +44,28 @@ public class Drink implements Parcelable {
     public void setId(int id) {
         this.id = id;
     }
-    //</editor-fold>
 
-    public String name() {
+    public String getName() {
         return this.name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public double getPrice() {
+        return this.price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    //<editor-fold desc="Parcelable">
+    protected Drink(Parcel in) {
+        this.id = in.readInt();
+        this.name = in.readString();
+        this.price = in.readDouble();
     }
 
     @Override

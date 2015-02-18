@@ -32,7 +32,7 @@ public class ShowEventActivity extends RoboListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
 
-        eventNameTextView = (TextView) findViewById(R.id.event_name_text_view);
+        eventNameTextView = (TextView) findViewById(R.id.name_text_view);
         eventDateTextView = (TextView) findViewById(R.id.event_date_text_view);
 
         this.eventIntent = getIntent();

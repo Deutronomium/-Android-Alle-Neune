@@ -70,11 +70,11 @@ public class ExpandableEventAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int eventPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = layoutInflater.inflate(R.layout.listrow_event, null);
+            convertView = layoutInflater.inflate(R.layout.listrow_group, null);
         }
 
         Event event = (Event) getGroup(eventPosition);
-        TextView eventNameTextView = (TextView) convertView.findViewById(R.id.event_name_text_view);
+        TextView eventNameTextView = (TextView) convertView.findViewById(R.id.name_text_view);
         eventNameTextView.setText(event.getEventName());
 
         return convertView;
@@ -88,7 +88,7 @@ public class ExpandableEventAdapter extends BaseExpandableListAdapter {
         if (convertView == null) {
             convertView = layoutInflater.inflate(R.layout.listrow_event_details, null);
         }
-        text = (TextView) convertView.findViewById(R.id.event_name_text_view);
+        text = (TextView) convertView.findViewById(R.id.name_text_view);
         text.setText(user.getUserName());
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
