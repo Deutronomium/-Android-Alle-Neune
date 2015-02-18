@@ -44,9 +44,11 @@ public class DrinkController {
         return root.toString();
     }
 
-    public ApiCall create(String name, double price, int clubID) {
+    public ApiCall create(Drink drink) {
         try {
-            HttpResponse response = new ApiCallTask().execute(createDrinkPostEntity(name, price, clubID)).get();
+            HttpPostEntity createDrinkPostEntity = createDrinkPostEntity(drink.getName(),
+                    drink.getPrice(), drink.getClubID());
+            HttpResponse response = new ApiCallTask().execute(createDrinkPostEntity).get();
             JSONObject createAnswer = new JsonBuilder().execute(response).get();
             if (response.getStatusLine().getStatusCode() == 201 && createAnswer != null) {
                 return ApiCall.CREATED;

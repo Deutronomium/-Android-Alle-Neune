@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <EditText
         android:id="@+id/drink_name_edit_text"
-        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:gravity="center"
         android:hint="@string/event_name_hint" />
 
     <EditText
@@ -18,30 +19,32 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/drink_name_edit_text"
-        android:layout_toLeftOf="@+id/editText"
+        android:layout_toLeftOf="@+id/euro_sign_text_view"
+        android:layout_toStartOf="@+id/euro_sign_text_view"
         android:ems="10"
         android:gravity="end"
         android:hint="@string/event_price_hint"
         android:inputType="numberDecimal" />
 
-    <EditText
-        android:id="@+id/editText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/drink_price_edit_text"
-        android:text="@string/euro_sign" />
-
     <Button
-        android:id="@+id/create_drink_button"
-        android:text="@string/create_drink_button"
+        android:id="@+id/drink_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/drink_price_edit_text"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/drink_price_edit_text" />
+
+    <TextView
+        android:id="@+id/euro_sign_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/drink_price_edit_text"
+        android:layout_alignBottom="@+id/drink_price_edit_text"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:text="@string/euro_sign"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </RelativeLayout>

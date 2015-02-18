@@ -23,6 +23,7 @@ public class Drink implements Parcelable {
     public static String PRICE = "price";
     public static String GET_BY_CLUB = "/get_by_club";
     private int id;
+    private int clubID;
     private String name;
     private double price;
 
@@ -35,6 +36,19 @@ public class Drink implements Parcelable {
         this.id = id;
         this.name = name;
         this.price = price;
+    }
+
+    public Drink(String name, double price, int clubID) {
+        this.name = name;
+        this.price = price;
+        this.clubID = clubID;
+    }
+
+    //<editor-fold desc="Parcelable">
+    protected Drink(Parcel in) {
+        this.id = in.readInt();
+        this.name = in.readString();
+        this.price = in.readDouble();
     }
 
     public int getId() {
@@ -61,11 +75,12 @@ public class Drink implements Parcelable {
         this.price = price;
     }
 
-    //<editor-fold desc="Parcelable">
-    protected Drink(Parcel in) {
-        this.id = in.readInt();
-        this.name = in.readString();
-        this.price = in.readDouble();
+    public int getClubID() {
+        return this.clubID;
+    }
+
+    public void setClubID(int clubID) {
+        this.clubID = clubID;
     }
 
     @Override
