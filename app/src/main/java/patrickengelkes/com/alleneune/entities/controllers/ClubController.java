@@ -18,6 +18,7 @@ import patrickengelkes.com.alleneune.CurrentClub;
 import patrickengelkes.com.alleneune.api_calls.ApiCallTask;
 import patrickengelkes.com.alleneune.api_calls.HttpPostEntity;
 import patrickengelkes.com.alleneune.api_calls.JsonBuilder;
+import patrickengelkes.com.alleneune.entities.objects.Club;
 import patrickengelkes.com.alleneune.entities.objects.User;
 import patrickengelkes.com.alleneune.enums.ApiCall;
 
@@ -28,10 +29,6 @@ public class ClubController {
     public static final String TAG = ClubController.class.getSimpleName();
     @Inject
     CurrentClub currentClub;
-    private String genericUrl = "/clubs";
-    private JSONObject addFriendsAnswer;
-    private JSONObject validateAnswer;
-    private JSONObject createAnswer;
 
     @Inject
     public ClubController() {
@@ -40,9 +37,9 @@ public class ClubController {
 
     private String clubJSON(String clubName) throws JSONException {
         JSONObject leaf = new JSONObject();
-        leaf.put("name", clubName);
+        leaf.put(Club.NAME, clubName);
         JSONObject root = new JSONObject();
-        root.put("club", leaf);
+        root.put(Club.ROOT, leaf);
 
         return root.toString();
     }
@@ -51,11 +48,11 @@ public class ClubController {
         try {
             HttpResponse response = new ApiCallTask().execute(createClubPostEntity(clubName)).get();
             if (response != null) {
-                createAnswer = new JsonBuilder().execute(response).get();
+                JSONObject createAnswer = new JsonBuilder().execute(response).get();
                 if (response.getStatusLine().getStatusCode() == 201 && createAnswer != null) {
-                    JSONObject clubJson = (JSONObject) createAnswer.get("club");
-                    currentClub.setClubID((Integer) clubJson.get("id"));
-                    currentClub.setClubName((String) clubJson.get("name"));
+                    JSONObject clubJson = (JSONObject) createAnswer.get(Club.ROOT);
+                    currentClub.setClubID((Integer) clubJson.get(Club.ID));
+                    currentClub.setClubName((String) clubJson.get(Club.NAME));
                     return ApiCall.CREATED;
                 } else if (response.getStatusLine().getStatusCode() == 422 && createAnswer != null) {
                     Log.e(TAG, "Creating entity failed");
@@ -78,14 +75,14 @@ public class ClubController {
     }
 
     private HttpPostEntity createClubPostEntity(String clubName) throws JSONException, UnsupportedEncodingException {
-        return new HttpPostEntity(genericUrl, clubJSON(clubName));
+        return new HttpPostEntity(Club.GENERIC_URL, clubJSON(clubName));
     }
 
     public boolean checkValidity(String clubName) {
         try {
             HttpResponse response = new ApiCallTask().execute(checkValidityPostEntity(clubName)).get();
             if (response != null) {
-                validateAnswer = new JsonBuilder().execute(response).get();
+                JSONObject validateAnswer = new JsonBuilder().execute(response).get();
                 if (response.getStatusLine().getStatusCode() == 200) {
                     return true;
                 } else {
@@ -106,7 +103,7 @@ public class ClubController {
     }
 
     private HttpPostEntity checkValidityPostEntity(String clubName) throws JSONException, UnsupportedEncodingException {
-        return new HttpPostEntity(genericUrl + "/validity", clubJSON(clubName));
+        return new HttpPostEntity(Club.VALIDITY, clubJSON(clubName));
     }
 
     public List<String> getUserByClub(String clubName){
@@ -130,7 +127,7 @@ public class ClubController {
     }
 
     public HttpPostEntity getUsersByClubPostEntity(String clubName) throws JSONException, UnsupportedEncodingException {
-        return new HttpPostEntity(genericUrl + "/get_members_by_club", clubJSON(clubName));
+        return new HttpPostEntity(Club.GET_MEMBERS_BY_CLUB, clubJSON(clubName));
     }
 
     public ApiCall addFriendsToClub(List<String> phoneNumberList, int clubID) {
@@ -162,14 +159,12 @@ public class ClubController {
     private HttpPostEntity addFriendsToClubPostEntity(List<String> phoneNumberList, int clubID) throws JSONException, UnsupportedEncodingException {
         JSONArray phoneNumberArray = getJSONArrayFromList(phoneNumberList);
         JSONObject leaf = new JSONObject();
-        leaf.put("id", clubID);
-        leaf.put("members", phoneNumberArray);
+        leaf.put(Club.ID, clubID);
+        leaf.put(Club.MEMBERS, phoneNumberArray);
         JSONObject root = new JSONObject();
-        root.put("club", leaf);
+        root.put(Club.ROOT, leaf);
 
-        String url = genericUrl + "/add_members";
-
-        return new HttpPostEntity(url, root.toString());
+        return new HttpPostEntity(Club.ADD_MEMBERS, root.toString());
     }
 
     private JSONArray getJSONArrayFromList(List<String> list) {
@@ -183,26 +178,11 @@ public class ClubController {
 
     private List<String> getUsersFromJsonResponse(JSONObject jsonResponse) throws JSONException {
         List<String> returnList = new ArrayList<String>();
-        JSONArray usersArray = jsonResponse.getJSONArray("clubs");
+        JSONArray usersArray = jsonResponse.getJSONArray(Club.ROOT + "s");
         for (int i = 0; i < usersArray.length(); i++) {
             returnList.add((String) ((JSONObject) usersArray.get(i)).get(User.USER_NAME));
         }
 
         return returnList;
     }
-
-
-    //<editor-fold desc="Getter">
-    public JSONObject getAddFriendsAnswer() {
-        return addFriendsAnswer;
-    }
-
-    public JSONObject getValidateAnswer() {
-        return validateAnswer;
-    }
-
-    public JSONObject getCreateAnswer() {
-        return createAnswer;
-    }
-    //</editor-fold>
 }

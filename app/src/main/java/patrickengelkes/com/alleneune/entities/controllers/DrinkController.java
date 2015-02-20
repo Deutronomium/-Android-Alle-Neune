@@ -98,7 +98,7 @@ public class DrinkController {
 
     private HttpPostEntity getByClubPostEntity(int clubID) throws JSONException, UnsupportedEncodingException {
         JSONObject leaf = new JSONObject();
-        leaf.put(Club.ID, clubID);
+        leaf.put(Drink.CLUB_ID, clubID);
         JSONObject root = new JSONObject();
         root.put(Drink.ROOT, leaf);
 

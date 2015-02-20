@@ -1,6 +1,5 @@
 package patrickengelkes.com.alleneune.activities;
 
-import android.app.ListActivity;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -92,7 +91,7 @@ public class EditFriendsActivity extends RoboListActivity {
             case 0:
                 String itemToRemove = userNames.get(info.position);
                 try {
-                    friendsController.removeFriendFromClub(this.club.getClubName(), itemToRemove);
+                    friendsController.removeFriendFromClub(this.club.getName(), itemToRemove);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
