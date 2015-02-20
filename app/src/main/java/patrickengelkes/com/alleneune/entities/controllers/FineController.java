@@ -17,71 +17,69 @@ import java.util.concurrent.ExecutionException;
 import patrickengelkes.com.alleneune.api_calls.ApiCallTask;
 import patrickengelkes.com.alleneune.api_calls.HttpPostEntity;
 import patrickengelkes.com.alleneune.api_calls.JsonBuilder;
-import patrickengelkes.com.alleneune.entities.objects.Club;
-import patrickengelkes.com.alleneune.entities.objects.Drink;
+import patrickengelkes.com.alleneune.entities.objects.Fine;
 import patrickengelkes.com.alleneune.enums.ApiCall;
 
 /**
- * Created by patrickengelkes on 13/02/15.
+ * Created by patrickengelkes on 18/02/15.
  */
-public class DrinkController {
+public class FineController {
     public static final String TAG = DrinkController.class.getSimpleName();
 
-
     @Inject
-    public DrinkController() {
+    public FineController() {
     }
 
-    private String drinkJSON(Drink drink) throws JSONException {
+    private String fineJSON(Fine fine) throws JSONException {
         JSONObject leaf = new JSONObject();
-        leaf.put(Drink.NAME, drink.getName());
-        leaf.put(Drink.PRICE, drink.getPrice());
-        leaf.put(Drink.CLUB_ID, drink.getClubID());
+        leaf.put(Fine.NAME, fine.getName());
+        leaf.put(Fine.AMOUNT, fine.getAmount());
+        leaf.put(Fine.CLUB_ID, fine.getClubID());
         JSONObject root = new JSONObject();
-        root.put(Drink.ROOT, leaf);
+        root.put(Fine.ROOT, leaf);
 
         return root.toString();
     }
 
-    public ApiCall create(Drink drink) {
+    public ApiCall create(Fine fine) {
         try {
-            HttpPostEntity createDrinkPostEntity = createDrinkPostEntity(drink);
-            HttpResponse response = new ApiCallTask().execute(createDrinkPostEntity).get();
+            HttpPostEntity createFinePostEntity = createFinePostEntity(fine);
+            HttpResponse response = new ApiCallTask().execute(createFinePostEntity).get();
             JSONObject createAnswer = new JsonBuilder().execute(response).get();
             if (response.getStatusLine().getStatusCode() == 201 && createAnswer != null) {
                 return ApiCall.CREATED;
             } else if (response.getStatusLine().getStatusCode() == 422 && createAnswer != null) {
-                Log.e(TAG, "Creating Drink Failed");
+                Log.e(TAG, "Creating Fine Failed");
                 Log.e(TAG, createAnswer.toString());
                 return ApiCall.UNPROCESSABLE_ENTITY;
             } else {
                 return ApiCall.BAD_REQUEST;
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
 
         return ApiCall.BAD_REQUEST;
     }
 
-    private HttpPostEntity createDrinkPostEntity(Drink drink) throws JSONException, UnsupportedEncodingException {
-        return new HttpPostEntity(Drink.GENERIC_URL, drinkJSON(drink));
+    private HttpPostEntity createFinePostEntity(Fine fine) throws JSONException, UnsupportedEncodingException {
+        return new HttpPostEntity(Fine.GENERIC_URL, fineJSON(fine));
     }
 
-    public List<Drink> getByClub(int clubID) {
-        List<Drink> returnList = new ArrayList<Drink>();
+    public List<Fine> getByClub(int clubID) {
+        List<Fine> returnList = new ArrayList<Fine>();
 
         try {
             HttpResponse response = new ApiCallTask().execute(getByClubPostEntity(clubID)).get();
-            JSONObject drinksResponse = new JsonBuilder().execute(response).get();
-            if (response.getStatusLine().getStatusCode() == 200 && drinksResponse != null) {
-                returnList = getDrinkListFromJson(drinksResponse);
+            JSONObject fineResponse = new JsonBuilder().execute(response).get();
+            if (response.getStatusLine().getStatusCode() == 200 && fineResponse != null) {
+                returnList = getFineListFromJson(fineResponse);
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -98,26 +96,29 @@ public class DrinkController {
 
     private HttpPostEntity getByClubPostEntity(int clubID) throws JSONException, UnsupportedEncodingException {
         JSONObject leaf = new JSONObject();
-        leaf.put(Club.ID, clubID);
+        leaf.put(Fine.CLUB_ID, clubID);
         JSONObject root = new JSONObject();
-        root.put(Drink.ROOT, leaf);
+        root.put(Fine.ROOT, leaf);
 
-        return new HttpPostEntity(Drink.GET_BY_CLUB, root.toString());
+        return new HttpPostEntity(Fine.GET_BY_CLUB, root.toString());
     }
 
-    private List<Drink> getDrinkListFromJson(JSONObject drinksJson) throws JSONException {
-        List<Drink> drinkList = new ArrayList<Drink>();
+    private List<Fine> getFineListFromJson(JSONObject finesJson) throws JSONException {
+        List<Fine> finesList = new ArrayList<Fine>();
 
-        JSONArray drinks = drinksJson.getJSONArray("drinks");
-        for (int i = 0; i < drinks.length(); i++) {
-            JSONObject drinkJson = drinks.getJSONObject(i);
-            String name = drinkJson.getString("name");
-            double price = drinkJson.getDouble("price");
+        JSONArray fines = finesJson.getJSONArray(Fine.ROOT + "s");
+        for (int i = 0; i < fines.length(); i++) {
+            JSONObject fineJson = fines.getJSONObject(i);
+            int id = fineJson.getInt(Fine.ID);
+            String name = fineJson.getString(Fine.NAME);
+            double amount = fineJson.getDouble(Fine.AMOUNT);
+            int clubID = fineJson.getInt(Fine.CLUB_ID);
 
-            Drink drink = new Drink(name, price);
-            drinkList.add(drink);
+            Fine fine = new Fine(id, name, amount, clubID);
+            finesList.add(fine);
         }
 
-        return drinkList;
+        return finesList;
     }
+
 }

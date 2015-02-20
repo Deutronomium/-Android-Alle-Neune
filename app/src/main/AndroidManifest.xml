@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="patrickengelkes.com.alleneune">
+    package="patrickengelkes.com.alleneune" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -9,10 +9,10 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
         <activity
             android:name=".activities.MainActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,7 +28,7 @@
         <activity
             android:name=".activities.PhoneNumberActivity"
             android:label="@string/title_activity_phone_number"
-            android:parentActivityName=".activities.SignUpActivity">
+            android:parentActivityName=".activities.SignUpActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="patrickengelkes.com.alleneune.activities.SignUpActivity" />
@@ -39,7 +39,7 @@
         <activity
             android:name=".activities.AddFriendsActivity"
             android:label="@string/title_activity_add_friends"
-            android:parentActivityName=".activities.CreateClubActivity">
+            android:parentActivityName=".activities.CreateClubActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="patrickengelkes.com.alleneune.activities.CreateClubActivity" />
@@ -50,7 +50,7 @@
         <activity
             android:name=".activities.EditFriendsActivity"
             android:label="@string/title_activity_edit_friends"
-            android:parentActivityName=".activities.ClubHomeActivity">
+            android:parentActivityName=".activities.ClubHomeActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="patrickengelkes.com.alleneune.activities.ClubHomeActivity" />
@@ -59,7 +59,7 @@
             android:name=".activities.CreateEventActivity"
             android:label="@string/title_activity_create_event"
             android:parentActivityName=".activities.ClubHomeActivity"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustPan" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="patrickengelkes.com.alleneune.activities.ClubHomeActivity" />
@@ -67,7 +67,7 @@
         <activity
             android:name=".activities.ShowEventActivity"
             android:label="@string/title_activity_show_event"
-            android:parentActivityName=".activities.ClubHomeActivity">
+            android:parentActivityName=".activities.ClubHomeActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="patrickengelkes.com.alleneune.activities.ClubHomeActivity" />
@@ -75,7 +75,15 @@
         <activity
             android:name=".activities.DrinkActivity"
             android:label="@string/title_activity_drink"
-            android:parentActivityName=".activities.ClubHomeActivity">
+            android:parentActivityName=".activities.ClubHomeActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="patrickengelkes.com.alleneune.activities.ClubHomeActivity" />
+        </activity>
+        <activity
+            android:name=".activities.FineActivity"
+            android:label="@string/title_activity_fine"
+            android:parentActivityName=".activities.ClubHomeActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="patrickengelkes.com.alleneune.activities.ClubHomeActivity" />

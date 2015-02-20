@@ -1,5 +1,6 @@
 package patrickengelkes.com.alleneune.activities;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,49 +13,48 @@ import java.util.List;
 
 import patrickengelkes.com.alleneune.CurrentClub;
 import patrickengelkes.com.alleneune.R;
-import patrickengelkes.com.alleneune.array_adapters.adapters.DrinkArrayAdapter;
-import patrickengelkes.com.alleneune.dialogs.DrinkDialog;
-import patrickengelkes.com.alleneune.entities.controllers.DrinkController;
-import patrickengelkes.com.alleneune.entities.objects.Drink;
+import patrickengelkes.com.alleneune.array_adapters.adapters.FineArrayAdapter;
+import patrickengelkes.com.alleneune.dialogs.FineDialog;
+import patrickengelkes.com.alleneune.entities.controllers.FineController;
+import patrickengelkes.com.alleneune.entities.objects.Fine;
 import roboguice.activity.RoboListActivity;
 
-public class DrinkActivity extends RoboListActivity {
+public class FineActivity extends RoboListActivity {
     @Inject
     CurrentClub currentClub;
     @Inject
-    DrinkController drinkController;
+    FineController fineController;
 
-    protected Button createDrinkButton;
+    protected Button createFineButton;
 
-    DrinkArrayAdapter drinkArrayAdapter;
+    FineArrayAdapter fineArrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_drink);
+        setContentView(R.layout.activity_fine);
 
-        List<Drink> drinksList = drinkController.getByClub(currentClub.getClubID());
-        drinkArrayAdapter = new DrinkArrayAdapter(DrinkActivity.this, drinksList);
+        List<Fine> fineList = fineController.getByClub(currentClub.getClubID());
+        fineArrayAdapter = new FineArrayAdapter(FineActivity.this, fineList);
 
-        createDrinkButton = (Button) findViewById(R.id.create_drink_button);
-        createDrinkButton.setOnClickListener(new View.OnClickListener() {
+        createFineButton = (Button) findViewById(R.id.create_fine_button);
+        createFineButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DrinkDialog drinkDialog = new DrinkDialog(DrinkActivity.this,
-                        drinkArrayAdapter, null);
-
-                drinkDialog.show();
+                FineDialog fineDialog = new FineDialog(FineActivity.this,
+                        fineArrayAdapter, null);
+                fineDialog.show();
             }
         });
 
-        setListAdapter(drinkArrayAdapter);
+        setListAdapter(fineArrayAdapter);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_drink, menu);
+        getMenuInflater().inflate(R.menu.menu_fine, menu);
         return true;
     }
 

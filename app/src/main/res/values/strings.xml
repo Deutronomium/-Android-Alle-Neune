@@ -66,4 +66,9 @@
     <string name="euro_sign">€</string>
     <string name="create_button">Create</string>
     <string name="drink_used_warning">This drink already exists. Please choose another name!</string>
+    <string name="update_fine">Update Fine</string>
+    <string name="create_fine">Create Fine</string>
+    <string name="fine_used_warning">This fine already exists. Please choose another name!</string>
+    <string name="title_activity_fine">FineActivity</string>
+    <string name="event_amount_hint">Amount</string>
 </resources>

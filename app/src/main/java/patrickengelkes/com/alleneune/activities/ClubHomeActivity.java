@@ -89,6 +89,8 @@ public class ClubHomeActivity extends RoboActivity {
                 startActivity(drinkIntent);
                 break;
             case R.id.fines_action:
+                Intent fineIntent = new Intent(ClubHomeActivity.this, FineActivity.class);
+                startActivity(fineIntent);
                 break;
             case R.id.logout_action:
                 Intent signUpIntent = new Intent(ClubHomeActivity.this, MainActivity.class);

@@ -15,12 +15,12 @@ import patrickengelkes.com.alleneune.entities.objects.Drink;
 /**
  * Created by patrickengelkes on 14/02/15.
  */
-public class DrinksArrayAdapter extends ArrayAdapter<Drink>{
+public class DrinkArrayAdapter extends ArrayAdapter<Drink>{
 
     private List<Drink> drinkList;
     private Activity context;
 
-    public DrinksArrayAdapter(Activity context, List<Drink> drinkList) {
+    public DrinkArrayAdapter(Activity context, List<Drink> drinkList) {
         super(context, R.layout.list_drink_layout, drinkList);
 
         this.context = context;

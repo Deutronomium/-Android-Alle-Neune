@@ -11,7 +11,7 @@ import com.google.inject.Inject;
 import patrickengelkes.com.alleneune.CurrentClub;
 import patrickengelkes.com.alleneune.DecimalInputTextWatcher;
 import patrickengelkes.com.alleneune.R;
-import patrickengelkes.com.alleneune.array_adapters.adapters.DrinksArrayAdapter;
+import patrickengelkes.com.alleneune.array_adapters.adapters.DrinkArrayAdapter;
 import patrickengelkes.com.alleneune.entities.controllers.DrinkController;
 import patrickengelkes.com.alleneune.entities.objects.Drink;
 import patrickengelkes.com.alleneune.enums.ApiCall;
@@ -32,7 +32,7 @@ public class DrinkDialog extends Dialog {
     protected Button drinkButton;
 
 
-    public DrinkDialog(final Context context, final DrinksArrayAdapter drinksArrayAdapter,
+    public DrinkDialog(final Context context, final DrinkArrayAdapter drinkArrayAdapter,
                        Drink drink) {
         super(context);
         final RoboInjector injector = RoboGuice.getInjector(context);
@@ -64,7 +64,7 @@ public class DrinkDialog extends Dialog {
                     ApiCall response = drinkController.create(drink);
                     if (response == ApiCall.CREATED) {
                         dismiss();
-                        drinksArrayAdapter.add(drink);
+                        drinkArrayAdapter.add(drink);
                     } else if (response == ApiCall.UNPROCESSABLE_ENTITY) {
                         ErrorDialog dialog = new ErrorDialog(context,
                                 context.getString(R.string.drink_used_warning));
