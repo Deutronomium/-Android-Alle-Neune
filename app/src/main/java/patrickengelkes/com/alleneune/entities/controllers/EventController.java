@@ -29,11 +29,8 @@ import roboguice.inject.RoboInjector;
  */
 public class EventController {
     public static final String TAG = EventController.class.getSimpleName();
-    private static String genericUrl = "/events";
     @Inject
     UserController userController;
-    private JSONObject getEventsByClubAnswer;
-    private JSONObject createAnswer;
 
     @Inject
     public EventController(Context context) {
@@ -44,22 +41,20 @@ public class EventController {
 
     public static HttpPostEntity getParticipantsPostEntity(int eventID) throws JSONException, UnsupportedEncodingException {
         JSONObject leaf = new JSONObject();
-        leaf.put("event_id", eventID);
+        leaf.put(Event.EVENT_ID, eventID);
         JSONObject root = new JSONObject();
-        root.put("event", leaf);
+        root.put(Event.ROOT, leaf);
 
-        String url = genericUrl + "/get_participants";
-
-        return new HttpPostEntity(url, root.toString());
+        return new HttpPostEntity(Event.GET_PARTICIPANTS, root.toString());
     }
 
     public String eventJSON(String eventName, int clubID, String eventDate) throws JSONException {
         JSONObject leaf = new JSONObject();
-        leaf.put("name", eventName);
-        leaf.put("club_id", clubID);
-        leaf.put("date", eventDate);
+        leaf.put(Event.NAME, eventName);
+        leaf.put(Event.CLUB_ID, clubID);
+        leaf.put(Event.DATE, eventDate);
         JSONObject root = new JSONObject();
-        root.put("event", leaf);
+        root.put(Event.ROOT, leaf);
         return root.toString();
     }
 
@@ -68,7 +63,7 @@ public class EventController {
             HttpResponse response = new ApiCallTask().
                     execute(createEventPostEntity(eventName, clubID, eventDate)).get();
             if (response != null) {
-                createAnswer = new JsonBuilder().execute(response).get();
+                JSONObject createAnswer = new JsonBuilder().execute(response).get();
                 if (response.getStatusLine().getStatusCode() == 201) {
                     return ApiCall.CREATED;
                 } else {
@@ -92,7 +87,7 @@ public class EventController {
 
     private HttpPostEntity createEventPostEntity(String eventName, int clubID, String eventDate)
             throws JSONException, UnsupportedEncodingException {
-        return new HttpPostEntity(genericUrl, eventJSON(eventName, clubID, eventDate));
+        return new HttpPostEntity(Event.GENERIC_URL, eventJSON(eventName, clubID, eventDate));
     }
 
     public List<Event> getEventsByClub(int clubID) {
@@ -101,7 +96,7 @@ public class EventController {
         try {
             HttpResponse response = new ApiCallTask().execute(getEventsByClubPostEntity(clubID)).get();
             if (response != null) {
-                getEventsByClubAnswer = new JsonBuilder().execute(response).get();
+                JSONObject getEventsByClubAnswer = new JsonBuilder().execute(response).get();
                 returnList = getEventsFromResponse(getEventsByClubAnswer, clubID);
             }
         } catch (InterruptedException e) {
@@ -119,13 +114,11 @@ public class EventController {
 
     public HttpPostEntity getEventsByClubPostEntity(int clubID) throws JSONException, UnsupportedEncodingException {
         JSONObject leaf = new JSONObject();
-        leaf.put("club_id", clubID);
+        leaf.put(Event.CLUB_ID, clubID);
         JSONObject root = new JSONObject();
-        root.put("event", leaf);
+        root.put(Event.ROOT, leaf);
 
-        String url = genericUrl + "/get_events_by_club";
-
-        return new HttpPostEntity(url, root.toString());
+        return new HttpPostEntity(Event.GET_BY_CLUB, root.toString());
     }
 
     public List<User> getEventParticipants(int eventID) {
@@ -136,7 +129,7 @@ public class EventController {
                     new ApiCallTask().execute(getParticipantsPostEntity(eventID)).get();
             if (response != null) {
                 JSONObject participantsByEvent = new JsonBuilder().execute(response).get();
-                JSONArray users = (JSONArray) participantsByEvent.get("events");
+                JSONArray users = (JSONArray) participantsByEvent.get(Event.ROOT + "s");
                 returnList = userController.getUserListFromJSONResponse(users);
             }
         } catch (JSONException e) {
@@ -155,12 +148,12 @@ public class EventController {
     private List<Event> getEventsFromResponse(JSONObject response, int clubID) {
         List<Event> eventList = new ArrayList<Event>();
         try {
-            JSONArray eventsArray = (JSONArray) response.get("events");
+            JSONArray eventsArray = (JSONArray) response.get(Event.ROOT + "s");
             for (int i = 0; i < eventsArray.length(); i++) {
                 JSONObject event = (JSONObject) eventsArray.get(i);
-                String eventID = event.getString("id");
-                String eventName = event.getString("name");
-                String eventDate = event.getString("date");
+                String eventID = event.getString(Event.ID);
+                String eventName = event.getString(Event.NAME);
+                String eventDate = event.getString(Event.DATE);
                 Event newEvent = new Event(Integer.valueOf(eventID), eventName, eventDate, clubID);
                 eventList.add(newEvent);
             }
@@ -171,14 +164,4 @@ public class EventController {
 
         return eventList;
     }
-
-    //<editor-fold desc="Getter">
-    public JSONObject getGetEventsByClubAnswer() {
-        return getEventsByClubAnswer;
-    }
-
-    public JSONObject getCreateAnswer() {
-        return createAnswer;
-    }
-    //</editor-fold>
 }

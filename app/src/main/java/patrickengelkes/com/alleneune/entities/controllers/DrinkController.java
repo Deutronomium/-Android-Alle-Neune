@@ -108,11 +108,11 @@ public class DrinkController {
     private List<Drink> getDrinkListFromJson(JSONObject drinksJson) throws JSONException {
         List<Drink> drinkList = new ArrayList<Drink>();
 
-        JSONArray drinks = drinksJson.getJSONArray("drinks");
+        JSONArray drinks = drinksJson.getJSONArray(Drink.ROOT + "s");
         for (int i = 0; i < drinks.length(); i++) {
             JSONObject drinkJson = drinks.getJSONObject(i);
-            String name = drinkJson.getString("name");
-            double price = drinkJson.getDouble("price");
+            String name = drinkJson.getString(Drink.NAME);
+            double price = drinkJson.getDouble(Drink.PRICE);
 
             Drink drink = new Drink(name, price);
             drinkList.add(drink);

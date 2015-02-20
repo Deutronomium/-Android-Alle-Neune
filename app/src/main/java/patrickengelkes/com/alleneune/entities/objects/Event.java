@@ -17,12 +17,27 @@ import patrickengelkes.com.alleneune.api_calls.HttpPostEntity;
  * Created by patrickengelkes on 09/01/15.
  */
 public class Event implements Parcelable{
+    //parcelable
     public static final String PARCELABLE = "event";
 
+    //attributes
     private int eventID;
     private String eventName;
     private String eventDate;
     private int clubID;
+
+    //attribute strings for api calls
+    public static String ROOT = "event";
+    public static String ID = "id";
+    public static String NAME = "name";
+    public static String CLUB_ID = "club_id";
+    public static String DATE = "date";
+    public static String EVENT_ID = "event_id";
+
+    //urls
+    public static String GENERIC_URL = "/events";
+    public static String GET_PARTICIPANTS = GENERIC_URL + "/get_participants";
+    public static String GET_BY_CLUB = GENERIC_URL + "/get_events_by_club";
 
     public Event(String eventName, String eventDate, int clubID) {
         this.eventName = eventName;
