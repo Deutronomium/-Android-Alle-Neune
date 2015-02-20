@@ -37,7 +37,7 @@ public class Event implements Parcelable{
     //urls
     public static String GENERIC_URL = "/events";
     public static String GET_PARTICIPANTS = GENERIC_URL + "/get_participants";
-    public static String GET_BY_CLUB = GENERIC_URL + "/get_events_by_club";
+    public static String GET_BY_CLUB = GENERIC_URL + "/get_by_club";
 
     public Event(String eventName, String eventDate, int clubID) {
         this.eventName = eventName;
@@ -73,8 +73,6 @@ public class Event implements Parcelable{
         return this.eventID;
     }
     //</editor-fold>
-
-
 
     //<editor-fold desc="Parcelable">
     protected Event(Parcel in) {

@@ -1,6 +1,23 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="patrickengelkes.com.alleneune.activities.FineActivity">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" android:showAsAction="never" />
+
+    <item
+        android:id="@+id/events_action"
+        android:icon="@drawable/event_icon"
+        android:showAsAction="ifRoom"
+        android:title="@string/events" />
+
+    <item
+        android:id="@+id/drinks_action"
+        android:icon="@drawable/drink_icon"
+        android:showAsAction="ifRoom"
+        android:title="@string/drinks" />
+
+    <item
+        android:id="@+id/fines_action"
+        android:icon="@drawable/fine_icon"
+        android:showAsAction="ifRoom"
+        android:title="@string/fines" />
+
 </menu>

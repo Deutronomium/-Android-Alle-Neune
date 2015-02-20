@@ -1,5 +1,6 @@
 package patrickengelkes.com.alleneune.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -60,16 +61,23 @@ public class DrinkActivity extends RoboListActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case R.id.events_action:
+                break;
+            case R.id.drinks_action:
+            case R.id.fines_action:
+                Intent fineIntent = new Intent(DrinkActivity.this, FineActivity.class);
+                startActivity(fineIntent);
+                break;
         }
-
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent clubHomeIntent = new Intent(DrinkActivity.this, ClubHomeActivity.class);
+        startActivity(clubHomeIntent);
+        finish();
     }
 }
