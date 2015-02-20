@@ -7,6 +7,7 @@ public enum ApiCall {
 
     SUCCESS,
     CREATED,
+    UPDATED,
     ACCESS_DENIED,
     BAD_REQUEST,
     UNPROCESSABLE_ENTITY

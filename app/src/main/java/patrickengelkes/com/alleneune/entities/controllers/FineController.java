@@ -11,7 +11,10 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import patrickengelkes.com.alleneune.api_calls.ApiCallTask;
@@ -121,4 +124,41 @@ public class FineController {
         return finesList;
     }
 
+    public ApiCall update(HashMap<String, Object> updateMap, Fine fine) {
+        try {
+            HttpPostEntity updateFineEntity = updatePostEntity(updateMap, fine);
+            HttpResponse response = new ApiCallTask().execute(updateFineEntity).get();
+            if (response.getStatusLine().getStatusCode() == 200) {
+                return ApiCall.UPDATED;
+            } else if (response.getStatusLine().getStatusCode() == 422) {
+                return ApiCall.UNPROCESSABLE_ENTITY;
+            } else {
+                return ApiCall.BAD_REQUEST;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        return ApiCall.BAD_REQUEST;
+    }
+
+    private HttpPostEntity updatePostEntity(HashMap<String, Object> updateMap, Fine fine) throws JSONException, UnsupportedEncodingException {
+        JSONObject leaf = new JSONObject();
+        Iterator iterator = updateMap.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry pairs = (Map.Entry) iterator.next();
+
+            leaf.put((String)pairs.getKey(), pairs.getValue());
+        }
+        JSONObject root = new JSONObject();
+        root.put(Fine.ROOT, leaf);
+
+        return new HttpPostEntity(Fine.UPDATE + fine.getId(), root.toString());
+    }
 }

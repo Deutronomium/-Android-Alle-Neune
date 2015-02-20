@@ -71,4 +71,5 @@
     <string name="fine_used_warning">This fine already exists. Please choose another name!</string>
     <string name="title_activity_fine">FineActivity</string>
     <string name="event_amount_hint">Amount</string>
+    <string name="no_fine_updates_message">You did not change this fine. No updates saved</string>
 </resources>

@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 
 import com.google.inject.Inject;
 
@@ -29,13 +30,14 @@ public class FineActivity extends RoboListActivity {
     protected Button createFineButton;
 
     FineArrayAdapter fineArrayAdapter;
+    List<Fine> fineList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fine);
 
-        List<Fine> fineList = fineController.getByClub(currentClub.getClubID());
+        fineList = fineController.getByClub(currentClub.getClubID());
         fineArrayAdapter = new FineArrayAdapter(FineActivity.this, fineList);
 
         createFineButton = (Button) findViewById(R.id.create_fine_button);
@@ -43,7 +45,7 @@ public class FineActivity extends RoboListActivity {
             @Override
             public void onClick(View view) {
                 FineDialog fineDialog = new FineDialog(FineActivity.this,
-                        fineArrayAdapter, null);
+                        fineArrayAdapter, fineList, null);
                 fineDialog.show();
             }
         });
@@ -51,6 +53,14 @@ public class FineActivity extends RoboListActivity {
         setListAdapter(fineArrayAdapter);
     }
 
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+        Fine fine = fineList.get(position);
+        FineDialog fineDialog = new FineDialog(FineActivity.this,
+                fineArrayAdapter, fineList, fine);
+        fineDialog.show();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

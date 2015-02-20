@@ -22,6 +22,7 @@ public class Fine {
     //urls
     public static String GENERIC_URL = "/fines";
     public static String GET_BY_CLUB = GENERIC_URL + "/get_by_club";
+    public static String UPDATE = GENERIC_URL + "/";
 
 
     public Fine(String name, double amount, int clubID) {
