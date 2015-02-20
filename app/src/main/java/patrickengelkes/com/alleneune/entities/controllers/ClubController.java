@@ -18,6 +18,7 @@ import patrickengelkes.com.alleneune.CurrentClub;
 import patrickengelkes.com.alleneune.api_calls.ApiCallTask;
 import patrickengelkes.com.alleneune.api_calls.HttpPostEntity;
 import patrickengelkes.com.alleneune.api_calls.JsonBuilder;
+import patrickengelkes.com.alleneune.entities.objects.User;
 import patrickengelkes.com.alleneune.enums.ApiCall;
 
 /**
@@ -184,7 +185,7 @@ public class ClubController {
         List<String> returnList = new ArrayList<String>();
         JSONArray usersArray = jsonResponse.getJSONArray("clubs");
         for (int i = 0; i < usersArray.length(); i++) {
-            returnList.add((String) ((JSONObject) usersArray.get(i)).get("userName"));
+            returnList.add((String) ((JSONObject) usersArray.get(i)).get(User.USER_NAME));
         }
 
         return returnList;

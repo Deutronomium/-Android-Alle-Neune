@@ -33,7 +33,6 @@ public class UserController {
     CurrentClub currentClub;
     @Inject
     CurrentUser currentUser;
-    private String genericUrl = "/users";
 
     @Inject
     public UserController() {
@@ -42,15 +41,15 @@ public class UserController {
     private String userJSON(String userName, String email, String password,
                             String passwordConfirmation, String phoneNumber) throws JSONException {
         JSONObject leaf = new JSONObject();
-        leaf.put("userName", userName);
-        leaf.put("email", email);
-        leaf.put("password", password);
-        leaf.put("password_confirmation", passwordConfirmation);
+        leaf.put(User.USER_NAME, userName);
+        leaf.put(User.EMAIL, email);
+        leaf.put(User.PASSWORD, password);
+        leaf.put(User.PASSWORD_CONFIRMATION, passwordConfirmation);
         if (!phoneNumber.isEmpty()) {
-            leaf.put("phone_number", phoneNumber);
+            leaf.put(User.PHONE_NUMBER, phoneNumber);
         }
         JSONObject root = new JSONObject();
-        root.put("user", leaf);
+        root.put(User.ROOT, leaf);
 
         return root.toString();
     }
@@ -89,7 +88,7 @@ public class UserController {
     public HttpPostEntity create(String userName, String email, String password,
                                  String passwordConfirmation, String phoneNumber)
             throws JSONException, UnsupportedEncodingException {
-        return new HttpPostEntity(this.genericUrl, userJSON(userName, email, password,
+        return new HttpPostEntity(User.GENERIC_URL, userJSON(userName, email, password,
                 passwordConfirmation, phoneNumber));
     }
 
@@ -125,9 +124,8 @@ public class UserController {
     public HttpPostEntity getValidityPostEntity(String userName, String email, String password, String passwordConfirmation,
                                         String phoneNumber)
             throws JSONException, UnsupportedEncodingException {
-        String url = this.genericUrl + "/validity";
 
-        return new HttpPostEntity(url, userJSON(userName, email, password, passwordConfirmation, phoneNumber));
+        return new HttpPostEntity(User.VALIDITY, userJSON(userName, email, password, passwordConfirmation, phoneNumber));
     }
 
     public UserClub getClubByUserName(String userName) throws JSONException {
@@ -159,13 +157,11 @@ public class UserController {
 
     public HttpPostEntity getUserClubByNamePostEntity(String userName) throws JSONException, UnsupportedEncodingException {
         JSONObject leaf = new JSONObject();
-        leaf.put("userName", userName);
+        leaf.put(User.USER_NAME, userName);
         JSONObject root = new JSONObject();
-        root.put("user", leaf);
+        root.put(User.ROOT, leaf);
 
-        String url = genericUrl + "/user_club";
-
-        return new HttpPostEntity(url, root.toString());
+        return new HttpPostEntity(User.GET_USER_CLUB_BY_NAME, root.toString());
     }
 
     public List<User> getUserListFromJSONResponse(JSONArray friends) {
@@ -173,10 +169,10 @@ public class UserController {
         for (int i = 0; i < friends.length(); i++) {
             try {
                 JSONObject friend = (JSONObject)friends.get(i);
-                String userName = friend.getString("userName");
-                String firstName = friend.getString("firstName");
-                String lastName = friend.getString("lastName");
-                String phoneNumber = friend.getString("phone_number");
+                String userName = friend.getString(User.USER_NAME);
+                String firstName = friend.getString(User.FIRST_NAME);
+                String lastName = friend.getString(User.LAST_NAME);
+                String phoneNumber = friend.getString(User.PHONE_NUMBER);
 
                 User user = new User();
                 user.setUserName(userName);

@@ -18,7 +18,7 @@ import patrickengelkes.com.alleneune.api_calls.HttpPostEntity;
  * Created by patrickengelkes on 31/10/14.
  */
 public class User implements Parcelable {
-
+    //attributes
     private String userName;
     private String email;
     private String firstName;
@@ -27,6 +27,23 @@ public class User implements Parcelable {
     private String password;
     private String passwordConfirmation;
     private String phoneNumber;
+
+    //attribute strings for api calls
+    public static String ROOT = "user";
+    public static String ID = "id";
+    public static String USER_NAME = "user_name";
+    public static String FIRST_NAME = "first_name";
+    public static String LAST_NAME = "last_name";
+    public static String PHONE_NUMBER = "phone_number";
+    public static String EMAIL = "email";
+    public static String PASSWORD = "password";
+    public static String PASSWORD_CONFIRMATION = "password_confirmation";
+
+    //urls
+    public static String GENERIC_URL = "/users";
+    public static String VALIDITY = GENERIC_URL + "/validity";
+    public static String GET_USER_CLUB_BY_NAME = GENERIC_URL + "/user_club";
+
 
     public User() {}
 

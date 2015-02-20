@@ -13,6 +13,7 @@ import patrickengelkes.com.alleneune.CurrentUser;
 import patrickengelkes.com.alleneune.api_calls.ApiCallTask;
 import patrickengelkes.com.alleneune.api_calls.JsonBuilder;
 import patrickengelkes.com.alleneune.entities.objects.Session;
+import patrickengelkes.com.alleneune.entities.objects.User;
 import patrickengelkes.com.alleneune.enums.ApiCall;
 
 /**
@@ -57,13 +58,13 @@ public class SessionController {
     }
 
     public void setCurrentUser(JSONObject response) throws JSONException {
-        JSONObject userJson = (JSONObject) response.get("user");
+        JSONObject userJson = (JSONObject) response.get(User.ROOT);
 
-        String userName = (String) userJson.get("userName");
-        String firstName = (!userJson.isNull("firstName")) ? (String) userJson.get("firstName") : null;
-        String lastName = (!userJson.isNull("lastName")) ? (String) userJson.get("lastName") : null;
-        String phoneNumber = (String) userJson.get("phone_number");
-        String email = (String) userJson.get("email");
+        String userName = (String) userJson.get(User.USER_NAME);
+        String firstName = (!userJson.isNull(User.FIRST_NAME)) ? (String) userJson.get(User.FIRST_NAME) : null;
+        String lastName = (!userJson.isNull(User.LAST_NAME)) ? (String) userJson.get(User.LAST_NAME) : null;
+        String phoneNumber = (String) userJson.get(User.PHONE_NUMBER);
+        String email = (String) userJson.get(User.EMAIL);
 
 
         currentUser.setUserName(userName);
