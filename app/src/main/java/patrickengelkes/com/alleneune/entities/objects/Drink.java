@@ -3,6 +3,8 @@ package patrickengelkes.com.alleneune.entities.objects;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.text.DecimalFormat;
+
 /**
  * Created by patrickengelkes on 13/02/15.
  */
@@ -65,6 +67,11 @@ public class Drink implements Parcelable {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public String getShowPrice() {
+        DecimalFormat decimalFormat = new DecimalFormat("#.00");
+        return decimalFormat.format(this.price);
     }
 
     public int getClubID() {

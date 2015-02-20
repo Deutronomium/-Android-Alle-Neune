@@ -49,7 +49,7 @@ public class DrinkArrayAdapter extends ArrayAdapter<Drink>{
         Drink drink = drinkList.get(position);
 
         holder.drinkNameTextView.setText(drink.getName());
-        holder.drinkPriceTextView.setText(String.valueOf(drink.getPrice()));
+        holder.drinkPriceTextView.setText(drink.getShowPrice());
 
         return rowView;
     }

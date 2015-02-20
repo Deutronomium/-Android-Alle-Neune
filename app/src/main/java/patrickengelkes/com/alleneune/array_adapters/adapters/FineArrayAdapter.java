@@ -50,7 +50,7 @@ public class FineArrayAdapter extends ArrayAdapter<Fine> {
         Fine fine = fineList.get(position);
 
         holder.fineNameTextView.setText(fine.getName());
-        holder.fineAmountTextView.setText(String.valueOf(fine.getAmount()));
+        holder.fineAmountTextView.setText(fine.getShowAmount());
 
         return rowView;
     }

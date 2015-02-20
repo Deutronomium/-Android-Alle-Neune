@@ -1,5 +1,7 @@
 package patrickengelkes.com.alleneune.entities.objects;
 
+import java.text.DecimalFormat;
+
 /**
  * Created by patrickengelkes on 18/02/15.
  */
@@ -53,6 +55,11 @@ public class Fine {
 
     public double getAmount() {
         return amount;
+    }
+
+    public String getShowAmount() {
+        DecimalFormat decimalFormat = new DecimalFormat("#.00");
+        return decimalFormat.format(this.amount);
     }
 
     public void setAmount(double amount) {
