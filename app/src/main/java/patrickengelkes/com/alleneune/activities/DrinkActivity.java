@@ -6,9 +6,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 
 import com.google.inject.Inject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import patrickengelkes.com.alleneune.CurrentClub;
@@ -28,13 +30,14 @@ public class DrinkActivity extends RoboListActivity {
     protected Button createDrinkButton;
 
     DrinkArrayAdapter drinkArrayAdapter;
+    List<Drink> drinksList = new ArrayList<Drink>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drink);
 
-        List<Drink> drinksList = drinkController.getByClub(currentClub.getClubID());
+        drinksList = drinkController.getByClub(currentClub.getClubID());
         drinkArrayAdapter = new DrinkArrayAdapter(DrinkActivity.this, drinksList);
 
         createDrinkButton = (Button) findViewById(R.id.create_drink_button);
@@ -42,7 +45,7 @@ public class DrinkActivity extends RoboListActivity {
             @Override
             public void onClick(View view) {
                 DrinkDialog drinkDialog = new DrinkDialog(DrinkActivity.this,
-                        drinkArrayAdapter, null);
+                        drinkArrayAdapter, drinksList, null);
 
                 drinkDialog.show();
             }
@@ -71,6 +74,15 @@ public class DrinkActivity extends RoboListActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+        Drink drink = drinksList.get(position);
+        DrinkDialog drinkDialog = new DrinkDialog(DrinkActivity.this,
+                drinkArrayAdapter, drinksList, drink);
+        drinkDialog.show();
     }
 
     @Override

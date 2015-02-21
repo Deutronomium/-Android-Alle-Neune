@@ -2,9 +2,11 @@ package patrickengelkes.com.alleneune.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.inject.Inject;
@@ -13,12 +15,13 @@ import java.util.HashMap;
 import java.util.List;
 
 import patrickengelkes.com.alleneune.CurrentClub;
-import patrickengelkes.com.alleneune.DecimalInputTextWatcher;
+import patrickengelkes.com.alleneune.helpers.DecimalInputTextWatcher;
 import patrickengelkes.com.alleneune.R;
 import patrickengelkes.com.alleneune.array_adapters.adapters.FineArrayAdapter;
 import patrickengelkes.com.alleneune.entities.controllers.FineController;
 import patrickengelkes.com.alleneune.entities.objects.Fine;
 import patrickengelkes.com.alleneune.enums.ApiCall;
+import patrickengelkes.com.alleneune.helpers.ToastHelper;
 import roboguice.RoboGuice;
 import roboguice.inject.RoboInjector;
 
@@ -79,8 +82,8 @@ public class FineDialog extends Dialog {
                             dialog.show();
                         }
                     } else {
-                        Toast.makeText(context, context.getString(R.string.no_fine_updates_message),
-                                Toast.LENGTH_SHORT).show();
+                        ToastHelper.centerToast(Toast.makeText(context, context.getString(R.string.no_fine_updates_message),
+                                Toast.LENGTH_SHORT));
                         dismiss();
                     }
                 }

@@ -11,14 +11,17 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import patrickengelkes.com.alleneune.api_calls.ApiCallTask;
 import patrickengelkes.com.alleneune.api_calls.HttpPostEntity;
 import patrickengelkes.com.alleneune.api_calls.JsonBuilder;
-import patrickengelkes.com.alleneune.entities.objects.Club;
 import patrickengelkes.com.alleneune.entities.objects.Drink;
+import patrickengelkes.com.alleneune.entities.objects.Fine;
 import patrickengelkes.com.alleneune.enums.ApiCall;
 
 /**
@@ -111,13 +114,52 @@ public class DrinkController {
         JSONArray drinks = drinksJson.getJSONArray(Drink.ROOT + "s");
         for (int i = 0; i < drinks.length(); i++) {
             JSONObject drinkJson = drinks.getJSONObject(i);
+            int id = drinkJson.getInt(Drink.ID);
             String name = drinkJson.getString(Drink.NAME);
             double price = drinkJson.getDouble(Drink.PRICE);
+            int clubID = drinkJson.getInt(Drink.CLUB_ID);
 
-            Drink drink = new Drink(name, price);
+            Drink drink = new Drink(id, name, price, clubID);
             drinkList.add(drink);
         }
 
         return drinkList;
+    }
+
+    public ApiCall update(HashMap<String, Object> updateMap, Drink drink) {
+        try {
+            HttpPostEntity updateDrinkEntity = updatePostEntity(updateMap, drink);
+            HttpResponse response = new ApiCallTask().execute(updateDrinkEntity).get();
+            if (response.getStatusLine().getStatusCode() == 200) {
+                return ApiCall.UPDATED;
+            } else if (response.getStatusLine().getStatusCode() == 422) {
+                return ApiCall.UNPROCESSABLE_ENTITY;
+            } else {
+                return ApiCall.BAD_REQUEST;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        return ApiCall.BAD_REQUEST;
+    }
+
+    private HttpPostEntity updatePostEntity(HashMap<String, Object> updateMap, Drink drink) throws JSONException, UnsupportedEncodingException {
+        JSONObject leaf = new JSONObject();
+        Iterator iterator = updateMap.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry pairs = (Map.Entry) iterator.next();
+            leaf.put((String)pairs.getKey(), pairs.getValue());
+        }
+        JSONObject root = new JSONObject();
+        root.put(Drink.ROOT, leaf);
+
+        return new HttpPostEntity(Drink.UPDATE + drink.getId(), root.toString());
     }
 }

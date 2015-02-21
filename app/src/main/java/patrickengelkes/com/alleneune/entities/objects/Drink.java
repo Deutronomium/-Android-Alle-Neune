@@ -25,17 +25,14 @@ public class Drink implements Parcelable {
     //urls
     public static String GENERIC_URL = "/drinks";
     public static String GET_BY_CLUB = GENERIC_URL + "/get_by_club";
+    public static String UPDATE = GENERIC_URL + "/";
 
 
-    public Drink(String name, double price) {
-        this.name = name;
-        this.price = price;
-    }
-
-    public Drink(int id, String name, double price) {
+    public Drink(int id, String name, double price, int clubID) {
         this.id = id;
         this.name = name;
         this.price = price;
+        this.clubID = clubID;
     }
 
     public Drink(String name, double price, int clubID) {

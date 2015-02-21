@@ -1,4 +1,4 @@
-package patrickengelkes.com.alleneune;
+package patrickengelkes.com.alleneune.helpers;
 
 import android.text.Editable;
 import android.text.TextWatcher;

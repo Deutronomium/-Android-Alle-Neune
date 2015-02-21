@@ -5,16 +5,21 @@ import android.content.Context;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.inject.Inject;
 
+import java.util.HashMap;
+import java.util.List;
+
 import patrickengelkes.com.alleneune.CurrentClub;
-import patrickengelkes.com.alleneune.DecimalInputTextWatcher;
+import patrickengelkes.com.alleneune.helpers.DecimalInputTextWatcher;
 import patrickengelkes.com.alleneune.R;
 import patrickengelkes.com.alleneune.array_adapters.adapters.DrinkArrayAdapter;
 import patrickengelkes.com.alleneune.entities.controllers.DrinkController;
 import patrickengelkes.com.alleneune.entities.objects.Drink;
 import patrickengelkes.com.alleneune.enums.ApiCall;
+import patrickengelkes.com.alleneune.helpers.ToastHelper;
 import roboguice.RoboGuice;
 import roboguice.inject.RoboInjector;
 
@@ -33,7 +38,7 @@ public class DrinkDialog extends Dialog {
 
 
     public DrinkDialog(final Context context, final DrinkArrayAdapter drinkArrayAdapter,
-                       Drink drink) {
+                       final List<Drink> drinkList, final Drink drink) {
         super(context);
         final RoboInjector injector = RoboGuice.getInjector(context);
 
@@ -50,6 +55,38 @@ public class DrinkDialog extends Dialog {
             nameEditText.setText(drink.getName());
             priceEditText.setText(String.valueOf(drink.getPrice()));
             drinkButton.setText(context.getString(R.string.update_drink));
+            drinkButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String name = nameEditText.getText().toString().trim();
+                    double price = Double.valueOf(priceEditText.getText().toString().trim());
+
+                    HashMap<String, Object> updateMap = new HashMap<String, Object>();
+                    if (!name.equals(drink.getName())) {
+                        updateMap.put(Drink.NAME, name);
+                    }
+                    if (price != drink.getPrice()) {
+                        updateMap.put(Drink.PRICE, price);
+                    }
+                    if (updateMap.size() > 0) {
+                        ApiCall response = drinkController.update(updateMap, drink);
+                        if (response == ApiCall.UPDATED) {
+                            drink.setName(name);
+                            drink.setPrice(price);
+                            drinkArrayAdapter.notifyDataSetChanged();
+                            dismiss();
+                        } else if (response == ApiCall.UNPROCESSABLE_ENTITY) {
+                            ErrorDialog dialog = new ErrorDialog(context,
+                                    context.getString(R.string.drink_used_warning));
+                            dialog.show();
+                        }
+                    } else {
+                        ToastHelper.centerToast(Toast.makeText(context,
+                                context.getString(R.string.no_drink_updates_message), Toast.LENGTH_SHORT));
+                        dismiss();
+                    }
+                }
+            });
         } else {
             setTitle(context.getString(R.string.create_drink));
             drinkButton.setText(context.getString(R.string.create_drink));
@@ -64,7 +101,8 @@ public class DrinkDialog extends Dialog {
                     ApiCall response = drinkController.create(drink);
                     if (response == ApiCall.CREATED) {
                         dismiss();
-                        drinkArrayAdapter.add(drink);
+                        drinkList.add(drink);
+                        drinkArrayAdapter.notifyDataSetChanged();
                     } else if (response == ApiCall.UNPROCESSABLE_ENTITY) {
                         ErrorDialog dialog = new ErrorDialog(context,
                                 context.getString(R.string.drink_used_warning));
