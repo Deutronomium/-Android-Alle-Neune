@@ -111,14 +111,7 @@ public class FineController {
 
         JSONArray fines = finesJson.getJSONArray(Fine.ROOT + "s");
         for (int i = 0; i < fines.length(); i++) {
-            JSONObject fineJson = fines.getJSONObject(i);
-
-            int id = fineJson.getInt(Fine.ID);
-            String name = fineJson.getString(Fine.NAME);
-            double amount = fineJson.getDouble(Fine.AMOUNT);
-            int clubID = fineJson.getInt(Fine.CLUB_ID);
-
-            Fine fine = new Fine(id, name, amount, clubID);
+            Fine fine = new Fine(fines.getJSONObject(i));
             finesList.add(fine);
         }
 

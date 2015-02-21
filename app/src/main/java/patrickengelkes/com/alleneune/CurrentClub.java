@@ -9,25 +9,25 @@ import com.google.inject.Singleton;
 @Singleton
 public class CurrentClub {
 
-    private String clubName;
-    private int clubID;
+    private String name;
+    private int id;
 
     @Inject
     public CurrentClub() {}
 
-    public String getClubName() {
-        return clubName;
+    public String getName() {
+        return name;
     }
 
-    public void setClubName(String clubName) {
-        this.clubName = clubName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public int getClubID() {
-        return clubID;
+    public int getId() {
+        return id;
     }
 
-    public void setClubID(int clubID) {
-        this.clubID = clubID;
+    public void setId(int id) {
+        this.id = id;
     }
 }

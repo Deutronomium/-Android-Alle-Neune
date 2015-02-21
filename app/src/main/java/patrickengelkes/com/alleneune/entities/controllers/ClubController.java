@@ -51,8 +51,8 @@ public class ClubController {
                 JSONObject createAnswer = new JsonBuilder().execute(response).get();
                 if (response.getStatusLine().getStatusCode() == 201 && createAnswer != null) {
                     JSONObject clubJson = (JSONObject) createAnswer.get(Club.ROOT);
-                    currentClub.setClubID((Integer) clubJson.get(Club.ID));
-                    currentClub.setClubName((String) clubJson.get(Club.NAME));
+                    currentClub.setId((Integer) clubJson.get(Club.ID));
+                    currentClub.setName((String) clubJson.get(Club.NAME));
                     return ApiCall.CREATED;
                 } else if (response.getStatusLine().getStatusCode() == 422 && createAnswer != null) {
                     Log.e(TAG, "Creating entity failed");

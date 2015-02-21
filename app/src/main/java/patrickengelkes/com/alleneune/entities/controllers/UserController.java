@@ -136,8 +136,8 @@ public class UserController {
                 if (response.getStatusLine().getStatusCode() == 200) {
                     Log.e(TAG, "User already joined a club.");
                     JSONObject jsonClub = (JSONObject) jsonResponse.get("club");
-                    currentClub.setClubName(jsonClub.getString("name"));
-                    currentClub.setClubID(Integer.valueOf(jsonClub.getString("id")));
+                    currentClub.setName(jsonClub.getString("name"));
+                    currentClub.setId(Integer.valueOf(jsonClub.getString("id")));
                     return UserClub.USER_HAS_CLUB;
                 } else if (response.getStatusLine().getStatusCode() == 450) {
                     Log.e(TAG, "User did not join a club yet.");
@@ -168,18 +168,7 @@ public class UserController {
         List<User> userList = new ArrayList<User>();
         for (int i = 0; i < friends.length(); i++) {
             try {
-                JSONObject friend = (JSONObject)friends.get(i);
-                String userName = friend.getString(User.USER_NAME);
-                String firstName = friend.getString(User.FIRST_NAME);
-                String lastName = friend.getString(User.LAST_NAME);
-                String phoneNumber = friend.getString(User.PHONE_NUMBER);
-
-                User user = new User();
-                user.setUserName(userName);
-                user.setFirstName(firstName);
-                user.setLastName(lastName);
-                user.setPhoneNumber(phoneNumber);
-
+                User user = new User((JSONObject)friends.get(i));
                 userList.add(user);
             } catch (JSONException e) {
                 e.printStackTrace();

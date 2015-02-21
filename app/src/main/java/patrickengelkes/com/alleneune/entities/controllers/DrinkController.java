@@ -113,13 +113,7 @@ public class DrinkController {
 
         JSONArray drinks = drinksJson.getJSONArray(Drink.ROOT + "s");
         for (int i = 0; i < drinks.length(); i++) {
-            JSONObject drinkJson = drinks.getJSONObject(i);
-            int id = drinkJson.getInt(Drink.ID);
-            String name = drinkJson.getString(Drink.NAME);
-            double price = drinkJson.getDouble(Drink.PRICE);
-            int clubID = drinkJson.getInt(Drink.CLUB_ID);
-
-            Drink drink = new Drink(id, name, price, clubID);
+            Drink drink = new Drink(drinks.getJSONObject(i));
             drinkList.add(drink);
         }
 

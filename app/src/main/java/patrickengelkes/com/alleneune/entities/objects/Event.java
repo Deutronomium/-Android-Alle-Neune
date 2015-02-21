@@ -3,15 +3,8 @@ package patrickengelkes.com.alleneune.entities.objects;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.List;
-
-import patrickengelkes.com.alleneune.api_calls.HttpPostEntity;
 
 /**
  * Created by patrickengelkes on 09/01/15.
@@ -21,9 +14,9 @@ public class Event implements Parcelable{
     public static final String PARCELABLE = "event";
 
     //attributes
-    private int eventID;
-    private String eventName;
-    private String eventDate;
+    private int id;
+    private String name;
+    private String date;
     private int clubID;
 
     //attribute strings for api calls
@@ -39,17 +32,11 @@ public class Event implements Parcelable{
     public static String GET_PARTICIPANTS = GENERIC_URL + "/get_participants";
     public static String GET_BY_CLUB = GENERIC_URL + "/get_by_club";
 
-    public Event(String eventName, String eventDate, int clubID) {
-        this.eventName = eventName;
-        this.eventDate = eventDate;
-        this.clubID = clubID;
-    }
-
-    public Event(int eventID, String eventName, String eventDate, int clubID) {
-        this.eventID = eventID;
-        this.eventName = eventName;
-        this.eventDate = eventDate;
-        this.clubID = clubID;
+    public Event(JSONObject jsonObject) throws JSONException {
+        this.id = jsonObject.getInt(ID);
+        this.name = jsonObject.getString(NAME);
+        this.date = jsonObject.getString(DATE);
+        this.clubID = jsonObject.getInt(CLUB_ID);
     }
 
     public Event(int clubID) {
@@ -57,28 +44,28 @@ public class Event implements Parcelable{
     }
 
     //<editor-fold desc="Getter & Setter">
-    public String getEventName() {
-        return this.eventName;
+    public String getName() {
+        return this.name;
     }
 
-    public String getEventDate() {
-        return this.eventDate;
+    public String getDate() {
+        return this.date;
     }
 
     public int getClubID() {
         return this.clubID;
     }
 
-    public int getEventID() {
-        return this.eventID;
+    public int getId() {
+        return this.id;
     }
     //</editor-fold>
 
     //<editor-fold desc="Parcelable">
     protected Event(Parcel in) {
-        eventID = in.readInt();
-        eventName = in.readString();
-        eventDate = in.readString();
+        id = in.readInt();
+        name = in.readString();
+        date = in.readString();
         clubID = in.readInt();
     }
 
@@ -89,9 +76,9 @@ public class Event implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(eventID);
-        dest.writeString(eventName);
-        dest.writeString(eventDate);
+        dest.writeInt(id);
+        dest.writeString(name);
+        dest.writeString(date);
         dest.writeInt(clubID);
     }
 

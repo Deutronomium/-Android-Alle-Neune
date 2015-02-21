@@ -1,5 +1,8 @@
 package patrickengelkes.com.alleneune.entities.objects;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.DecimalFormat;
 
 /**
@@ -31,11 +34,11 @@ public class Fine {
         this.clubID = clubID;
     }
 
-    public Fine(int id, String name, double amount, int clubID) {
-        this.id = id;
-        this.name = name;
-        this.amount = amount;
-        this.clubID = clubID;
+    public Fine(JSONObject jsonObject) throws JSONException {
+        this.id = jsonObject.getInt(ID);
+        this.name = jsonObject.getString(NAME);
+        this.amount = jsonObject.getDouble(AMOUNT);
+        this.clubID = jsonObject.getInt(CLUB_ID);
     }
 
     public int getId() {

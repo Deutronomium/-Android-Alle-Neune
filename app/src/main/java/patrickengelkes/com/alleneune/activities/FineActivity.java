@@ -1,6 +1,5 @@
 package patrickengelkes.com.alleneune.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -37,7 +36,7 @@ public class FineActivity extends RoboListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fine);
 
-        fineList = fineController.getByClub(currentClub.getClubID());
+        fineList = fineController.getByClub(currentClub.getId());
         fineArrayAdapter = new FineArrayAdapter(FineActivity.this, fineList);
 
         createFineButton = (Button) findViewById(R.id.create_fine_button);

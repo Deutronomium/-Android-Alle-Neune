@@ -2,11 +2,9 @@ package patrickengelkes.com.alleneune.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.inject.Inject;
@@ -97,7 +95,7 @@ public class FineDialog extends Dialog {
                     String name = nameEditText.getText().toString().trim();
                     double amount = Double.valueOf(amountEditText.getText().toString().trim());
 
-                    Fine fine = new Fine(name, amount, currentClub.getClubID());
+                    Fine fine = new Fine(name, amount, currentClub.getId());
 
                     ApiCall response = fineController.create(fine);
                     if (response == ApiCall.CREATED) {

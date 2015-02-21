@@ -36,7 +36,7 @@ public class ClubHomeTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        when(currentClub.getClubID()).thenReturn(1);
+        when(currentClub.getId()).thenReturn(1);
 
         Robolectric.getFakeHttpLayer().interceptHttpRequests(false);
         TestGuiceModule module = new TestGuiceModule();

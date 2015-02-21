@@ -38,11 +38,11 @@ public class ClubHomeActivity extends RoboActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_club_home);
 
-        setTitle(currentClub.getClubName());
+        setTitle(currentClub.getName());
 
-        eventList = eventController.getEventsByClub(currentClub.getClubID());
+        eventList = eventController.getEventsByClub();
         for (Event event : eventList) {
-            List<User> users = eventController.getEventParticipants(event.getEventID());
+            List<User> users = eventController.getEventParticipants(event.getId());
             userList.put(event, users);
         }
 

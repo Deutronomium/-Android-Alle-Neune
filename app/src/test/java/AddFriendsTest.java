@@ -60,7 +60,7 @@ public class AddFriendsTest {
 
     @Test
     public void addingFriendsToClub() {
-        when(currentClub.getClubID()).thenReturn(1);
+        when(currentClub.getId()).thenReturn(1);
         Button addFriendsToClubButton = (Button) addFriendsActivity.findViewById(R.id.add_friends_to_club_button);
 
         addFriendsToClubButton.performClick();
@@ -71,7 +71,7 @@ public class AddFriendsTest {
 
     @Test
     public void addFriendsToWrongClub() {
-        when(currentClub.getClubID()).thenReturn(100);
+        when(currentClub.getId()).thenReturn(100);
         Button addFriendsToClubButton = (Button) addFriendsActivity.findViewById(R.id.add_friends_to_club_button);
 
         addFriendsToClubButton.performClick();

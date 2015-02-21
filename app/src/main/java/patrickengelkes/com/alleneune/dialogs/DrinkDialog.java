@@ -96,7 +96,7 @@ public class DrinkDialog extends Dialog {
                     String name = nameEditText.getText().toString().trim();
                     double price = Double.valueOf(priceEditText.getText().toString().trim());
 
-                    Drink drink = new Drink(name, price, currentClub.getClubID());
+                    Drink drink = new Drink(name, price, currentClub.getId());
 
                     ApiCall response = drinkController.create(drink);
                     if (response == ApiCall.CREATED) {

@@ -82,7 +82,7 @@ public class CreateEventActivity extends RoboActivity implements DatePickerDialo
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
                 String eventDate = simpleDateFormat.format(globalCalendar.getTime());
                 String eventName = eventNameEditText.getText().toString().trim();
-                int clubID = currentClub.getClubID();
+                int clubID = currentClub.getId();
 
                 ApiCall response = eventController.createEvent(eventName, clubID, eventDate);
                 if (response == ApiCall.CREATED) {

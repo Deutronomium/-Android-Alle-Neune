@@ -37,7 +37,7 @@ public class DrinkActivity extends RoboListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drink);
 
-        drinksList = drinkController.getByClub(currentClub.getClubID());
+        drinksList = drinkController.getByClub(currentClub.getId());
         drinkArrayAdapter = new DrinkArrayAdapter(DrinkActivity.this, drinksList);
 
         createDrinkButton = (Button) findViewById(R.id.create_drink_button);

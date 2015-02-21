@@ -19,6 +19,7 @@ import patrickengelkes.com.alleneune.api_calls.HttpPostEntity;
  */
 public class User implements Parcelable {
     //attributes
+    private int id;
     private String userName;
     private String email;
     private String firstName;
@@ -57,6 +58,15 @@ public class User implements Parcelable {
         this.password = password;
         this.passwordConfirmation = passwordConfirmation;
         this.phoneNumber = "";
+    }
+
+    public User(JSONObject jsonObject) throws JSONException {
+        this.id = jsonObject.getInt(ID);
+        this.userName = jsonObject.getString(USER_NAME);
+        this.firstName = jsonObject.getString(FIRST_NAME);
+        this.lastName = jsonObject.getString(LAST_NAME);
+        this.phoneNumber = jsonObject.getString(PHONE_NUMBER);
+        this.email = jsonObject.getString(EMAIL);
     }
 
     public User(CurrentUser currentUser) {

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import patrickengelkes.com.alleneune.CurrentClub;
 import patrickengelkes.com.alleneune.api_calls.ApiCallTask;
 import patrickengelkes.com.alleneune.api_calls.HttpPostEntity;
 import patrickengelkes.com.alleneune.api_calls.JsonBuilder;
@@ -31,6 +32,8 @@ public class EventController {
     public static final String TAG = EventController.class.getSimpleName();
     @Inject
     UserController userController;
+    @Inject
+    CurrentClub currentClub;
 
     @Inject
     public EventController(Context context) {
@@ -90,14 +93,14 @@ public class EventController {
         return new HttpPostEntity(Event.GENERIC_URL, eventJSON(eventName, clubID, eventDate));
     }
 
-    public List<Event> getEventsByClub(int clubID) {
+    public List<Event> getEventsByClub() {
         List<Event> returnList = new ArrayList<Event>();
 
         try {
-            HttpResponse response = new ApiCallTask().execute(getEventsByClubPostEntity(clubID)).get();
+            HttpResponse response = new ApiCallTask().execute(getEventsByClubPostEntity(currentClub.getId())).get();
             if (response != null) {
                 JSONObject getEventsByClubAnswer = new JsonBuilder().execute(response).get();
-                returnList = getEventsFromResponse(getEventsByClubAnswer, clubID);
+                returnList = getEventsFromResponse(getEventsByClubAnswer);
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -145,16 +148,12 @@ public class EventController {
         return returnList;
     }
 
-    private List<Event> getEventsFromResponse(JSONObject response, int clubID) {
+    private List<Event> getEventsFromResponse(JSONObject response) {
         List<Event> eventList = new ArrayList<Event>();
         try {
             JSONArray eventsArray = (JSONArray) response.get(Event.ROOT + "s");
             for (int i = 0; i < eventsArray.length(); i++) {
-                JSONObject event = (JSONObject) eventsArray.get(i);
-                String eventID = event.getString(Event.ID);
-                String eventName = event.getString(Event.NAME);
-                String eventDate = event.getString(Event.DATE);
-                Event newEvent = new Event(Integer.valueOf(eventID), eventName, eventDate, clubID);
+                Event newEvent = new Event((JSONObject) eventsArray.get(i));
                 eventList.add(newEvent);
             }
 

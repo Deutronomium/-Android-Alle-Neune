@@ -37,11 +37,11 @@ public class ShowEventActivity extends RoboListActivity {
 
         this.eventIntent = getIntent();
         this.event = eventIntent.getParcelableExtra(Event.PARCELABLE);
-        eventNameTextView.setText(event.getEventName());
+        eventNameTextView.setText(event.getName());
 
-        eventDateTextView.setText(event.getEventDate());
+        eventDateTextView.setText(event.getDate());
 
-        userList = eventController.getEventParticipants(event.getEventID());
+        userList = eventController.getEventParticipants(event.getId());
         ArrayAdapter<User> userArrayAdapter = new ArrayAdapter<User>(this,
                 android.R.layout.simple_list_item_1, userList);
 

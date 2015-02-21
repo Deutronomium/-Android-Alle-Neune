@@ -23,17 +23,7 @@ public class Club implements Parcelable {
     public static String GET_MEMBERS_BY_CLUB = GENERIC_URL + "/get_members_by_club";
     public static String ADD_MEMBERS = GENERIC_URL + "/add_members";
 
-    public Club() {
-    }
 
-    public Club(String name) {
-        this.name = name;
-    }
-
-    public Club(String name, int id) {
-        this.name = name;
-        this.id = id;
-    }
 
     //<editor-fold desc="Getter & Setter">
     public String getName() {

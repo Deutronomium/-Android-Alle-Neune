@@ -75,7 +75,7 @@ public class ExpandableEventAdapter extends BaseExpandableListAdapter {
 
         Event event = (Event) getGroup(eventPosition);
         TextView eventNameTextView = (TextView) convertView.findViewById(R.id.name_text_view);
-        eventNameTextView.setText(event.getEventName());
+        eventNameTextView.setText(event.getName());
 
         return convertView;
     }

@@ -3,6 +3,9 @@ package patrickengelkes.com.alleneune.entities.objects;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.DecimalFormat;
 
 /**
@@ -28,11 +31,11 @@ public class Drink implements Parcelable {
     public static String UPDATE = GENERIC_URL + "/";
 
 
-    public Drink(int id, String name, double price, int clubID) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-        this.clubID = clubID;
+    public Drink(JSONObject jsonObject) throws JSONException {
+        this.id = jsonObject.getInt(ID);
+        this.name = jsonObject.getString(NAME);
+        this.price = jsonObject.getDouble(PRICE);
+        this.clubID = jsonObject.getInt(CLUB_ID);
     }
 
     public Drink(String name, double price, int clubID) {

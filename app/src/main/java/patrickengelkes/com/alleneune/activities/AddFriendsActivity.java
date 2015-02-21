@@ -82,7 +82,7 @@ public class AddFriendsActivity extends RoboListActivity {
                     }
                 }
 
-                ApiCall response = clubController.addFriendsToClub(phoneNumberList, currentClub.getClubID());
+                ApiCall response = clubController.addFriendsToClub(phoneNumberList, currentClub.getId());
 
                 if (response == ApiCall.SUCCESS) {
                     Intent clubHomeIntent = new Intent(AddFriendsActivity.this, ClubHomeActivity.class);
