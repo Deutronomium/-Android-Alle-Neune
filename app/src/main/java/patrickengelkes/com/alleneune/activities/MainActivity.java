@@ -45,8 +45,7 @@ public class MainActivity extends RoboActivity {
                 String email = mEmail.getText().toString().trim();
                 String password = mPassword.getText().toString().trim();
 
-                Session session = new Session(email, password);
-                ApiCall response = sessionController.logIn(session);
+                ApiCall response = sessionController.logIn(email, password);
                 if (response == ApiCall.SUCCESS) {
                     Intent userHomeIntent = new Intent(MainActivity.this, UserHomeActivity.class);
                     userHomeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

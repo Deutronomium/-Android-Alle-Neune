@@ -11,6 +11,7 @@ import java.util.concurrent.ExecutionException;
 
 import patrickengelkes.com.alleneune.CurrentUser;
 import patrickengelkes.com.alleneune.api_calls.ApiCallTask;
+import patrickengelkes.com.alleneune.api_calls.HttpPostEntity;
 import patrickengelkes.com.alleneune.api_calls.JsonBuilder;
 import patrickengelkes.com.alleneune.entities.objects.Session;
 import patrickengelkes.com.alleneune.entities.objects.User;
@@ -29,9 +30,9 @@ public class SessionController {
     public SessionController() {
     }
 
-    public ApiCall logIn(Session session) {
+    public ApiCall logIn(String userName, String password) {
         try {
-            HttpResponse response = new ApiCallTask().execute(session.logIn()).get();
+            HttpResponse response = new ApiCallTask().execute(logInPostEntity(userName, password)).get();
             if (response != null) {
                 JSONObject jsonResponse = new JsonBuilder().execute(response).get();
                 if (response.getStatusLine().getStatusCode() == 200) {
@@ -55,6 +56,20 @@ public class SessionController {
         }
 
         return ApiCall.BAD_REQUEST;
+    }
+
+    private String genericJSON(String email, String password) throws JSONException {
+        JSONObject leaf = new JSONObject();
+        leaf.put(Session.EMAIL, email);
+        leaf.put(Session.PASSWORD, password);
+        JSONObject root = new JSONObject();
+        root.put(Session.ROOT, leaf);
+
+        return root.toString();
+    }
+
+    public HttpPostEntity logInPostEntity(String email, String password) throws JSONException, UnsupportedEncodingException {
+        return new HttpPostEntity(Session.GENERIC_URL, genericJSON(email, password));
     }
 
     public void setCurrentUser(JSONObject response) throws JSONException {

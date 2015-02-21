@@ -12,28 +12,15 @@ import patrickengelkes.com.alleneune.api_calls.HttpPostEntity;
  * Created by patrickengelkes on 31/10/14.
  */
 public class Session{
-
-    private String genericUrl = "/sessions";
-
+    //attributes
     private String email;
     private String password;
 
-    public Session(String email, String password) {
-        this.email = email;
-        this.password = password;
-    }
+    //attributes for rails api calls
+    public static String ROOT = "session";
+    public static String EMAIL = "email";
+    public static String PASSWORD = "password";
 
-    private String genericJSON() throws JSONException {
-        JSONObject leaf = new JSONObject();
-        leaf.put("email", this.email);
-        leaf.put("password", this.password);
-        JSONObject root = new JSONObject();
-        root.put("session", leaf);
-
-        return root.toString();
-    }
-
-    public HttpPostEntity logIn() throws JSONException, UnsupportedEncodingException {
-        return new HttpPostEntity(genericUrl, genericJSON());
-    }
+    //urls
+    public static String GENERIC_URL = "/sessions";
 }
