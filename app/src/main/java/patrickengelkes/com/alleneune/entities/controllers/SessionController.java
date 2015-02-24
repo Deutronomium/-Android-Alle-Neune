@@ -75,22 +75,7 @@ public class SessionController {
     public void setCurrentUser(JSONObject response) throws JSONException {
         JSONObject userJson = (JSONObject) response.get(User.ROOT);
 
-        String userName = (String) userJson.get(User.USER_NAME);
-        String firstName = (!userJson.isNull(User.FIRST_NAME)) ? (String) userJson.get(User.FIRST_NAME) : null;
-        String lastName = (!userJson.isNull(User.LAST_NAME)) ? (String) userJson.get(User.LAST_NAME) : null;
-        String phoneNumber = (String) userJson.get(User.PHONE_NUMBER);
-        String email = (String) userJson.get(User.EMAIL);
-
-
-        currentUser.setUserName(userName);
-        if (firstName != null) {
-            currentUser.setFirstName(firstName);
-        }
-        if (lastName != null) {
-            currentUser.setLastName(lastName);
-        }
-        currentUser.setPhoneNumber(phoneNumber);
-        currentUser.setEmail(email);
+        currentUser.set(userJson);
     }
 
 }

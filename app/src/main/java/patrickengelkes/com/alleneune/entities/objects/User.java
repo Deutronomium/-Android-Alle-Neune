@@ -3,32 +3,27 @@ package patrickengelkes.com.alleneune.entities.objects;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.List;
-
 import patrickengelkes.com.alleneune.CurrentUser;
-import patrickengelkes.com.alleneune.api_calls.HttpPostEntity;
 
 /**
  * Created by patrickengelkes on 31/10/14.
  */
 public class User implements Parcelable {
-    //attributes
-    private int id;
-    private String userName;
-    private String email;
-    private String firstName;
-    private String lastName;
-    private String city;
-    private String password;
-    private String passwordConfirmation;
-    private String phoneNumber;
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
 
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
     //attribute strings for api calls
     public static String ROOT = "user";
     public static String ID = "id";
@@ -37,16 +32,28 @@ public class User implements Parcelable {
     public static String LAST_NAME = "last_name";
     public static String PHONE_NUMBER = "phone_number";
     public static String EMAIL = "email";
+    public static String STREET = "street";
+    public static String CITY = "city";
     public static String PASSWORD = "password";
     public static String PASSWORD_CONFIRMATION = "password_confirmation";
-
     //urls
     public static String GENERIC_URL = "/users";
     public static String VALIDITY = GENERIC_URL + "/validity";
     public static String GET_USER_CLUB_BY_NAME = GENERIC_URL + "/user_club";
+    //attributes
+    private int id;
+    private String userName;
+    private String email;
+    private String firstName;
+    private String lastName;
+    private String city;
+    private String street;
+    private String password;
+    private String passwordConfirmation;
+    private String phoneNumber;
 
-
-    public User() {}
+    public User() {
+    }
 
     public User(String userName) {
         this.userName = userName;
@@ -62,17 +69,27 @@ public class User implements Parcelable {
 
     public User(JSONObject jsonObject) throws JSONException {
         this.id = jsonObject.getInt(ID);
-        this.userName = jsonObject.getString(USER_NAME);
-        this.firstName = jsonObject.getString(FIRST_NAME);
-        this.lastName = jsonObject.getString(LAST_NAME);
-        this.phoneNumber = jsonObject.getString(PHONE_NUMBER);
-        this.email = jsonObject.getString(EMAIL);
+        this.userName = (jsonObject.isNull(USER_NAME)) ? null : jsonObject.getString(USER_NAME);
+        this.firstName = (jsonObject.isNull(FIRST_NAME)) ? null : jsonObject.getString(FIRST_NAME);
+        this.lastName = (jsonObject.isNull(LAST_NAME)) ? null : jsonObject.getString(LAST_NAME);
+        this.phoneNumber = (jsonObject.isNull(PHONE_NUMBER)) ? null : jsonObject.getString(PHONE_NUMBER);
+        this.email = (jsonObject.isNull(EMAIL)) ? null : jsonObject.getString(EMAIL);
+        this.city = (jsonObject.isNull(CITY)) ? null : jsonObject.getString(CITY);
+        this.street = (jsonObject.isNull(STREET)) ? null : jsonObject.getString(STREET);
     }
 
     public User(CurrentUser currentUser) {
         this.userName = currentUser.getUserName();
         this.email = currentUser.getEmail();
         this.phoneNumber = currentUser.getPhoneNumber();
+    }
+
+    //<editor-fold desc="Parcelable">
+    protected User(Parcel in) {
+        userName = in.readString();
+        email = in.readString();
+        password = in.readString();
+        passwordConfirmation = in.readString();
     }
 
     @Override
@@ -143,22 +160,14 @@ public class User implements Parcelable {
         this.password = password;
     }
 
+    //</editor-fold>
+
     public String getPasswordConfirmation() {
         return passwordConfirmation;
     }
 
     public void setPasswordConfirmation(String passwordConfirmation) {
         this.passwordConfirmation = passwordConfirmation;
-    }
-
-    //</editor-fold>
-
-    //<editor-fold desc="Parcelable">
-    protected User(Parcel in) {
-        userName = in.readString();
-        email = in.readString();
-        password = in.readString();
-        passwordConfirmation = in.readString();
     }
 
     @Override
@@ -173,19 +182,6 @@ public class User implements Parcelable {
         dest.writeString(password);
         dest.writeString(passwordConfirmation);
     }
-
-    @SuppressWarnings("unused")
-    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
-        @Override
-        public User createFromParcel(Parcel in) {
-            return new User(in);
-        }
-
-        @Override
-        public User[] newArray(int size) {
-            return new User[size];
-        }
-    };
     //</editor-fold>
 
 }
