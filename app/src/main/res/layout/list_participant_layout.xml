@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/user_name_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:layout_alignBottom="@+id/add_drink_payment_button"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/add_drink_payment_button"
+        android:layout_toStartOf="@+id/add_drink_payment_button" />
+
+    <ImageView
+        android:id="@+id/add_fine_payment_button"
+        android:background="@drawable/fine_icon"
+        android:layout_marginStart="@dimen/button_horizontal_margin"
+        android:layout_marginLeft="@dimen/button_horizontal_margin"
+        android:layout_marginEnd="@dimen/button_horizontal_margin"
+        android:layout_marginRight="@dimen/button_horizontal_margin"
+        android:layout_width="40dip"
+        android:layout_height="40dip"
+        android:focusable="false"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <ImageView
+        android:id="@+id/add_drink_payment_button"
+        android:background="@drawable/drink_icon"
+        android:layout_marginStart="@dimen/button_horizontal_margin"
+        android:layout_marginLeft="@dimen/button_horizontal_margin"
+        android:layout_marginEnd="@dimen/button_horizontal_margin"
+        android:layout_marginRight="@dimen/button_horizontal_margin"
+        android:layout_width="40dip"
+        android:layout_height="40dip"
+        android:focusable="false"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/add_fine_payment_button"
+        android:layout_toStartOf="@+id/add_fine_payment_button" />
+</RelativeLayout>

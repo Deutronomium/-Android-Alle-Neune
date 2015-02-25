@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.inject.Inject;
@@ -13,14 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import patrickengelkes.com.alleneune.R;
+import patrickengelkes.com.alleneune.array_adapters.adapters.ParticipantArrayAdapter;
 import patrickengelkes.com.alleneune.entities.controllers.EventController;
 import patrickengelkes.com.alleneune.entities.objects.Event;
 import patrickengelkes.com.alleneune.entities.objects.User;
 import roboguice.activity.RoboListActivity;
 
 public class ShowEventActivity extends RoboListActivity {
-    protected TextView eventNameTextView;
-    protected TextView eventDateTextView;
     protected Intent eventIntent;
     protected Event event;
     @Inject
@@ -30,24 +30,19 @@ public class ShowEventActivity extends RoboListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_event);
-
-        eventNameTextView = (TextView) findViewById(R.id.name_text_view);
-        eventDateTextView = (TextView) findViewById(R.id.event_date_text_view);
+        setContentView(R.layout.activity_show_event);
 
         this.eventIntent = getIntent();
         this.event = eventIntent.getParcelableExtra(Event.PARCELABLE);
-        eventNameTextView.setText(event.getName());
 
-        eventDateTextView.setText(event.getDate());
+        setTitle(this.event.getName());
 
         userList = eventController.getEventParticipants(event.getId());
-        ArrayAdapter<User> userArrayAdapter = new ArrayAdapter<User>(this,
-                android.R.layout.simple_list_item_1, userList);
 
-        setListAdapter(userArrayAdapter);
+        ParticipantArrayAdapter participantArrayAdapter = new ParticipantArrayAdapter(ShowEventActivity.this,
+                userList);
+        setListAdapter(participantArrayAdapter);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
