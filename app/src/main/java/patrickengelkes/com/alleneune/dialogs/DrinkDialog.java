@@ -13,12 +13,12 @@ import java.util.HashMap;
 import java.util.List;
 
 import patrickengelkes.com.alleneune.CurrentClub;
-import patrickengelkes.com.alleneune.helpers.DecimalInputTextWatcher;
 import patrickengelkes.com.alleneune.R;
 import patrickengelkes.com.alleneune.array_adapters.adapters.DrinkArrayAdapter;
 import patrickengelkes.com.alleneune.entities.controllers.DrinkController;
 import patrickengelkes.com.alleneune.entities.objects.Drink;
 import patrickengelkes.com.alleneune.enums.ApiCall;
+import patrickengelkes.com.alleneune.helpers.DecimalInputTextWatcher;
 import patrickengelkes.com.alleneune.helpers.ToastHelper;
 import roboguice.RoboGuice;
 import roboguice.inject.RoboInjector;
@@ -52,6 +52,7 @@ public class DrinkDialog extends Dialog {
         drinkButton = (Button) findViewById(R.id.drink_button);
 
         if (drink != null) {
+            setTitle(context.getString(R.string.update_drink));
             nameEditText.setText(drink.getName());
             priceEditText.setText(String.valueOf(drink.getPrice()));
             drinkButton.setText(context.getString(R.string.update_drink));

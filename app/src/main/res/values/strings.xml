@@ -73,4 +73,6 @@
     <string name="event_amount_hint">Amount</string>
     <string name="no_fine_updates_message">You did not change this fine. No updates saved!</string>
     <string name="no_drink_updates_message">You did not change this drink. No updates saved!</string>
+    <string name="add_drink_payment_button">Add Drink</string>
+    <string name="add_drink_to_user">Add Drink to User</string>
 </resources>

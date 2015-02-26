@@ -15,7 +15,7 @@ import patrickengelkes.com.alleneune.entities.objects.Drink;
 /**
  * Created by patrickengelkes on 14/02/15.
  */
-public class DrinkArrayAdapter extends ArrayAdapter<Drink>{
+public class DrinkArrayAdapter extends ArrayAdapter<Drink> {
 
     private List<Drink> drinkList;
     private Activity context;
@@ -27,11 +27,7 @@ public class DrinkArrayAdapter extends ArrayAdapter<Drink>{
         this.drinkList = drinkList;
     }
 
-    static class ViewHolder {
-        protected TextView drinkNameTextView;
-        protected TextView drinkPriceTextView;
-    }
-
+    //override this for list view
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View rowView = convertView;
@@ -52,5 +48,33 @@ public class DrinkArrayAdapter extends ArrayAdapter<Drink>{
         holder.drinkPriceTextView.setText(drink.getShowPrice());
 
         return rowView;
+    }
+
+    //override this for the spinner
+    @Override
+    public View getDropDownView(int position, View convertView, ViewGroup parent) {
+        View spinner;
+
+        LayoutInflater inflater = context.getLayoutInflater();
+        spinner = inflater.inflate(R.layout.list_drink_layout, null);
+
+        TextView drinkNameTextView = (TextView) spinner.findViewById(R.id.drink_name_text_view);
+        TextView drinkPriceTextView = (TextView) spinner.findViewById(R.id.drink_price_text_view);
+
+        Drink drink = drinkList.get(position);
+        drinkNameTextView.setText(drink.getName());
+        drinkPriceTextView.setText(drink.getShowPrice());
+
+        return spinner;
+    }
+
+    @Override
+    public int getCount() {
+        return drinkList.size();
+    }
+
+    static class ViewHolder {
+        protected TextView drinkNameTextView;
+        protected TextView drinkPriceTextView;
     }
 }

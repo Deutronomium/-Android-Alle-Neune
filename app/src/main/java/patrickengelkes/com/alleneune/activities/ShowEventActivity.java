@@ -4,18 +4,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import com.google.inject.Inject;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import patrickengelkes.com.alleneune.CurrentClub;
 import patrickengelkes.com.alleneune.R;
 import patrickengelkes.com.alleneune.array_adapters.adapters.ParticipantArrayAdapter;
+import patrickengelkes.com.alleneune.entities.controllers.DrinkController;
 import patrickengelkes.com.alleneune.entities.controllers.EventController;
+import patrickengelkes.com.alleneune.entities.objects.Drink;
 import patrickengelkes.com.alleneune.entities.objects.Event;
 import patrickengelkes.com.alleneune.entities.objects.User;
 import roboguice.activity.RoboListActivity;
@@ -25,7 +25,12 @@ public class ShowEventActivity extends RoboListActivity {
     protected Event event;
     @Inject
     EventController eventController;
+    @Inject
+    DrinkController drinkController;
+    @Inject
+    CurrentClub currentClub;
     private List<User> userList = new ArrayList<User>();
+    private List<Drink> drinkList = new ArrayList<Drink>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +43,10 @@ public class ShowEventActivity extends RoboListActivity {
         setTitle(this.event.getName());
 
         userList = eventController.getEventParticipants(event.getId());
+        drinkList = drinkController.getByClub(currentClub.getId());
 
         ParticipantArrayAdapter participantArrayAdapter = new ParticipantArrayAdapter(ShowEventActivity.this,
-                userList);
+                userList, this.event.getId(), drinkList);
         setListAdapter(participantArrayAdapter);
     }
 

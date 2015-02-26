@@ -104,6 +104,10 @@ public class User implements Parcelable {
     }
 
     //<editor-fold desc="Getter & Setter">
+    public int getId() {
+        return this.id;
+    }
+
     public String getUserName() {
         return userName;
     }
