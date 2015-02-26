@@ -75,4 +75,6 @@
     <string name="no_drink_updates_message">You did not change this drink. No updates saved!</string>
     <string name="add_drink_payment_button">Add Drink</string>
     <string name="add_drink_to_user">Add Drink to User</string>
+    <string name="add_fine_payment_button">Add Fine</string>
+    <string name="add_fine_to_user">Add fine to user</string>
 </resources>

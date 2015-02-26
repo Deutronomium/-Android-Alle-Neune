@@ -15,8 +15,10 @@ import patrickengelkes.com.alleneune.R;
 import patrickengelkes.com.alleneune.array_adapters.adapters.ParticipantArrayAdapter;
 import patrickengelkes.com.alleneune.entities.controllers.DrinkController;
 import patrickengelkes.com.alleneune.entities.controllers.EventController;
+import patrickengelkes.com.alleneune.entities.controllers.FineController;
 import patrickengelkes.com.alleneune.entities.objects.Drink;
 import patrickengelkes.com.alleneune.entities.objects.Event;
+import patrickengelkes.com.alleneune.entities.objects.Fine;
 import patrickengelkes.com.alleneune.entities.objects.User;
 import roboguice.activity.RoboListActivity;
 
@@ -28,9 +30,13 @@ public class ShowEventActivity extends RoboListActivity {
     @Inject
     DrinkController drinkController;
     @Inject
+    FineController fineController;
+    @Inject
     CurrentClub currentClub;
+
     private List<User> userList = new ArrayList<User>();
     private List<Drink> drinkList = new ArrayList<Drink>();
+    private List<Fine> fineList = new ArrayList<Fine>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +50,10 @@ public class ShowEventActivity extends RoboListActivity {
 
         userList = eventController.getEventParticipants(event.getId());
         drinkList = drinkController.getByClub(currentClub.getId());
+        fineList = fineController.getByClub(currentClub.getId());
 
         ParticipantArrayAdapter participantArrayAdapter = new ParticipantArrayAdapter(ShowEventActivity.this,
-                userList, this.event.getId(), drinkList);
+                userList, this.event.getId(), drinkList, fineList);
         setListAdapter(participantArrayAdapter);
     }
 

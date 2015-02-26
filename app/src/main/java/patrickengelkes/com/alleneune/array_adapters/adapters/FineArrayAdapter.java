@@ -1,7 +1,6 @@
 package patrickengelkes.com.alleneune.array_adapters.adapters;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,11 +27,7 @@ public class FineArrayAdapter extends ArrayAdapter<Fine> {
         this.fineList = fineList;
     }
 
-    static class ViewHolder {
-        protected TextView fineNameTextView;
-        protected TextView fineAmountTextView;
-    }
-
+    //override this for list view
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View rowView = convertView;
@@ -53,5 +48,35 @@ public class FineArrayAdapter extends ArrayAdapter<Fine> {
         holder.fineAmountTextView.setText(fine.getShowAmount());
 
         return rowView;
+    }
+
+    @Override
+    public View getDropDownView(int position, View convertView, ViewGroup parent) {
+        View spinner;
+
+        LayoutInflater inflater = context.getLayoutInflater();
+        spinner = inflater.inflate(R.layout.list_fine_layout, null);
+
+        TextView fineNameTextView = (TextView) spinner.findViewById(R.id.fine_name_text_view);
+        TextView fineAmountTextView = (TextView) spinner.findViewById(R.id.fine_amount_text_view);
+
+        Fine fine = fineList.get(position);
+
+        fineNameTextView.setText(fine.getName());
+        fineAmountTextView.setText(fine.getShowAmount());
+
+        return spinner;
+    }
+
+    //override this for spinner
+
+    @Override
+    public int getCount() {
+        return fineList.size();
+    }
+
+    static class ViewHolder {
+        protected TextView fineNameTextView;
+        protected TextView fineAmountTextView;
     }
 }
