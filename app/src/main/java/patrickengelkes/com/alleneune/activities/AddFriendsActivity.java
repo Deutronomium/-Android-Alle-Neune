@@ -19,8 +19,8 @@ import java.util.List;
 
 import patrickengelkes.com.alleneune.CurrentClub;
 import patrickengelkes.com.alleneune.R;
-import patrickengelkes.com.alleneune.array_adapters.adapters.FriendsArrayAdapter;
-import patrickengelkes.com.alleneune.array_adapters.models.FriendsModel;
+import patrickengelkes.com.alleneune.adapters.array_adapters.FriendsArrayAdapter;
+import patrickengelkes.com.alleneune.adapters.models.FriendsModel;
 import patrickengelkes.com.alleneune.dialogs.ErrorDialog;
 import patrickengelkes.com.alleneune.entities.controllers.ClubController;
 import patrickengelkes.com.alleneune.entities.controllers.FriendsController;

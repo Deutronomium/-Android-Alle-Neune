@@ -1,4 +1,4 @@
-package patrickengelkes.com.alleneune.array_adapters.adapters;
+package patrickengelkes.com.alleneune.adapters.array_adapters;
 
 import android.app.Activity;
 import android.util.Log;
@@ -8,11 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
+
 import java.util.List;
 
-import patrickengelkes.com.alleneune.array_adapters.models.FriendsModel;
-import patrickengelkes.com.alleneune.entities.objects.User;
 import patrickengelkes.com.alleneune.R;
+import patrickengelkes.com.alleneune.adapters.models.FriendsModel;
+import patrickengelkes.com.alleneune.entities.objects.User;
 
 /**
  * Created by patrickengelkes on 28/11/14.
@@ -29,11 +30,6 @@ public class FriendsArrayAdapter extends ArrayAdapter<FriendsModel> {
 
         this.context = context;
         this.friendsList = friendsList;
-    }
-
-    static class ViewHolder {
-        protected TextView textView;
-        protected CheckBox checkBox;
     }
 
     @Override
@@ -53,7 +49,7 @@ public class FriendsArrayAdapter extends ArrayAdapter<FriendsModel> {
 
         ViewHolder holder = (ViewHolder) convertView.getTag();
         User user = friendsList.get(position).getUser();
-        if (user.getFirstName() != null && user.getLastName() != null)  {
+        if (user.getFirstName() != null && user.getLastName() != null) {
             holder.textView.setText(user.getFirstName() + " " + user.getLastName());
         } else if (user.getFirstName() != null) {
             holder.textView.setText(user.getFirstName());
@@ -75,5 +71,10 @@ public class FriendsArrayAdapter extends ArrayAdapter<FriendsModel> {
             }
         });
         return convertView;
+    }
+
+    static class ViewHolder {
+        protected TextView textView;
+        protected CheckBox checkBox;
     }
 }

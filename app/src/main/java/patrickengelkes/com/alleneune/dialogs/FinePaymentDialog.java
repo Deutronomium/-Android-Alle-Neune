@@ -12,7 +12,7 @@ import com.google.inject.Inject;
 import java.util.List;
 
 import patrickengelkes.com.alleneune.R;
-import patrickengelkes.com.alleneune.array_adapters.adapters.FineArrayAdapter;
+import patrickengelkes.com.alleneune.adapters.array_adapters.FineArrayAdapter;
 import patrickengelkes.com.alleneune.entities.controllers.FinePaymentController;
 import patrickengelkes.com.alleneune.entities.objects.Fine;
 import roboguice.RoboGuice;

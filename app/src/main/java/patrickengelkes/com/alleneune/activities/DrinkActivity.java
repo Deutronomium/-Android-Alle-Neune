@@ -15,20 +15,18 @@ import java.util.List;
 
 import patrickengelkes.com.alleneune.CurrentClub;
 import patrickengelkes.com.alleneune.R;
-import patrickengelkes.com.alleneune.array_adapters.adapters.DrinkArrayAdapter;
+import patrickengelkes.com.alleneune.adapters.array_adapters.DrinkArrayAdapter;
 import patrickengelkes.com.alleneune.dialogs.DrinkDialog;
 import patrickengelkes.com.alleneune.entities.controllers.DrinkController;
 import patrickengelkes.com.alleneune.entities.objects.Drink;
 import roboguice.activity.RoboListActivity;
 
 public class DrinkActivity extends RoboListActivity {
+    protected Button createDrinkButton;
     @Inject
     CurrentClub currentClub;
     @Inject
     DrinkController drinkController;
-
-    protected Button createDrinkButton;
-
     DrinkArrayAdapter drinkArrayAdapter;
     List<Drink> drinksList = new ArrayList<Drink>();
 

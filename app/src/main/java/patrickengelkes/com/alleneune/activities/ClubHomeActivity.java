@@ -17,7 +17,7 @@ import java.util.List;
 
 import patrickengelkes.com.alleneune.CurrentClub;
 import patrickengelkes.com.alleneune.R;
-import patrickengelkes.com.alleneune.array_adapters.adapters.ExpandableEventAdapter;
+import patrickengelkes.com.alleneune.adapters.array_adapters.ExpandableEventAdapter;
 import patrickengelkes.com.alleneune.entities.controllers.EventController;
 import patrickengelkes.com.alleneune.entities.objects.Event;
 import patrickengelkes.com.alleneune.entities.objects.User;

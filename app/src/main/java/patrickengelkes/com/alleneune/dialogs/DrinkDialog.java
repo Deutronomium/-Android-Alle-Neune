@@ -14,7 +14,7 @@ import java.util.List;
 
 import patrickengelkes.com.alleneune.CurrentClub;
 import patrickengelkes.com.alleneune.R;
-import patrickengelkes.com.alleneune.array_adapters.adapters.DrinkArrayAdapter;
+import patrickengelkes.com.alleneune.adapters.array_adapters.DrinkArrayAdapter;
 import patrickengelkes.com.alleneune.entities.controllers.DrinkController;
 import patrickengelkes.com.alleneune.entities.objects.Drink;
 import patrickengelkes.com.alleneune.enums.ApiCall;

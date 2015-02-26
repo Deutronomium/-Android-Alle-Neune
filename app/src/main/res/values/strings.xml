@@ -77,4 +77,7 @@
     <string name="add_drink_to_user">Add Drink to User</string>
     <string name="add_fine_payment_button">Add Fine</string>
     <string name="add_fine_to_user">Add fine to user</string>
+    <string name="title_activity_show_payments">ShowPaymentsActivity</string>
+    <string name="drink_tab_name">Drinks</string>
+    <string name="fine_tab_name">Fines</string>
 </resources>

@@ -1,4 +1,4 @@
-package patrickengelkes.com.alleneune.array_adapters.models;
+package patrickengelkes.com.alleneune.adapters.models;
 
 import patrickengelkes.com.alleneune.entities.objects.User;
 

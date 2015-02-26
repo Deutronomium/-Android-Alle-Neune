@@ -1,4 +1,4 @@
-package patrickengelkes.com.alleneune.array_adapters.adapters;
+package patrickengelkes.com.alleneune.adapters.array_adapters;
 
 import android.app.Activity;
 import android.util.Log;

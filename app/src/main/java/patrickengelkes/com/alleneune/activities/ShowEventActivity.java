@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ListView;
 
 import com.google.inject.Inject;
 
@@ -12,7 +14,7 @@ import java.util.List;
 
 import patrickengelkes.com.alleneune.CurrentClub;
 import patrickengelkes.com.alleneune.R;
-import patrickengelkes.com.alleneune.array_adapters.adapters.ParticipantArrayAdapter;
+import patrickengelkes.com.alleneune.adapters.array_adapters.ParticipantArrayAdapter;
 import patrickengelkes.com.alleneune.entities.controllers.DrinkController;
 import patrickengelkes.com.alleneune.entities.controllers.EventController;
 import patrickengelkes.com.alleneune.entities.controllers.FineController;
@@ -23,6 +25,9 @@ import patrickengelkes.com.alleneune.entities.objects.User;
 import roboguice.activity.RoboListActivity;
 
 public class ShowEventActivity extends RoboListActivity {
+    public static String USER_ID = "user_id";
+    public static String EVENT_ID = "event_id";
+
     protected Intent eventIntent;
     protected Event event;
     @Inject
@@ -77,5 +82,16 @@ public class ShowEventActivity extends RoboListActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+
+        User user = userList.get(position);
+        Intent showPaymentsIntent = new Intent(ShowEventActivity.this, ShowPaymentsActivity.class);
+        showPaymentsIntent.putExtra(USER_ID, user.getId());
+        showPaymentsIntent.putExtra(EVENT_ID, event.getId());
+        startActivity(showPaymentsIntent);
     }
 }

@@ -13,12 +13,12 @@ import java.util.HashMap;
 import java.util.List;
 
 import patrickengelkes.com.alleneune.CurrentClub;
-import patrickengelkes.com.alleneune.helpers.DecimalInputTextWatcher;
 import patrickengelkes.com.alleneune.R;
-import patrickengelkes.com.alleneune.array_adapters.adapters.FineArrayAdapter;
+import patrickengelkes.com.alleneune.adapters.array_adapters.FineArrayAdapter;
 import patrickengelkes.com.alleneune.entities.controllers.FineController;
 import patrickengelkes.com.alleneune.entities.objects.Fine;
 import patrickengelkes.com.alleneune.enums.ApiCall;
+import patrickengelkes.com.alleneune.helpers.DecimalInputTextWatcher;
 import patrickengelkes.com.alleneune.helpers.ToastHelper;
 import roboguice.RoboGuice;
 import roboguice.inject.RoboInjector;

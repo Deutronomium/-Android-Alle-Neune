@@ -12,7 +12,7 @@ import com.google.inject.Inject;
 import java.util.List;
 
 import patrickengelkes.com.alleneune.R;
-import patrickengelkes.com.alleneune.array_adapters.adapters.DrinkArrayAdapter;
+import patrickengelkes.com.alleneune.adapters.array_adapters.DrinkArrayAdapter;
 import patrickengelkes.com.alleneune.entities.controllers.DrinkPaymentController;
 import patrickengelkes.com.alleneune.entities.objects.Drink;
 import roboguice.RoboGuice;

@@ -14,20 +14,18 @@ import java.util.List;
 
 import patrickengelkes.com.alleneune.CurrentClub;
 import patrickengelkes.com.alleneune.R;
-import patrickengelkes.com.alleneune.array_adapters.adapters.FineArrayAdapter;
+import patrickengelkes.com.alleneune.adapters.array_adapters.FineArrayAdapter;
 import patrickengelkes.com.alleneune.dialogs.FineDialog;
 import patrickengelkes.com.alleneune.entities.controllers.FineController;
 import patrickengelkes.com.alleneune.entities.objects.Fine;
 import roboguice.activity.RoboListActivity;
 
 public class FineActivity extends RoboListActivity {
+    protected Button createFineButton;
     @Inject
     CurrentClub currentClub;
     @Inject
     FineController fineController;
-
-    protected Button createFineButton;
-
     FineArrayAdapter fineArrayAdapter;
     List<Fine> fineList;
 
