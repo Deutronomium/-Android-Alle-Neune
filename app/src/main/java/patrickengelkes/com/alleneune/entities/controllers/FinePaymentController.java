@@ -9,11 +9,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import patrickengelkes.com.alleneune.api_calls.ApiCallTask;
 import patrickengelkes.com.alleneune.api_calls.HttpPostEntity;
 import patrickengelkes.com.alleneune.api_calls.JsonBuilder;
+import patrickengelkes.com.alleneune.entities.objects.Fine;
 import patrickengelkes.com.alleneune.entities.objects.FinePayment;
 import patrickengelkes.com.alleneune.enums.ApiCall;
 
@@ -62,6 +65,38 @@ public class FinePaymentController {
         root.put(FinePayment.ROOT, leaf);
 
         return new HttpPostEntity(FinePayment.GENERIC_URL, root.toString());
+    }
+
+    public List<Fine> getByUserAndEvent(int userID, int eventID) {
+        List<Fine> returnList = new ArrayList<Fine>();
+        try {
+            HttpPostEntity getUserAndEventPostEntity = getByUserAndEventPostEntity(userID, eventID);
+            HttpResponse response = new ApiCallTask().execute(getUserAndEventPostEntity).get();
+            JSONObject finePaymentJSON = new JsonBuilder().execute(response).get();
+            if (response.getStatusLine().getStatusCode() == 200 && finePaymentJSON != null) {
+                returnList = FineController.getFineListFromJson(finePaymentJSON);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        return returnList;
+    }
+
+    private HttpPostEntity getByUserAndEventPostEntity(int userID, int eventID) throws JSONException, UnsupportedEncodingException {
+        JSONObject leaf = new JSONObject();
+        leaf.put(FinePayment.USER_ID, userID);
+        leaf.put(FinePayment.EVENT_ID, eventID);
+        JSONObject root = new JSONObject();
+        root.put(FinePayment.ROOT, leaf);
+
+        return new HttpPostEntity(FinePayment.GET_BY_USER_AND_EVENT, root.toString());
     }
 
 }

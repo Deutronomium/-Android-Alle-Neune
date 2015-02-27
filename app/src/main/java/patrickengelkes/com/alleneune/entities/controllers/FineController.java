@@ -33,6 +33,18 @@ public class FineController {
     public FineController() {
     }
 
+    public static List<Fine> getFineListFromJson(JSONObject finesJson) throws JSONException {
+        List<Fine> finesList = new ArrayList<Fine>();
+
+        JSONArray fines = finesJson.getJSONArray(Fine.ROOTS);
+        for (int i = 0; i < fines.length(); i++) {
+            Fine fine = new Fine(fines.getJSONObject(i));
+            finesList.add(fine);
+        }
+
+        return finesList;
+    }
+
     private String fineJSON(Fine fine) throws JSONException {
         JSONObject leaf = new JSONObject();
         leaf.put(Fine.NAME, fine.getName());
@@ -104,18 +116,6 @@ public class FineController {
         root.put(Fine.ROOT, leaf);
 
         return new HttpPostEntity(Fine.GET_BY_CLUB, root.toString());
-    }
-
-    private List<Fine> getFineListFromJson(JSONObject finesJson) throws JSONException {
-        List<Fine> finesList = new ArrayList<Fine>();
-
-        JSONArray fines = finesJson.getJSONArray(Fine.ROOT + "s");
-        for (int i = 0; i < fines.length(); i++) {
-            Fine fine = new Fine(fines.getJSONObject(i));
-            finesList.add(fine);
-        }
-
-        return finesList;
     }
 
     public ApiCall update(HashMap<String, Object> updateMap, Fine fine) {

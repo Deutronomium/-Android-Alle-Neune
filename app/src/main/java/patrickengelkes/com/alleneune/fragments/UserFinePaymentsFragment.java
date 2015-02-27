@@ -7,11 +7,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
+import com.google.inject.Inject;
+
+import java.util.List;
+
 import patrickengelkes.com.alleneune.R;
+import patrickengelkes.com.alleneune.adapters.array_adapters.FineArrayAdapter;
+import patrickengelkes.com.alleneune.entities.controllers.FinePaymentController;
+import patrickengelkes.com.alleneune.entities.objects.Fine;
 import patrickengelkes.com.alleneune.fragments.dummy.DummyContent;
 import roboguice.fragment.RoboFragment;
 
@@ -30,6 +36,9 @@ public class UserFinePaymentsFragment extends RoboFragment implements AbsListVie
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    @Inject
+    FinePaymentController finePaymentController;
+    private List<Fine> fineList;
     private int userID;
     private int eventID;
     // TODO: Rename and change types of parameters
@@ -47,7 +56,7 @@ public class UserFinePaymentsFragment extends RoboFragment implements AbsListVie
      * The Adapter which will be used to populate the ListView/GridView with
      * Views.
      */
-    private ListAdapter mAdapter;
+    private FineArrayAdapter mAdapter;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -80,9 +89,9 @@ public class UserFinePaymentsFragment extends RoboFragment implements AbsListVie
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
+        fineList = finePaymentController.getByUserAndEvent(this.userID, this.eventID);
         // TODO: Change Adapter to display your content
-        mAdapter = new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS);
+        mAdapter = new FineArrayAdapter(getActivity(), fineList);
     }
 
     @Override
