@@ -3,8 +3,8 @@ package patrickengelkes.com.alleneune.adapters.fragment_adapters;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
-import patrickengelkes.com.alleneune.fragments.UserDrinkPaymentsFragment;
-import patrickengelkes.com.alleneune.fragments.UserFinePaymentsFragment;
+import patrickengelkes.com.alleneune.fragments.ShowUserDrinkPaymentsFragment;
+import patrickengelkes.com.alleneune.fragments.UserFineListFragment;
 
 /**
  * Created by patrickengelkes on 26/02/15.
@@ -25,9 +25,9 @@ public class FragmentPagerAdapter extends android.support.v4.app.FragmentPagerAd
     public Fragment getItem(int index) {
         switch (index) {
             case 0:
-                return new UserDrinkPaymentsFragment(userID, eventID);
+                return new ShowUserDrinkPaymentsFragment(userID, eventID);
             case 1:
-                return new UserFinePaymentsFragment(userID, eventID);
+                return new UserFineListFragment(userID, eventID);
         }
 
         return null;

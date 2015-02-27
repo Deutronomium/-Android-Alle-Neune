@@ -80,4 +80,5 @@
     <string name="title_activity_show_payments">ShowPaymentsActivity</string>
     <string name="drink_tab_name">Drinks</string>
     <string name="fine_tab_name">Fines</string>
+    <string name="total_text_view">Total</string>
 </resources>

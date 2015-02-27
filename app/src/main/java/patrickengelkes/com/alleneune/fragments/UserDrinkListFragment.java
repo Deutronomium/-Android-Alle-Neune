@@ -1,6 +1,7 @@
 package patrickengelkes.com.alleneune.fragments;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +31,7 @@ import roboguice.fragment.RoboFragment;
  * Activities containing this fragment MUST implement the {@link OnFragmentInteractionListener}
  * interface.
  */
-public class UserDrinkPaymentsFragment extends RoboFragment implements AbsListView.OnItemClickListener {
+public class UserDrinkListFragment extends RoboFragment implements AbsListView.OnItemClickListener, ShowUserDrinkPaymentsFragment.OnFragmentInteractionListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -61,17 +62,17 @@ public class UserDrinkPaymentsFragment extends RoboFragment implements AbsListVi
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public UserDrinkPaymentsFragment() {
+    public UserDrinkListFragment() {
     }
 
-    public UserDrinkPaymentsFragment(int userID, int eventID) {
+    public UserDrinkListFragment(int userID, int eventID) {
         this.userID = userID;
         this.eventID = eventID;
     }
 
     // TODO: Rename and change types of parameters
-    public static UserDrinkPaymentsFragment newInstance(String param1, String param2) {
-        UserDrinkPaymentsFragment fragment = new UserDrinkPaymentsFragment();
+    public static UserDrinkListFragment newInstance(String param1, String param2) {
+        UserDrinkListFragment fragment = new UserDrinkListFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -146,6 +147,11 @@ public class UserDrinkPaymentsFragment extends RoboFragment implements AbsListVi
         if (emptyView instanceof TextView) {
             ((TextView) emptyView).setText(emptyText);
         }
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 
     /**

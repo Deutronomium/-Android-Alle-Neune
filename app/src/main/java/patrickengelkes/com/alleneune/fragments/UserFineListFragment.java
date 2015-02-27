@@ -30,7 +30,7 @@ import roboguice.fragment.RoboFragment;
  * Activities containing this fragment MUST implement the {@link OnFragmentInteractionListener}
  * interface.
  */
-public class UserFinePaymentsFragment extends RoboFragment implements AbsListView.OnItemClickListener {
+public class UserFineListFragment extends RoboFragment implements AbsListView.OnItemClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -62,17 +62,17 @@ public class UserFinePaymentsFragment extends RoboFragment implements AbsListVie
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public UserFinePaymentsFragment() {
+    public UserFineListFragment() {
     }
 
-    public UserFinePaymentsFragment(int userID, int eventID) {
+    public UserFineListFragment(int userID, int eventID) {
         this.userID = userID;
         this.eventID = eventID;
     }
 
     // TODO: Rename and change types of parameters
-    public static UserFinePaymentsFragment newInstance(String param1, String param2) {
-        UserFinePaymentsFragment fragment = new UserFinePaymentsFragment();
+    public static UserFineListFragment newInstance(String param1, String param2) {
+        UserFineListFragment fragment = new UserFineListFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

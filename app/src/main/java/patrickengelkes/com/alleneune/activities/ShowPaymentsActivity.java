@@ -3,6 +3,7 @@ package patrickengelkes.com.alleneune.activities;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
@@ -10,13 +11,15 @@ import android.view.MenuItem;
 
 import patrickengelkes.com.alleneune.R;
 import patrickengelkes.com.alleneune.adapters.fragment_adapters.FragmentPagerAdapter;
-import patrickengelkes.com.alleneune.fragments.UserDrinkPaymentsFragment;
-import patrickengelkes.com.alleneune.fragments.UserFinePaymentsFragment;
+import patrickengelkes.com.alleneune.fragments.ShowUserDrinkPaymentsFragment;
+import patrickengelkes.com.alleneune.fragments.UserDrinkListFragment;
+import patrickengelkes.com.alleneune.fragments.UserFineListFragment;
 import roboguice.activity.RoboFragmentActivity;
 
 public class ShowPaymentsActivity extends RoboFragmentActivity implements ActionBar.TabListener,
-        UserDrinkPaymentsFragment.OnFragmentInteractionListener,
-        UserFinePaymentsFragment.OnFragmentInteractionListener {
+        ShowUserDrinkPaymentsFragment.OnFragmentInteractionListener,
+        UserDrinkListFragment.OnFragmentInteractionListener,
+        UserFineListFragment.OnFragmentInteractionListener {
 
     private ViewPager viewPager;
     private FragmentPagerAdapter fragmentPagerAdapter;
@@ -106,6 +109,11 @@ public class ShowPaymentsActivity extends RoboFragmentActivity implements Action
 
     @Override
     public void onFragmentInteraction(String id) {
+
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
 
     }
 }
