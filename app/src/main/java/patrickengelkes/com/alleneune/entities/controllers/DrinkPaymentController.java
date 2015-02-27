@@ -7,6 +7,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import javax.inject.Inject;
@@ -14,6 +16,7 @@ import javax.inject.Inject;
 import patrickengelkes.com.alleneune.api_calls.ApiCallTask;
 import patrickengelkes.com.alleneune.api_calls.HttpPostEntity;
 import patrickengelkes.com.alleneune.api_calls.JsonBuilder;
+import patrickengelkes.com.alleneune.entities.objects.Drink;
 import patrickengelkes.com.alleneune.entities.objects.DrinkPayment;
 import patrickengelkes.com.alleneune.enums.ApiCall;
 
@@ -63,5 +66,37 @@ public class DrinkPaymentController {
 
 
         return new HttpPostEntity(DrinkPayment.GENERIC_URL, root.toString());
+    }
+
+    public List<Drink> getDrinksByUserAndEvent(int userID, int eventID) {
+        List<Drink> returnList = new ArrayList<Drink>();
+        try {
+            HttpPostEntity getDrinksByUserAndEventPostEntity = getDrinksByUserAndEventPostEntity(userID, eventID);
+            HttpResponse response = new ApiCallTask().execute(getDrinksByUserAndEventPostEntity).get();
+            JSONObject drinkPaymentJSON = new JsonBuilder().execute(response).get();
+            if (response.getStatusLine().getStatusCode() == 200 && drinkPaymentJSON != null) {
+                returnList = DrinkController.getDrinkListFromJson(drinkPaymentJSON);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        return returnList;
+    }
+
+    private HttpPostEntity getDrinksByUserAndEventPostEntity(int userID, int eventID) throws JSONException, UnsupportedEncodingException {
+        JSONObject leaf = new JSONObject();
+        leaf.put(DrinkPayment.USER_ID, userID);
+        leaf.put(DrinkPayment.EVENT_ID, eventID);
+        JSONObject root = new JSONObject();
+        root.put(DrinkPayment.ROOT, leaf);
+
+        return new HttpPostEntity(DrinkPayment.GET_BY_USER_AND_EVENT, root.toString());
     }
 }

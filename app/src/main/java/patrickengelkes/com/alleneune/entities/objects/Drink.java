@@ -12,24 +12,33 @@ import java.text.DecimalFormat;
  * Created by patrickengelkes on 13/02/15.
  */
 public class Drink implements Parcelable {
-    public static String ROOT = "drink";
-    //atributes
-    private int id;
-    private int clubID;
-    private String name;
-    private double price;
+    public static final Creator<Drink> CREATOR = new Creator<Drink>() {
+        @Override
+        public Drink createFromParcel(Parcel parcel) {
+            return new Drink(parcel);
+        }
 
+        @Override
+        public Drink[] newArray(int size) {
+            return new Drink[size];
+        }
+    };
+    public static String ROOT = "drink";
+    public static String ROOTS = "drinks";
     //attribute strings for api calls
     public static String ID = "id";
     public static String CLUB_ID = "club_id";
     public static String NAME = "name";
     public static String PRICE = "price";
-
     //urls
     public static String GENERIC_URL = "/drinks";
     public static String GET_BY_CLUB = GENERIC_URL + "/get_by_club";
     public static String UPDATE = GENERIC_URL + "/";
-
+    //atributes
+    private int id;
+    private int clubID;
+    private String name;
+    private double price;
 
     public Drink(JSONObject jsonObject) throws JSONException {
         this.id = jsonObject.getInt(ID);
@@ -42,6 +51,13 @@ public class Drink implements Parcelable {
         this.name = name;
         this.price = price;
         this.clubID = clubID;
+    }
+
+    //<editor-fold desc="Parcelable">
+    protected Drink(Parcel in) {
+        this.id = in.readInt();
+        this.name = in.readString();
+        this.price = in.readDouble();
     }
 
     //<editor-fold desc="Getter & Setter">
@@ -73,6 +89,7 @@ public class Drink implements Parcelable {
         DecimalFormat decimalFormat = new DecimalFormat("#.00");
         return decimalFormat.format(this.price);
     }
+    //</editor-fold>
 
     public int getClubID() {
         return this.clubID;
@@ -80,14 +97,6 @@ public class Drink implements Parcelable {
 
     public void setClubID(int clubID) {
         this.clubID = clubID;
-    }
-    //</editor-fold>
-
-    //<editor-fold desc="Parcelable">
-    protected Drink(Parcel in) {
-        this.id = in.readInt();
-        this.name = in.readString();
-        this.price = in.readDouble();
     }
 
     @Override
@@ -101,17 +110,5 @@ public class Drink implements Parcelable {
         parcel.writeString(this.name);
         parcel.writeDouble(this.price);
     }
-
-    public static final Creator<Drink> CREATOR = new Creator<Drink>() {
-        @Override
-        public Drink createFromParcel(Parcel parcel) {
-            return new Drink(parcel);
-        }
-
-        @Override
-        public Drink[] newArray(int size) {
-            return new Drink[size];
-        }
-    };
     //</editor-fold>
 }

@@ -21,7 +21,6 @@ import patrickengelkes.com.alleneune.api_calls.ApiCallTask;
 import patrickengelkes.com.alleneune.api_calls.HttpPostEntity;
 import patrickengelkes.com.alleneune.api_calls.JsonBuilder;
 import patrickengelkes.com.alleneune.entities.objects.Drink;
-import patrickengelkes.com.alleneune.entities.objects.Fine;
 import patrickengelkes.com.alleneune.enums.ApiCall;
 
 /**
@@ -33,6 +32,18 @@ public class DrinkController {
 
     @Inject
     public DrinkController() {
+    }
+
+    public static List<Drink> getDrinkListFromJson(JSONObject drinksJson) throws JSONException {
+        List<Drink> drinkList = new ArrayList<Drink>();
+
+        JSONArray drinks = drinksJson.getJSONArray(Drink.ROOTS);
+        for (int i = 0; i < drinks.length(); i++) {
+            Drink drink = new Drink(drinks.getJSONObject(i));
+            drinkList.add(drink);
+        }
+
+        return drinkList;
     }
 
     private String drinkJSON(Drink drink) throws JSONException {
@@ -106,18 +117,6 @@ public class DrinkController {
         root.put(Drink.ROOT, leaf);
 
         return new HttpPostEntity(Drink.GET_BY_CLUB, root.toString());
-    }
-
-    private List<Drink> getDrinkListFromJson(JSONObject drinksJson) throws JSONException {
-        List<Drink> drinkList = new ArrayList<Drink>();
-
-        JSONArray drinks = drinksJson.getJSONArray(Drink.ROOT + "s");
-        for (int i = 0; i < drinks.length(); i++) {
-            Drink drink = new Drink(drinks.getJSONObject(i));
-            drinkList.add(drink);
-        }
-
-        return drinkList;
     }
 
     public ApiCall update(HashMap<String, Object> updateMap, Drink drink) {

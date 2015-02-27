@@ -17,6 +17,7 @@ public class FinePayment {
 
     //urls
     public static String GENERIC_URL = "/fine_payments";
+    public static String GET_BY_USER_AND_EVENT = GENERIC_URL + "/get_by_user_and_event";
 
     //attributes
     private int id;

@@ -7,11 +7,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
+import com.google.inject.Inject;
+
+import java.util.List;
+
 import patrickengelkes.com.alleneune.R;
+import patrickengelkes.com.alleneune.adapters.array_adapters.DrinkArrayAdapter;
+import patrickengelkes.com.alleneune.entities.controllers.DrinkPaymentController;
+import patrickengelkes.com.alleneune.entities.objects.Drink;
 import patrickengelkes.com.alleneune.fragments.dummy.DummyContent;
 import roboguice.fragment.RoboFragment;
 
@@ -25,12 +31,13 @@ import roboguice.fragment.RoboFragment;
  * interface.
  */
 public class UserDrinkPaymentsFragment extends RoboFragment implements AbsListView.OnItemClickListener {
-
-
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    @Inject
+    DrinkPaymentController drinkPaymentController;
+    List<Drink> drinkList;
     private int userID;
     private int eventID;
     // TODO: Rename and change types of parameters
@@ -48,7 +55,7 @@ public class UserDrinkPaymentsFragment extends RoboFragment implements AbsListVi
      * The Adapter which will be used to populate the ListView/GridView with
      * Views.
      */
-    private ListAdapter mAdapter;
+    private DrinkArrayAdapter mAdapter;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -81,9 +88,9 @@ public class UserDrinkPaymentsFragment extends RoboFragment implements AbsListVi
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
+        drinkList = drinkPaymentController.getDrinksByUserAndEvent(this.userID, this.eventID);
         // TODO: Change Adapter to display your content
-        mAdapter = new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS);
+        mAdapter = new DrinkArrayAdapter(getActivity(), drinkList);
     }
 
     @Override
