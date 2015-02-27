@@ -6,8 +6,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.google.inject.Inject;
 
 import patrickengelkes.com.alleneune.R;
+import patrickengelkes.com.alleneune.entities.controllers.DrinkPaymentController;
 import roboguice.fragment.RoboFragment;
 
 /**
@@ -19,10 +23,12 @@ import roboguice.fragment.RoboFragment;
  * create an instance of this fragment.
  */
 public class ShowUserDrinkPaymentsFragment extends RoboFragment {
-
+    @Inject
+    private DrinkPaymentController drinkPaymentController;
 
     private int userID;
     private int eventID;
+    private TextView totalPriceTextView;
 
 
     private OnFragmentInteractionListener mListener;
@@ -55,17 +61,25 @@ public class ShowUserDrinkPaymentsFragment extends RoboFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        UserDrinkListFragment userDrinkListFragment = new UserDrinkListFragment(this.userID, this.eventID);
-        android.support.v4.app.FragmentManager fragmentManager = getChildFragmentManager();
-        fragmentManager.beginTransaction().add(R.id.user_drink_list_fragment, userDrinkListFragment).commit();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_show_user_drink_payments, container, false);
+
+        //set user drink list fragment
+        UserDrinkListFragment userDrinkListFragment = new UserDrinkListFragment(this.userID, this.eventID);
+        android.support.v4.app.FragmentManager fragmentManager = getChildFragmentManager();
+        fragmentManager.beginTransaction().add(R.id.user_drink_list_fragment, userDrinkListFragment).commit();
+
+        //set total price view
+        totalPriceTextView = (TextView) view.findViewById(R.id.total_price_text_view);
+        double totalPrice = drinkPaymentController.totalPriceByUserAndEvent(this.userID, this.eventID);
+        totalPriceTextView.setText(String.valueOf(totalPrice));
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_show_user_drink_payments, container, false);
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -14,9 +14,11 @@ public class DrinkPayment {
     public static String USER_ID = "user_id";
     public static String EVENT_ID = "event_id";
     public static String DRINK_ID = "drink_id";
+    public static String TOTAL_PRICE = "total_price";
     //urls
     public static String GENERIC_URL = "/drink_payments";
     public static String GET_BY_USER_AND_EVENT = GENERIC_URL + "/get_by_user_and_event";
+    public static String TOTAL_BY_USER_AND_EVENT = GENERIC_URL + "/total_by_user_and_event";
 
     //attributes
     private int id;

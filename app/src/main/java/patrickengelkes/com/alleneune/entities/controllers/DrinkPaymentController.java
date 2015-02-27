@@ -71,7 +71,8 @@ public class DrinkPaymentController {
     public List<Drink> getDrinksByUserAndEvent(int userID, int eventID) {
         List<Drink> returnList = new ArrayList<Drink>();
         try {
-            HttpPostEntity getDrinksByUserAndEventPostEntity = getDrinksByUserAndEventPostEntity(userID, eventID);
+            HttpPostEntity getDrinksByUserAndEventPostEntity = getByUserAndEventPostEntity(userID,
+                    eventID, DrinkPayment.GET_BY_USER_AND_EVENT);
             HttpResponse response = new ApiCallTask().execute(getDrinksByUserAndEventPostEntity).get();
             JSONObject drinkPaymentJSON = new JsonBuilder().execute(response).get();
             if (response.getStatusLine().getStatusCode() == 200 && drinkPaymentJSON != null) {
@@ -90,13 +91,38 @@ public class DrinkPaymentController {
         return returnList;
     }
 
-    private HttpPostEntity getDrinksByUserAndEventPostEntity(int userID, int eventID) throws JSONException, UnsupportedEncodingException {
+    public double totalPriceByUserAndEvent(int userID, int eventID) {
+        double totalPrice = 0.00;
+
+        try {
+            HttpPostEntity getTotalPricePostEntity = getByUserAndEventPostEntity(userID, eventID,
+                    DrinkPayment.TOTAL_BY_USER_AND_EVENT);
+            HttpResponse response = new ApiCallTask().execute(getTotalPricePostEntity).get();
+            JSONObject totalPriceJson = new JsonBuilder().execute(response).get();
+            if (response.getStatusLine().getStatusCode() == 200 && totalPriceJson != null) {
+                totalPrice = totalPriceJson.getDouble(DrinkPayment.TOTAL_PRICE);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        return totalPrice;
+    }
+
+    private HttpPostEntity getByUserAndEventPostEntity(int userID, int eventID, String url) throws JSONException, UnsupportedEncodingException {
         JSONObject leaf = new JSONObject();
         leaf.put(DrinkPayment.USER_ID, userID);
         leaf.put(DrinkPayment.EVENT_ID, eventID);
         JSONObject root = new JSONObject();
         root.put(DrinkPayment.ROOT, leaf);
 
-        return new HttpPostEntity(DrinkPayment.GET_BY_USER_AND_EVENT, root.toString());
+        return new HttpPostEntity(url, root.toString());
     }
+
 }
